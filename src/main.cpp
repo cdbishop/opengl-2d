@@ -6,7 +6,7 @@
 #include <scenes/TexturedQuadScene.hpp>
 
 int main(int argc, char** argv) {
-	Application app(800, 600);
+	Application app(1280, 720);
   app.RegisterScene("gameScene", std::move(std::make_unique<TexturedQuadScene>()));
 
 	try {

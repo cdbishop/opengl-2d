@@ -99,7 +99,7 @@ void TexturedQuadScene::Render()
 	glUseProgram(_shader->GetId());
 	_shader->SetUniformValue("inTexture", 0);
   glm::mat4 model;
-  model = glm::translate(model, glm::vec3(100.0f, 100.0f, 0.0f));
+  //model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
   //_shader->SetUniformValuePtr("model", glm::value_ptr(model));
   //_shader->SetUniformValuePtr("projection", glm::value_ptr(_projection));
 	glBindVertexArray(_vertex_array);

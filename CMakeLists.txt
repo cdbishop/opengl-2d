@@ -51,3 +51,5 @@ add_custom_command(TARGET opengl-tutorials POST_BUILD
 
 target_include_directories(opengl-tutorials PRIVATE "src")
 target_link_libraries(opengl-tutorials ${CONAN_LIBS})
+
+set_property(TARGET opengl-tutorials PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
