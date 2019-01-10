@@ -7,14 +7,15 @@
 #include <glm/gtc/type_ptr.hpp>
 
 class Shader;
+class Sprite;
 
-class TexturedQuadScene : public Scene
+class MainScene : public Scene
 {
 public:
-	TexturedQuadScene();
-	~TexturedQuadScene();
+	MainScene();
+	~MainScene();
 
-	void Init();
+  void Init();
 	void Update();
 	void Render();
 
@@ -24,11 +25,9 @@ private:
 	unsigned int _vertex_buffer;
 	unsigned int _vertex_array;
 
-    int _width;
-    int _height;
-
 	std::shared_ptr<Shader> _shader;
-	unsigned int _texture;
+	
+  std::shared_ptr<Sprite> _sprite;
 
   glm::mat4 _projection;
 };

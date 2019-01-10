@@ -3,11 +3,11 @@
 #include <iostream>
 #include <System/Application.hpp>
 
-#include <scenes/TexturedQuadScene.hpp>
+#include <scenes/mainScene.hpp>
 
 int main(int argc, char** argv) {
 	Application app(1280, 720);
-  app.RegisterScene("gameScene", std::move(std::make_unique<TexturedQuadScene>()));
+  app.RegisterScene("gameScene", std::move(std::make_unique<MainScene>()));
 
 	try {
 		app.SetScene("gameScene");
