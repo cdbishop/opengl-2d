@@ -19,14 +19,10 @@ public:
 	void Render();
 
 private:
-	std::array<float, 32> _vertices;
-	std::array<unsigned int, 6> _indices;
+	std::array<float, 24> _vertices;
 
 	unsigned int _vertex_buffer;
 	unsigned int _vertex_array;
-
-	unsigned int _index_buffer;
-	unsigned int _index_array;
 
 	std::shared_ptr<Shader> _shader;
 	unsigned int _texture;
