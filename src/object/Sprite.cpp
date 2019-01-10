@@ -12,7 +12,9 @@ Sprite::Sprite(const std::string& filepath)
   _height(0),
   _position(0.0f),
   _scale(1.0f),
-  _colour(1.0f)
+  _colour(1.0f),
+  _rotation(0.0f),
+  _anchor(0.0f)
 {
   //texture
   int nChannels, width, height;
@@ -33,9 +35,24 @@ Sprite::Sprite(const std::string& filepath)
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, _width, _height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+  
+  unsigned int format = GL_RGB;
+  switch (nChannels) {
+    case 3:
+      format = GL_RGB;
+      break;
+    case 4:
+      format = GL_RGBA;
+      break;
+    default:
+      throw std::runtime_error("Unrecognised format");
+  }
+  glTexImage2D(GL_TEXTURE_2D, 0, format, _width, _height, 0, format, GL_UNSIGNED_BYTE, data);
   glGenerateMipmap(GL_TEXTURE_2D);
 
   stbi_image_free(data);
+}
+
+Sprite::~Sprite()
+{
 }

@@ -13,6 +13,7 @@ class Shader
 {
 public:
 	typedef std::function<void(const std::string& variable, Shader*)> UniformCallback;
+  typedef std::shared_ptr<Shader> Ptr;
 
 	Shader(unsigned int program);
 	~Shader();

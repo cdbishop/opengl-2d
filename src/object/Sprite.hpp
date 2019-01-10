@@ -6,7 +6,11 @@
 
 class Sprite {
 public:
+  typedef std::shared_ptr<Sprite> Ptr;
+
   explicit Sprite(const std::string& filepath);
+
+  virtual ~Sprite();
 
   unsigned int GetTexture() const noexcept {
     return _texture;
@@ -24,6 +28,18 @@ public:
     return _position;
   }
 
+  void SetPosition(const glm::vec2& pos) {
+    _position = pos;
+  }
+
+  void SetPosition(glm::vec2&& pos) {
+    _position = std::move(pos);
+  }
+
+  void Move(const glm::vec2& pos) {
+    _position += pos;
+  }
+
   glm::vec2 GetScale() const noexcept {
     return _scale;
   }
@@ -32,12 +48,38 @@ public:
     return _colour;
   }
 
+  glm::vec2 GetAnchor() const noexcept {
+    return _anchor;
+  }
+
+  void SetAnchor(const glm::vec2& anchor) {
+    _anchor = anchor;
+  }
+
+  void SetAnchor(glm::vec2&& anchor) {
+    _anchor = std::move(anchor);
+  }
+
+  void SetRotation(float radians) {
+    _rotation = radians;
+  }
+
+  float GetRotation() const noexcept {
+    return _rotation;
+  }
+
+  void Rotate(float amount) {
+    _rotation += amount;
+  }
+
 private:
   unsigned int _texture;
   unsigned int _width;
   unsigned int _height;
 
   glm::vec2 _position;
+  glm::vec2 _anchor;
+  float _rotation;
   glm::vec2 _scale;
   glm::vec3 _colour;
 };

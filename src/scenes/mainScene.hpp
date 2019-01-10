@@ -1,5 +1,6 @@
 #pragma once
 #include <System/Scene.hpp>
+#include <system/SpriteManager.hpp>
 
 #include <array>
 #include <memory>
@@ -30,4 +31,9 @@ private:
   std::shared_ptr<Sprite> _sprite;
 
   glm::mat4 _projection;
+
+  SpriteManager::Ptr _spriteManager;
+  Sprite::Ptr _sprite1;
+  Sprite::Ptr _sprite2;
+
 };

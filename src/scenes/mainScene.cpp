@@ -13,62 +13,41 @@
 #include "Math/Vector.hpp"
 
 MainScene::MainScene()
-	:_vertices(
-		{{ 0.0f, 1.0f, 0.0f, 1.0f,
-      1.0f, 0.0f, 1.0f, 0.0f,
-      0.0f, 0.0f, 0.0f, 0.0f, 
-
-      0.0f, 1.0f, 0.0f, 1.0f,
-      1.0f, 1.0f, 1.0f, 1.0f,
-      1.0f, 0.0f, 1.0f, 0.0f
-		}})
+  :_spriteManager()
 {
 }
 
 MainScene::~MainScene()
 {
-	glDeleteVertexArrays(1, &_vertex_array);
-	glDeleteBuffers(1, &_vertex_buffer);
+
 }
 
 void MainScene::Init()
 {
-  glGenVertexArrays(1, &_vertex_array);
-  glGenBuffers(1, &_vertex_buffer);
+  _spriteManager = std::make_shared<SpriteManager>(
+    GetApplication()->GetShaderManager()->CreateProgram("textured", "textured"),
+    glm::ortho(0.0f, static_cast<float>(this->GetApplication()->GetWidth()),
+      static_cast<float>(this->GetApplication()->GetHeight()), 0.0f, -1.0f, 1.0f));
 
-  glBindVertexArray(_vertex_array);
+  _sprite = std::make_shared<Sprite>("./data/textures/alienship.png");
+  _sprite->SetPosition(std::move(glm::vec2(100.0f, 100.0f)));
+  _spriteManager->Add(_sprite);
 
-  glBindBuffer(GL_ARRAY_BUFFER, _vertex_buffer);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(_vertices), _vertices.data(), GL_STATIC_DRAW);
+  _sprite2 = std::make_shared<Sprite>("./data/textures/alienship.png");
+  _sprite2->SetPosition(std::move(glm::vec2(200.0f, 200.0f)));
+  _spriteManager->Add(_sprite2);
 
-  glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
-  glEnableVertexAttribArray(0);
-
-  glBindVertexArray(0);
-
-  _projection = glm::ortho(0.0f, static_cast<float>(this->GetApplication()->GetWidth()),
-    static_cast<float>(this->GetApplication()->GetHeight()), 0.0f, -1.0f, 1.0f);
-
-  _sprite = std::make_shared<Sprite>("./data/textures/wall.jpg");
-
-  _shader = GetApplication()->GetShaderManager()->CreateProgram("textured", "textured");
+  _sprite->SetAnchor(glm::vec2(0.5f, 0.5f));
+  _sprite2->SetAnchor(glm::vec2(0.5f, 0.5f));
 }
 
 void MainScene::Update()
 {
+  _sprite2->Rotate(0.05f);
+  _sprite->Rotate(-0.05f);
 }
 
 void MainScene::Render()
 {	
-  glBindTexture(GL_TEXTURE_2D, _sprite->GetTexture());
-	glUseProgram(_shader->GetId());
-	_shader->SetUniformValue("inTexture", 0);
-    glm::mat4 model;
-    model = glm::translate(model, glm::vec3(_sprite->GetPosition(), 0.0f));
-    model = glm::scale(model, glm::vec3(_sprite->GetWidth(), _sprite->GetHeight(), 1.0f));
-    _shader->SetUniformValuePtr("model", glm::value_ptr(model));
-    _shader->SetUniformValuePtr("projection", glm::value_ptr(_projection));
-    _shader->SetUniformValue("spriteColor", _sprite->GetColour());
-	glBindVertexArray(_vertex_array);
-	glDrawArrays(GL_TRIANGLES, 0, 6);
+  _spriteManager->Render();
 }
