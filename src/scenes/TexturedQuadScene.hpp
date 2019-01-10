@@ -24,6 +24,9 @@ private:
 	unsigned int _vertex_buffer;
 	unsigned int _vertex_array;
 
+    int _width;
+    int _height;
+
 	std::shared_ptr<Shader> _shader;
 	unsigned int _texture;
 
