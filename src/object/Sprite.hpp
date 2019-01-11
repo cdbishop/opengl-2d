@@ -24,7 +24,7 @@ public:
     return _height;
   }
 
-  glm::vec2 GetPosition() const noexcept {
+  const glm::vec2& GetPosition() const noexcept {
     return _position;
   }
 
@@ -44,15 +44,15 @@ public:
     _position += pos;
   }
 
-  glm::vec2 GetScale() const noexcept {
+  const glm::vec2& GetScale() const noexcept {
     return _scale;
   }
 
-  glm::vec3 GetColour() const noexcept {
+  const glm::vec3& GetColour() const noexcept {
     return _colour;
   }
 
-  glm::vec2 GetAnchor() const noexcept {
+  const glm::vec2& GetAnchor() const noexcept {
     return _anchor;
   }
 
