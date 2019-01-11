@@ -44,14 +44,14 @@ void SpriteManager::Add(Sprite::Ptr sprite)
   _sprites.push_back(sprite);
 }
 
-void SpriteManager::Render()
+void SpriteManager::Render(Camera2D::Ptr camera)
 {
   for (auto&& sprite : _sprites) {
     glBindTexture(GL_TEXTURE_2D, sprite->GetTexture());
     glUseProgram(_shader->GetId());
     _shader->SetUniformValue("inTexture", 0);
     glm::mat4 model;
-    model = glm::translate(model, glm::vec3(sprite->GetPosition(), 0.0f));
+    model = glm::translate(model, glm::vec3(sprite->GetPosition() - camera->GetPosition(), 0.0f));
 
     const auto offset = glm::vec2(sprite->GetAnchor().x * sprite->GetWidth(), sprite->GetAnchor().y * sprite->GetHeight());
     model = glm::translate(model, glm::vec3(offset, 0.0f));

@@ -2,6 +2,7 @@
 #include "object/Sprite.hpp"
 
 #include "system/Shader.hpp"
+#include "System/Camera2D.hpp"
 
 #include <vector>
 #include <array>
@@ -15,7 +16,7 @@ public:
 
   void Add(Sprite::Ptr sprite);
 
-  void Render();
+  void Render(Camera2D::Ptr camera);
 
 private:
   std::vector<Sprite::Ptr> _sprites;

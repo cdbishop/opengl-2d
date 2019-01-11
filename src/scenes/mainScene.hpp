@@ -1,6 +1,7 @@
 #pragma once
 #include <System/Scene.hpp>
 #include <system/SpriteManager.hpp>
+#include <System/Camera2D.hpp>
 
 #include <array>
 #include <memory>
@@ -34,4 +35,5 @@ private:
   Sprite::Ptr _player;
   Sprite::Ptr _background;
 
+  Camera2D::Ptr _camera;
 };
