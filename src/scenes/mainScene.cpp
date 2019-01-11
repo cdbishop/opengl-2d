@@ -29,22 +29,29 @@ void MainScene::Init()
     glm::ortho(0.0f, static_cast<float>(this->GetApplication()->GetWidth()),
       static_cast<float>(this->GetApplication()->GetHeight()), 0.0f, -1.0f, 1.0f));
 
-  _sprite = std::make_shared<Sprite>("./data/textures/alienship.png");
-  _sprite->SetPosition(std::move(glm::vec2(100.0f, 100.0f)));
-  _spriteManager->Add(_sprite);
+  _background = std::make_shared<Sprite>("./data/textures/starfield_2.jpg");
+  _spriteManager->Add(_background);
 
-  _sprite2 = std::make_shared<Sprite>("./data/textures/alienship.png");
-  _sprite2->SetPosition(std::move(glm::vec2(200.0f, 200.0f)));
-  _spriteManager->Add(_sprite2);
+  _player = std::make_shared<Sprite>("./data/textures/alienship.png");
+  _player->SetPosition(std::move(glm::vec2(100.0f, 100.0f)));
+  _spriteManager->Add(_player);
 
-  _sprite->SetAnchor(glm::vec2(0.5f, 0.5f));
-  _sprite2->SetAnchor(glm::vec2(0.5f, 0.5f));
+  _player->SetAnchor(glm::vec2(0.5f, 0.5f));
 }
 
 void MainScene::Update()
 {
-  _sprite2->Rotate(0.05f);
-  _sprite->Rotate(-0.05f);
+  if (glfwGetKey(GetApplication()->GetWindow(), GLFW_KEY_W) == GLFW_PRESS) {
+    glm::vec2 facing(sinf(_player->GetRotation()), -cosf(_player->GetRotation()));
+    _player->Move(facing * 0.5f);
+  }
+
+  if (glfwGetKey(GetApplication()->GetWindow(), GLFW_KEY_A) == GLFW_PRESS) {
+    _player->Rotate(-1.0f * GetApplication()->GetFrameDelta());
+  }
+  else if (glfwGetKey(GetApplication()->GetWindow(), GLFW_KEY_D) == GLFW_PRESS) {
+    _player->Rotate(1.0f * GetApplication()->GetFrameDelta());
+  }
 }
 
 void MainScene::Render()

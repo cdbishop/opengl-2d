@@ -19,7 +19,7 @@ Application::Application(unsigned int width, unsigned int height)
 {
 	AllocConsole();	
 	_logger = spdlog::stdout_color_mt("console");
-	_logger->set_level(spdlog::level::info);
+	_logger->set_level(spdlog::level::debug);
 	_logger->info("The Application has started");
 
 	Init();
@@ -109,7 +109,7 @@ void Application::Update()
 {
 	float currentFrameTime = static_cast<float>(glfwGetTime());
 	_frameDelta = currentFrameTime - _lastFrameTime;
-	_lastFrameTime = _lastFrameTime;
+	_lastFrameTime = currentFrameTime;
 
 
 	_scenes[_currentScene]->Update();

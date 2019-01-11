@@ -40,6 +40,10 @@ public:
     _position += pos;
   }
 
+  void Move(glm::vec2&& pos) {
+    _position += pos;
+  }
+
   glm::vec2 GetScale() const noexcept {
     return _scale;
   }

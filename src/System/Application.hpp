@@ -52,6 +52,10 @@ public:
 
 	GLFWwindow* GetWindow();
 
+    std::shared_ptr<spdlog::logger> GetLogger() const {
+      return _logger;
+    }
+
 private:
 	void Init();
 

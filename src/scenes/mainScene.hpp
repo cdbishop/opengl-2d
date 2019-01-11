@@ -21,19 +21,17 @@ public:
 	void Render();
 
 private:
-	std::array<float, 24> _vertices;
+  std::array<float, 24> _vertices;
 
-	unsigned int _vertex_buffer;
-	unsigned int _vertex_array;
+  unsigned int _vertex_buffer;
+  unsigned int _vertex_array;
 
-	std::shared_ptr<Shader> _shader;
-	
-  std::shared_ptr<Sprite> _sprite;
+  std::shared_ptr<Shader> _shader;
 
   glm::mat4 _projection;
 
   SpriteManager::Ptr _spriteManager;
-  Sprite::Ptr _sprite1;
-  Sprite::Ptr _sprite2;
+  Sprite::Ptr _player;
+  Sprite::Ptr _background;
 
 };
