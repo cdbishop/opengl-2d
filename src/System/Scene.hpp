@@ -1,4 +1,7 @@
 #pragma once
+#include <memory>
+
+#include "InputHandler.hpp"
 
 class Application;
 
@@ -7,8 +10,9 @@ class Scene
 public:
 	Scene() {}
 
-	void SetApp(Application* app) {
+	void SetApp(std::shared_ptr<Application> app) {
 		_app = app;
+    _inputHandler = std::make_shared<InputHandler>(_app);
 	}	
 	
 	virtual ~Scene() { }
@@ -20,10 +24,15 @@ public:
 	virtual void Render() { }
 
 protected:
-	Application * GetApplication() {
+  std::shared_ptr<Application> GetApplication() {
 		return _app;
 	}
 
+  std::shared_ptr<InputHandler> GetInputHandler() {
+    return _inputHandler;
+  }
+
 private:
-	Application * _app;
+  std::shared_ptr<Application> _app;
+  std::shared_ptr<InputHandler> _inputHandler;
 };

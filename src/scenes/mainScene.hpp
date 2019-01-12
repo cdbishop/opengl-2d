@@ -2,6 +2,7 @@
 #include <System/Scene.hpp>
 #include <system/SpriteManager.hpp>
 #include <System/Camera2D.hpp>
+#include <game/player.hpp>
 
 #include <array>
 #include <memory>
@@ -32,7 +33,8 @@ private:
   glm::mat4 _projection;
 
   SpriteManager::Ptr _spriteManager;
-  Sprite::Ptr _player;
+  //Sprite::Ptr _player;
+  Player::Ptr _player;
   Sprite::Ptr _background;
 
   Camera2D::Ptr _camera;

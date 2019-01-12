@@ -16,6 +16,8 @@ public:
 
   void Add(Sprite::Ptr sprite);
 
+  void Remove(Sprite::Ptr sprite);
+
   void Render(Camera2D::Ptr camera);
 
 private:

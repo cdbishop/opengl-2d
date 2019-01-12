@@ -44,6 +44,19 @@ void SpriteManager::Add(Sprite::Ptr sprite)
   _sprites.push_back(sprite);
 }
 
+void SpriteManager::Remove(Sprite::Ptr sprite)
+{
+  auto res = std::find_if(_sprites.begin(), _sprites.end(), [&](Sprite::Ptr spr) {
+    return spr == sprite;
+  });
+
+  if (res == _sprites.end()) {
+    throw std::invalid_argument("Cannot remove sprite");
+  }
+
+  _sprites.erase(res);
+}
+
 void SpriteManager::Render(Camera2D::Ptr camera)
 {
   for (auto&& sprite : _sprites) {

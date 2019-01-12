@@ -19,7 +19,7 @@ Application::Application(unsigned int width, unsigned int height)
 {
 	AllocConsole();	
 	_logger = spdlog::stdout_color_mt("console");
-	_logger->set_level(spdlog::level::debug);
+	_logger->set_level(spdlog::level::info);
 	_logger->info("The Application has started");
 
 	Init();
@@ -91,7 +91,7 @@ void Application::Run()
 void Application::RegisterScene(const std::string& sceneName, std::unique_ptr<Scene> scene)
 {
 	_scenes[sceneName] = std::move(scene);
-	_scenes[sceneName]->SetApp(this);
+	_scenes[sceneName]->SetApp(shared_from_this());
 }
 
 void Application::SetScene(const std::string & sceneName)
@@ -130,9 +130,9 @@ void Application::MouseMove(float xpos, float ypos)
 	_mouseDeltaX = (xpos - _lastMouseX);
 	_mouseDeltaY = (ypos - _lastMouseY);
 
-	_logger->debug("xpos: {0}, ypos: {1}", xpos, ypos);
-	_logger->debug("lastMouse X: {0}, Y: {1}", _lastMouseX, _lastMouseY);
-	_logger->debug("mouseDelta X: {0}, Y: {1}", _mouseDeltaX, _mouseDeltaY);
+	//_logger->debug("xpos: {0}, ypos: {1}", xpos, ypos);
+	//_logger->debug("lastMouse X: {0}, Y: {1}", _lastMouseX, _lastMouseY);
+	//_logger->debug("mouseDelta X: {0}, Y: {1}", _mouseDeltaX, _mouseDeltaY);
 
 #if 0
 	std::wstringstream ss;

@@ -10,11 +10,13 @@
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 
-class Application
+class Application : public std::enable_shared_from_this<Application>
 {
-public:
-	Application(unsigned int width, unsigned int height);
+public:	
 	virtual ~Application();
+
+  Application(const Application&) = delete;
+  Application& operator=(Application const&) = delete;
 
 	void Run();
 
@@ -52,11 +54,18 @@ public:
 
 	GLFWwindow* GetWindow();
 
-    std::shared_ptr<spdlog::logger> GetLogger() const {
-      return _logger;
-    }
+  std::shared_ptr<spdlog::logger> GetLogger() const {
+    return _logger;
+  }
+
+  template<typename... Args>
+  static std::shared_ptr<Application> Create(Args&&... args) {
+    return std::shared_ptr<Application>(new Application(std::forward<Args>(args)...));
+  }
 
 private:
+  Application(unsigned int width, unsigned int height);
+
 	void Init();
 
 	static void framebuffer_size_callback(GLFWwindow* window, int width, int height) {

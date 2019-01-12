@@ -1,0 +1,40 @@
+#include "player.hpp"
+
+#include <GLFW/glfw3.h>
+
+Player::Player()
+  :Sprite("./data/textures/alienship.png")
+{
+  SetPosition(std::move(glm::vec2(100.0f, 100.0f)));
+  SetAnchor(glm::vec2(0.5f, 0.5f));
+}
+
+Player::~Player()
+{
+}
+
+void Player::SetupInput(InputHandler::Ptr inputHandler)
+{
+  inputHandler->RegisterKey(GLFW_KEY_W, std::bind(&Player::MoveForward, this));
+  inputHandler->RegisterKey(GLFW_KEY_A, std::bind(&Player::MoveForward, this));
+  inputHandler->RegisterKey(GLFW_KEY_A, std::bind(&Player::RotateInput, this, RotateDir::Anticlockwise));
+  inputHandler->RegisterKey(GLFW_KEY_D, std::bind(&Player::RotateInput, this, RotateDir::Clockwise));
+}
+
+void Player::Update(float dt)
+{
+
+}
+
+void Player::MoveForward()
+{
+  glm::vec2 facing(sinf(GetRotation()), -cosf(GetRotation()));
+  Move(facing * 5.5f);
+}
+
+void Player::RotateInput(RotateDir dir)
+{
+  float angle = (dir == RotateDir::Clockwise ? 0.02f : -0.02f);
+  Rotate(angle);
+}
+
