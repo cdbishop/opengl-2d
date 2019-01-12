@@ -4,6 +4,8 @@
 #include <string>
 #include <system/InputHandler.hpp>
 
+#include <game/weapon.hpp>
+
 class Player : public Sprite {
 public:
   typedef std::shared_ptr<Player> Ptr;
@@ -12,6 +14,7 @@ public:
   virtual ~Player();
 
   void SetupInput(InputHandler::Ptr inputHandler);
+  void SetWeapon(Weapon::Ptr weapon);
 
   void Update(float dt);
 
@@ -20,7 +23,11 @@ private:
     Clockwise,
     Anticlockwise
   };
+
   void MoveForward();
   void RotateInput(RotateDir);
+  void Fire();
 
+private:
+  Weapon::Ptr _weapon;
 };

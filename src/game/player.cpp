@@ -19,11 +19,17 @@ void Player::SetupInput(InputHandler::Ptr inputHandler)
   inputHandler->RegisterKey(GLFW_KEY_A, std::bind(&Player::MoveForward, this));
   inputHandler->RegisterKey(GLFW_KEY_A, std::bind(&Player::RotateInput, this, RotateDir::Anticlockwise));
   inputHandler->RegisterKey(GLFW_KEY_D, std::bind(&Player::RotateInput, this, RotateDir::Clockwise));
+  inputHandler->RegisterKey(GLFW_KEY_SPACE, std::bind(&Player::Fire, this));
+}
+
+void Player::SetWeapon(Weapon::Ptr weapon)
+{
+  _weapon = weapon;
 }
 
 void Player::Update(float dt)
 {
-
+  _weapon->Update(dt);
 }
 
 void Player::MoveForward()
@@ -36,5 +42,10 @@ void Player::RotateInput(RotateDir dir)
 {
   float angle = (dir == RotateDir::Clockwise ? 0.02f : -0.02f);
   Rotate(angle);
+}
+
+void Player::Fire()
+{
+  _weapon->Fire(glm::vec2(sinf(GetRotation()), -cosf(GetRotation())));
 }
 

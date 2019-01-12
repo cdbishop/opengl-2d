@@ -10,18 +10,22 @@
 class SpriteManager {
 public:
   typedef std::shared_ptr<SpriteManager> Ptr;
+  typedef std::vector<Sprite::Ptr> SpriteVector;
+  typedef std::map<unsigned int, SpriteVector> SpriteLayerMap;
 
   SpriteManager(Shader::Ptr shader, glm::mat4 projection);
   ~SpriteManager();
 
-  void Add(Sprite::Ptr sprite);
+  void Add(Sprite::Ptr sprite, unsigned int layer = 0);
+
+  void RemoveFromLayer(Sprite::Ptr sprite, unsigned int layer);
 
   void Remove(Sprite::Ptr sprite);
 
   void Render(Camera2D::Ptr camera);
 
 private:
-  std::vector<Sprite::Ptr> _sprites;
+  SpriteLayerMap _sprites;
 
   std::array<float, 24> _vertices;
 

@@ -11,6 +11,7 @@
 #include "System/ShaderManager.hpp"
 #include "object/Sprite.hpp"
 #include "Math/Vector.hpp"
+#include "game/spriteLayer.hpp"
 
 MainScene::MainScene()
   :Scene(),
@@ -31,14 +32,18 @@ void MainScene::Init()
       static_cast<float>(this->GetApplication()->GetHeight()), 0.0f, -1.0f, 1.0f));
 
   _background = std::make_shared<Sprite>("./data/textures/starfield_2.jpg");
-  _spriteManager->Add(_background);
+  _spriteManager->Add(_background, static_cast<unsigned int>(SpriteLayer::Background));
 
   _camera = std::make_shared<Camera2D>(std::move(glm::vec2(_background->GetWidth(), _background->GetHeight())),
     std::move(glm::vec2(GetApplication()->GetWidth(), GetApplication()->GetHeight())));
 
   _player = std::make_shared<Player>();
+
+  auto weapon = std::make_shared<Weapon>(_spriteManager, _player);
+  _player->SetWeapon(weapon);
+
   _player->SetupInput(GetInputHandler());
-  _spriteManager->Add(_player);
+  _spriteManager->Add(_player, static_cast<unsigned int>(SpriteLayer::Ships));
   _camera->Follow(_player);
 }
 
@@ -46,6 +51,7 @@ void MainScene::Update()
 {
   GetInputHandler()->Update();
   _camera->Update();
+  _player->Update(GetApplication()->GetFrameDelta());
 }
 
 void MainScene::Render()
