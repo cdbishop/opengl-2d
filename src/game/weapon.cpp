@@ -29,7 +29,7 @@ void Weapon::Fire(const glm::vec2 & dir)
   }
 
   auto bullet = _bullets[nextIdx];
-  bullet->Revive(dir * 10.0f, 5.0f);
+  bullet->Revive(dir * 30.0f, 5.0f);
   bullet->SetAnchor(glm::vec2(0.5f, 0.5f));
   bullet->SetPosition(_parent->GetPosition() + 
     glm::vec2((_parent->GetWidth() / 2) - (bullet->GetWidth() / 2),

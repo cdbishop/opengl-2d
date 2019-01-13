@@ -1,4 +1,4 @@
-project(opengl-tutorials)
+project(2dgame)
 cmake_minimum_required(VERSION 2.8.12)
 add_definitions("--std=c++17")
 
@@ -43,13 +43,13 @@ foreach(source IN LISTS headers_list)
     source_group("${source_path_msvc}" FILES "${source}")
 endforeach()
 
-add_executable(opengl-tutorials ${source_list} ${headers_list})
+add_executable(2dgame ${source_list} ${headers_list})
 
-add_custom_command(TARGET opengl-tutorials POST_BUILD
+add_custom_command(TARGET 2dgame POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
-                   ${CMAKE_SOURCE_DIR}/src/data $<TARGET_FILE_DIR:opengl-tutorials>/data)
+                   ${CMAKE_SOURCE_DIR}/src/data $<TARGET_FILE_DIR:2dgame>/data)
 
-target_include_directories(opengl-tutorials PRIVATE "src")
-target_link_libraries(opengl-tutorials ${CONAN_LIBS})
+target_include_directories(2dgame PRIVATE "src")
+target_link_libraries(2dgame ${CONAN_LIBS})
 
-set_property(TARGET opengl-tutorials PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
+set_property(TARGET 2dgame PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
