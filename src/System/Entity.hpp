@@ -2,7 +2,7 @@
 #include <memory>
 #include <system/EntityManager.hpp>
 
-class Entity
+class Entity : public std::enable_shared_from_this<Entity>
 {
 public:
   Entity(std::shared_ptr<EntityManager> manager)
@@ -11,6 +11,10 @@ public:
 protected:
   EntityManager& GetEntitySystem() {
     return *_manager;
+  }
+
+  std::shared_ptr<EntityManager> GetEntitySystemPtr() {
+    return _manager;
   }
 
 private:

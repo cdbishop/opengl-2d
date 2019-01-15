@@ -39,7 +39,8 @@ void MainScene::Init()
     std::move(glm::vec2(GetApplication()->GetWidth(), GetApplication()->GetHeight())));
 
   _player = std::make_shared<Player>(_entityManager);
-  _drone = std::make_shared<Drone>(_entityManager);
+  _drone = std::make_shared<Drone>(_entityManager, _spriteManager);
+  _drone->Init();
 
   auto weapon = std::make_shared<Weapon>(_entityManager, _spriteManager, _player);
   _player->SetWeapon(weapon);

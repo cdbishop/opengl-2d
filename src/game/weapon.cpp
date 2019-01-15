@@ -1,7 +1,7 @@
 #include "weapon.hpp"
 #include "game/spriteLayer.hpp"
 
-Weapon::Weapon(EntityManager::Ptr entityManager,  SpriteManager::Ptr spriteManager, Sprite::Ptr parent)
+Weapon::Weapon(EntityManager::Ptr entityManager, SpriteManager::Ptr spriteManager, Sprite::Ptr parent)
   :_entityManager(entityManager),
   _spriteManager(spriteManager),
   _parent(parent),
