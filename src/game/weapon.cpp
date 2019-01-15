@@ -1,15 +1,16 @@
 #include "weapon.hpp"
 #include "game/spriteLayer.hpp"
 
-Weapon::Weapon(SpriteManager::Ptr spriteManager, Sprite::Ptr parent)
-  :_spriteManager(spriteManager),
+Weapon::Weapon(EntityManager::Ptr entityManager,  SpriteManager::Ptr spriteManager, Sprite::Ptr parent)
+  :_entityManager(entityManager),
+  _spriteManager(spriteManager),
   _parent(parent),
   _fireDelay(0.5f),
   _curDelay(0.0),
   _canFire(true)
 {
   for (unsigned int i = 0; i < MAX_BULLETS; ++i) {
-    _bullets[i] = std::make_shared<Bullet>();
+    _bullets[i] = std::make_shared<Bullet>(_entityManager);
   }
 }
 

@@ -6,9 +6,10 @@
 #include <glad/glad.h>
 #include <iostream>
 
-Sprite::Sprite(const std::string& filepath)
-  :_texture(0),
-   _width(0),
+Sprite::Sprite(std::shared_ptr<EntityManager> manager, const std::string& filepath)
+  :Entity(manager),
+  _texture(0),
+  _width(0),
   _height(0),
   _position(0.0f),
   _scale(1.0f),

@@ -7,8 +7,8 @@ class Bullet : public Sprite {
 public:
   typedef std::shared_ptr<Bullet> Ptr;
 
-  Bullet();
-  Bullet(glm::vec2 velocity, float life);
+  Bullet(std::shared_ptr<EntityManager> manager);
+  Bullet(std::shared_ptr<EntityManager> manager, glm::vec2 velocity, float life);
   virtual ~Bullet();
 
   void Update(float dt);

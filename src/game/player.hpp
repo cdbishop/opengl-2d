@@ -10,7 +10,7 @@ class Player : public Sprite {
 public:
   typedef std::shared_ptr<Player> Ptr;
 
-  Player();  
+  explicit Player(std::shared_ptr<EntityManager> manager);
   virtual ~Player();
 
   void SetupInput(InputHandler::Ptr inputHandler);

@@ -26,24 +26,27 @@ MainScene::~MainScene()
 
 void MainScene::Init()
 {
+  _entityManager = std::make_shared<EntityManager>();
   _spriteManager = std::make_shared<SpriteManager>(
     GetApplication()->GetShaderManager()->CreateProgram("textured", "textured"),
     glm::ortho(0.0f, static_cast<float>(this->GetApplication()->GetWidth()),
       static_cast<float>(this->GetApplication()->GetHeight()), 0.0f, -1.0f, 1.0f));
 
-  _background = std::make_shared<Sprite>("./data/textures/starfield_2.jpg");
+  _background = std::make_shared<Sprite>(_entityManager, "./data/textures/starfield_2.jpg");
   _spriteManager->Add(_background, static_cast<unsigned int>(SpriteLayer::Background));
 
   _camera = std::make_shared<Camera2D>(std::move(glm::vec2(_background->GetWidth(), _background->GetHeight())),
     std::move(glm::vec2(GetApplication()->GetWidth(), GetApplication()->GetHeight())));
 
-  _player = std::make_shared<Player>();
+  _player = std::make_shared<Player>(_entityManager);
+  _drone = std::make_shared<Drone>(_entityManager);
 
-  auto weapon = std::make_shared<Weapon>(_spriteManager, _player);
+  auto weapon = std::make_shared<Weapon>(_entityManager, _spriteManager, _player);
   _player->SetWeapon(weapon);
 
   _player->SetupInput(GetInputHandler());
   _spriteManager->Add(_player, static_cast<unsigned int>(SpriteLayer::Ships));
+  _spriteManager->Add(_drone, static_cast<unsigned int>(SpriteLayer::Ships));
   _camera->Follow(_player);
 }
 
@@ -52,6 +55,7 @@ void MainScene::Update()
   GetInputHandler()->Update();
   _camera->Update();
   _player->Update(GetApplication()->GetFrameDelta());
+  _drone->Update(GetApplication()->GetFrameDelta());
 }
 
 void MainScene::Render()

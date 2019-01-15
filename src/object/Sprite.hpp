@@ -4,11 +4,13 @@
 
 #include <string>
 
-class Sprite {
+#include <system/Entity.hpp>
+
+class Sprite : public Entity {
 public:
   typedef std::shared_ptr<Sprite> Ptr;
 
-  explicit Sprite(const std::string& filepath);
+  Sprite(std::shared_ptr<EntityManager> manager, const std::string& filepath);
 
   virtual ~Sprite();
 

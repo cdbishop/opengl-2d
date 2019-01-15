@@ -3,6 +3,7 @@
 #include <system/SpriteManager.hpp>
 #include <System/Camera2D.hpp>
 #include <game/player.hpp>
+#include <game/drone.hpp>
 
 #include <array>
 #include <memory>
@@ -33,9 +34,11 @@ private:
   glm::mat4 _projection;
 
   SpriteManager::Ptr _spriteManager;
-  //Sprite::Ptr _player;
+  EntityManager::Ptr _entityManager;
+  
   Player::Ptr _player;
   Sprite::Ptr _background;
+  Drone::Ptr _drone;
 
   Camera2D::Ptr _camera;
 };
