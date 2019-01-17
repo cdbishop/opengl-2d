@@ -44,7 +44,11 @@ void Weapon::Fire(const glm::vec2 & dir)
 void Weapon::Update(float dt)
 {
   for (auto&& bullet : _bullets) {
+    bool wasAlive = bullet->Alive();
     bullet->Update(dt);
+    if (!bullet->Alive() && wasAlive) {
+      _spriteManager->Remove(bullet);
+    }
   }
 
   if (!_canFire) {

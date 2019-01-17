@@ -27,7 +27,11 @@ void Bullet::Update(float dt)
   }
 
   Move(_velocity);
-  _curLife += dt;
+  _curLife -= dt;
+
+  if (_curLife <= 0.0f) {
+    _curLife = 0.0f;
+  }
 }
 
 void Bullet::Revive(glm::vec2 velocity, float life)

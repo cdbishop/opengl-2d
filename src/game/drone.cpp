@@ -1,6 +1,9 @@
 #include "drone.hpp"
 
 #include <GLFW/glfw3.h>
+#include <glm/gtx/vector_angle.hpp>
+
+#include <iostream>
 
 Drone::Drone(std::shared_ptr<EntityManager> entityManager, std::shared_ptr<SpriteManager> spriteManager)
   :Sprite(entityManager, "./data/textures/drone.png"),
@@ -23,9 +26,17 @@ void Drone::Update(float dt)
 {
   const auto playerPos = GetEntitySystem().Request("player").As<EntityPropContainer>()->Get<glm::vec2>("position");
   float dist = glm::distance(playerPos, GetPosition());
-  glm::vec2 dir = playerPos - GetPosition();
-  if (dist < 300) {
-    _weapon->Fire(glm::normalize(dir));
+  glm::vec2 dir = glm::normalize(playerPos - GetPosition());
+  if (dist < 500) {
+    const auto up = glm::vec2(0.0f, -1.0f);
+    float dot = glm::dot(up, dir);
+    float angle = glm::angle(up, dir);
+    const auto cross = glm::cross(glm::vec3(up, 0.0f), glm::vec3(dir, 0.0f));
+    if (cross.z < 0) {
+      angle *= -1;
+    }
+    SetRotation(angle);
+    _weapon->Fire(dir);
   }
 
   _weapon->Update(dt);

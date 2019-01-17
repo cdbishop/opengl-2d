@@ -12,8 +12,6 @@ Player::Player(std::shared_ptr<EntityManager> manager)
   std::function<glm::vec2()> g = std::bind(&Player::GetPosition, this);
   std::function<void(glm::vec2)> s = std::bind((void(Player::*)(const glm::vec2&))&Player::SetPosition, this, std::placeholders::_1);
     
-  //GetEntitySystem().Publish("player.position", g, s);
-
   const auto pos = std::make_shared<EntityPropContainer>();
   pos->Publish("position", g, s);
   GetEntitySystem().Publish("player", pos);
