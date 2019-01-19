@@ -67,12 +67,12 @@ public:
 
   template<typename T>
   T& Get(const std::string& id) {
-    return _lookup[id]->As<EntityPrimitive<T>>()->Get();
+    return _lookup.at(id)->As<EntityPrimitive<T>>()->Get();
   }
 
   template<typename T>
   void Set(const std::string& id, T& value) {
-    _lookup[id]->As<EntityPrimitive<T>>()->Set(value);
+    _lookup.at(id)->As<EntityPrimitive<T>>()->Set(value);
   }
 
 private:
@@ -97,7 +97,7 @@ public:
   }
 
   EntityProp& Request(const std::string& id) {
-    return *_lookup[id];
+    return *_lookup.at(id);
   }
 
 private:
