@@ -29,7 +29,6 @@ void Drone::Update(float dt)
   glm::vec2 dir = glm::normalize(playerPos - GetPosition());
   if (dist < 500) {
     const auto up = glm::vec2(0.0f, -1.0f);
-    float dot = glm::dot(up, dir);
     float angle = glm::angle(up, dir);
     const auto cross = glm::cross(glm::vec3(up, 0.0f), glm::vec3(dir, 0.0f));
     if (cross.z < 0) {
