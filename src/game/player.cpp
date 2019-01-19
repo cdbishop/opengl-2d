@@ -24,7 +24,6 @@ Player::~Player()
 void Player::SetupInput(InputHandler::Ptr inputHandler)
 {
   inputHandler->RegisterKey(GLFW_KEY_W, std::bind(&Player::MoveForward, this));
-  inputHandler->RegisterKey(GLFW_KEY_A, std::bind(&Player::MoveForward, this));
   inputHandler->RegisterKey(GLFW_KEY_A, std::bind(&Player::RotateInput, this, RotateDir::Anticlockwise));
   inputHandler->RegisterKey(GLFW_KEY_D, std::bind(&Player::RotateInput, this, RotateDir::Clockwise));
   inputHandler->RegisterKey(GLFW_KEY_SPACE, std::bind(&Player::Fire, this));
