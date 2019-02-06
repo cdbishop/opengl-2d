@@ -5,7 +5,7 @@
 
 class Bullet : public Sprite {
 public:
-  typedef std::shared_ptr<Bullet> Ptr;
+  using Ptr = std::shared_ptr<Bullet>;
 
   Bullet(std::shared_ptr<EntityManager> manager);
   Bullet(std::shared_ptr<EntityManager> manager, glm::vec2 velocity, float life);

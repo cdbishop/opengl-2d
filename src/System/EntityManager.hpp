@@ -82,7 +82,7 @@ private:
 class EntityManager
 {
 public:
-  typedef std::shared_ptr<EntityManager> Ptr;
+  using Ptr = std::shared_ptr<EntityManager>;
 
   EntityManager();
 	~EntityManager();

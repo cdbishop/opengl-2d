@@ -8,7 +8,7 @@
 
 class Drone : public Sprite {
 public:
-  typedef std::shared_ptr<Drone> Ptr;
+  using Ptr = std::shared_ptr<Drone>;
 
   explicit Drone(std::shared_ptr<EntityManager> entityManager, SpriteManager::Ptr spriteManager);
   virtual ~Drone();

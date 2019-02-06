@@ -7,7 +7,7 @@
 
 class Camera2D {
 public:
-  typedef std::shared_ptr<Camera2D> Ptr;
+  using Ptr = std::shared_ptr<Camera2D>;
 
   Camera2D(glm::vec2 worldExtends, glm::vec2 viewSize);
 

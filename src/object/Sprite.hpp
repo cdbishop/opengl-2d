@@ -8,7 +8,7 @@
 
 class Sprite : public Entity {
 public:
-  typedef std::shared_ptr<Sprite> Ptr;
+  using Ptr = std::shared_ptr<Sprite>;
 
   Sprite(std::shared_ptr<EntityManager> manager, const std::string& filepath);
 

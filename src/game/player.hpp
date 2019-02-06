@@ -8,7 +8,7 @@
 
 class Player : public Sprite {
 public:
-  typedef std::shared_ptr<Player> Ptr;
+  using Ptr = std::shared_ptr<Player>;
 
   explicit Player(std::shared_ptr<EntityManager> manager);
   virtual ~Player();

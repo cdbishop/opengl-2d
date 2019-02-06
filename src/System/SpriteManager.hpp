@@ -9,9 +9,9 @@
 
 class SpriteManager {
 public:
-  typedef std::shared_ptr<SpriteManager> Ptr;
-  typedef std::vector<Sprite::Ptr> SpriteVector;
-  typedef std::map<unsigned int, SpriteVector> SpriteLayerMap;
+  using Ptr = std::shared_ptr<SpriteManager>;  
+  using SpriteVector = std::vector<Sprite::Ptr>;  
+  using SpriteLayerMap = std::map<unsigned int, SpriteVector>;
 
   SpriteManager(Shader::Ptr shader, glm::mat4 projection);
   ~SpriteManager();

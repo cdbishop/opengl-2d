@@ -8,7 +8,7 @@
 
 class Weapon {
 public:
-  typedef std::shared_ptr<Weapon> Ptr;
+  using Ptr = std::shared_ptr<Weapon>;
 
   Weapon(EntityManager::Ptr entityManager, SpriteManager::Ptr spriteManager, Sprite::Ptr parent);
   ~Weapon();

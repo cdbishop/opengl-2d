@@ -5,7 +5,7 @@
 
 #include <iostream>
 
-Drone::Drone(std::shared_ptr<EntityManager> entityManager, std::shared_ptr<SpriteManager> spriteManager)
+Drone::Drone(std::shared_ptr<EntityManager> entityManager, SpriteManager::Ptr spriteManager)
   :Sprite(entityManager, "./data/textures/drone.png"),
   _spriteManager(spriteManager)
 {

@@ -9,8 +9,8 @@ class Application;
 
 class InputHandler {
 public:
-  typedef std::shared_ptr<InputHandler> Ptr;
-  typedef std::function<void()> Callback;
+  using Ptr = std::shared_ptr<InputHandler>;  
+  using Callback = std::function<void()>;
 
   InputHandler(std::shared_ptr<Application> app);
   ~InputHandler();
