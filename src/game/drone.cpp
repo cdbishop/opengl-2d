@@ -20,6 +20,12 @@ Drone::~Drone()
 void Drone::Init()
 {
   _weapon = std::make_shared<Weapon>(GetEntitySystemPtr(), _spriteManager, std::static_pointer_cast<Sprite>(shared_from_this()));
+
+  //CollsionManager.OnHit(Bullet.GetTypeId(), std::bind(Drone::onBulletHit, this, std::placeholders::_1, std::placeholders::_2));
+  //or
+  //CollsionManager.OnHit<Bullet>(std::bind(Drone::onBulletHit, this, std::placeholders::_1, std::placeholders::_2));
+
+  const auto cb = std::bind(&Drone::OnBulletHit, this, std::placeholders::_1);
 }
 
 void Drone::Update(float dt)
@@ -39,5 +45,10 @@ void Drone::Update(float dt)
   }
 
   _weapon->Update(dt);
+}
+
+void Drone::OnBulletHit(Bullet::Ptr obj)
+{
+
 }
 
