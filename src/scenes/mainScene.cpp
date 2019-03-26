@@ -32,6 +32,7 @@ void MainScene::Init()
     glm::ortho(0.0f, static_cast<float>(this->GetApplication()->GetWidth()),
       static_cast<float>(this->GetApplication()->GetHeight()), 0.0f, -1.0f, 1.0f));
   _collisionManager = std::make_shared<CollisionManager>();
+  _eventManager = std::make_shared<EventManager>();
 
   _background = std::make_shared<Sprite>(_entityManager, "./data/textures/starfield_2.jpg");
   _spriteManager->Add(_background, static_cast<unsigned int>(SpriteLayer::Background));
@@ -43,7 +44,11 @@ void MainScene::Init()
   _drone = std::make_shared<Drone>(_entityManager, _spriteManager);
 
   _player->SetCollisionManager(_collisionManager);
+  _player->SetEventManager(_eventManager);
+  _player->SetScene(shared_from_this());
+
   _drone->SetCollisionManager(_collisionManager);
+  _drone->SetEventManager(_eventManager);
   _drone->SetScene(shared_from_this());
 
   _player->Init();

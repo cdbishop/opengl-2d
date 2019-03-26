@@ -3,6 +3,7 @@
 #include <system/SpriteManager.hpp>
 #include <System/Camera2D.hpp>
 #include <system/collision/CollisionManager.hpp>
+#include <system/event/EventManager.hpp>
 #include <game/player.hpp>
 #include <game/drone.hpp>
 
@@ -37,6 +38,7 @@ private:
   SpriteManager::Ptr _spriteManager;
   EntityManager::Ptr _entityManager;
   CollisionManager::Ptr _collisionManager;
+  EventManager::Ptr _eventManager;
   
   Player::Ptr _player;
   Sprite::Ptr _background;

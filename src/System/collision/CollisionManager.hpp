@@ -53,7 +53,7 @@ public:
 
   template<typename T>
   void OnHit(std::shared_ptr<Sprite> context, std::function<void(std::shared_ptr<T>)> cb) {
-    auto fn = std::make_shared<CollisionFunctor<T>>(cb);    
+    auto fn = std::make_shared<CollisionFunctor<T>>(cb);
     fn->SetContext(context);
     _callbacks.push_back(std::tie(fn, typeid(T)));
   }

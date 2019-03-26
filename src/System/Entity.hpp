@@ -2,6 +2,7 @@
 #include <memory>
 #include <system/EntityManager.hpp>
 #include <system/collision/CollisionManager.hpp>
+#include <system/event/EventManager.hpp>
 
 class Scene;
 
@@ -13,6 +14,10 @@ public:
 
   void SetCollisionManager(std::shared_ptr<CollisionManager> mgr) {
     _collision_manager = mgr;
+  }
+
+  void SetEventManager(std::shared_ptr<EventManager> mgr) {
+    _eventManager = mgr;
   }
 
   void SetScene(std::shared_ptr<Scene> scene) {
@@ -41,6 +46,14 @@ protected:
     return _collision_manager;
   }
 
+  EventManager& GetEventSystem() {
+    return *_eventManager;
+  }
+
+  std::shared_ptr<EventManager> GetEventSystemPtr() {
+    return _eventManager;
+  }
+
   Scene& GetScene() {
     return *_scene;
   }
@@ -64,5 +77,6 @@ protected:
 private:  
   std::shared_ptr<EntityManager> _entity_manager;
   std::shared_ptr<CollisionManager> _collision_manager;
+  std::shared_ptr<EventManager> _eventManager;
   std::shared_ptr<Scene> _scene;
 };

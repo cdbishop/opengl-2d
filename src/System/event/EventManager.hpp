@@ -5,6 +5,7 @@
 #include <vector>
 #include <typeindex>
 #include <functional>
+#include <type_traits>
 
 class Sprite;
 
@@ -20,8 +21,6 @@ public:
     return _context;
   }
 
-  virtual void operator()(std::shared_ptr<Sprite> other) = 0;
-
 protected:
   std::shared_ptr<Sprite> _context;
 };
@@ -29,15 +28,16 @@ protected:
 template<typename T>
 class EventFunctor : public EventFunctorBase {
 public:
-  EventFunctor(std::function<void(std::shared_ptr<T>)> fn)
+  EventFunctor(std::function<void(const T&)> fn)
     :_fn(fn) { }
 
-  void operator()(std::shared_ptr<Sprite> other) {
-    _fn(std::static_pointer_cast<T>(other));
+  template<typename T>
+  void operator()(const T& obj) {
+    _fn(obj);
   }
 
 private:
-  std::function<void(std::shared_ptr<T>)> _fn;
+  std::function<void(const T&)> _fn;
 };
 
 
@@ -52,15 +52,21 @@ public:
 
   template<typename T>
   void Notify(const T& msg) {
+    auto id = std::type_index(typeid(msg));
     
+    const auto& subs = _subscribers[id];
+    for (auto&& sub : subs) {
+      auto eventSub = std::static_pointer_cast<EventFunctor<T>>(sub);
+      (*eventSub)(msg);
+    }
   }
 
-  void Register(std::type_index id, std::shared_ptr<BoundingBox> collidable) {
-    _collidables[id].push_back(collidable);
+  template<typename T>
+  void Register(std::type_index id, std::function<void(std::shared_ptr<T>)> cb) {
+    auto fn = std::make_shared<EventFunctor<T>>(cb);
+    _subscribers[id].push(fn);
   }
 
 private:
-  std::map<std::type_index, std::vector<std::shared_ptr<BoundingBox>>> _collidables;
-
-  std::vector<std::tuple<std::shared_ptr<EventFunctorBase>, std::type_index>> _callbacks;
+  std::map<std::type_index, std::vector<std::shared_ptr<EventFunctorBase>>> _subscribers;
 };

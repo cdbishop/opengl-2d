@@ -4,6 +4,7 @@
 #include <game/messages/BulletDestroyed.hpp>
 
 #include <system/Scene.hpp>
+#include <system/event/EventManager.hpp>
 
 Bullet::Bullet(std::shared_ptr<EntityManager> manager)
   :Sprite(manager, "./data/textures/bullet.png"),
@@ -56,4 +57,7 @@ void Bullet::Kill()
 {
   _curLife = 0.0f;
   //GetScene().GetMessageBus().Notify<BulletDestroyed>(shared_from_this());
+
+  BulletDestroyed msg = { GetPtr<Bullet>() };
+  GetEventSystem().Notify<BulletDestroyed>(msg);
 }
