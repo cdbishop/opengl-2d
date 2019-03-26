@@ -5,6 +5,7 @@
 #include <string>
 
 #include <system/Entity.hpp>
+#include <system/collision/BoundingBox.hpp>
 
 class Sprite : public Entity {
 public:
@@ -13,6 +14,12 @@ public:
   Sprite(std::shared_ptr<EntityManager> manager, const std::string& filepath);
 
   virtual ~Sprite();
+
+  void UpdateBounds();
+
+  BoundingBox::Ptr GetBounds() const noexcept {
+    return _boundingBox;
+  }
 
   unsigned int GetTexture() const noexcept {
     return _texture;
@@ -78,6 +85,10 @@ public:
     _rotation += amount;
   }
 
+  virtual std::type_index GetId() override {
+    return std::type_index(typeid(*this));
+  }
+
 private:
   unsigned int _texture;
   unsigned int _width;
@@ -88,4 +99,6 @@ private:
   float _rotation;
   glm::vec2 _scale;
   glm::vec3 _colour;
+
+  BoundingBox::Ptr _boundingBox;
 };

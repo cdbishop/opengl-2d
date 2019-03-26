@@ -88,7 +88,7 @@ void Application::Run()
 	}
 }
 
-void Application::RegisterScene(const std::string& sceneName, std::unique_ptr<Scene> scene)
+void Application::RegisterScene(const std::string& sceneName, std::shared_ptr<Scene> scene)
 {
 	_scenes[sceneName] = std::move(scene);
 	_scenes[sceneName]->SetApp(shared_from_this());

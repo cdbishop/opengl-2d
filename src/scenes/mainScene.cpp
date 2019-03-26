@@ -31,6 +31,7 @@ void MainScene::Init()
     GetApplication()->GetShaderManager()->CreateProgram("textured", "textured"),
     glm::ortho(0.0f, static_cast<float>(this->GetApplication()->GetWidth()),
       static_cast<float>(this->GetApplication()->GetHeight()), 0.0f, -1.0f, 1.0f));
+  _collisionManager = std::make_shared<CollisionManager>();
 
   _background = std::make_shared<Sprite>(_entityManager, "./data/textures/starfield_2.jpg");
   _spriteManager->Add(_background, static_cast<unsigned int>(SpriteLayer::Background));
@@ -40,6 +41,12 @@ void MainScene::Init()
 
   _player = std::make_shared<Player>(_entityManager);
   _drone = std::make_shared<Drone>(_entityManager, _spriteManager);
+
+  _player->SetCollisionManager(_collisionManager);
+  _drone->SetCollisionManager(_collisionManager);
+  _drone->SetScene(shared_from_this());
+
+  _player->Init();
   _drone->Init();
 
   auto weapon = std::make_shared<Weapon>(_entityManager, _spriteManager, _player);
@@ -54,6 +61,8 @@ void MainScene::Init()
 void MainScene::Update()
 {
   GetInputHandler()->Update();
+  _collisionManager->Update();
+
   _camera->Update();
   _player->Update(GetApplication()->GetFrameDelta());
   _drone->Update(GetApplication()->GetFrameDelta());

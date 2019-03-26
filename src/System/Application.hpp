@@ -20,7 +20,7 @@ public:
 
 	void Run();
 
-	void RegisterScene(const std::string& sceneName, std::unique_ptr<Scene> scene);
+	void RegisterScene(const std::string& sceneName, std::shared_ptr<Scene> scene);
 	void SetScene(const std::string& sceneName);
 
 	std::shared_ptr<ShaderManager> GetShaderManager();
@@ -103,7 +103,7 @@ private:
 	bool _depthTestEnabled;
 
 	std::string _currentScene;
-	std::map<std::string, std::unique_ptr<Scene>> _scenes;
+	std::map<std::string, std::shared_ptr<Scene>> _scenes;
 
 	std::shared_ptr<ShaderManager> _shaderManager;
 

@@ -21,6 +21,11 @@ Player::~Player()
 {
 }
 
+void Player::Init()
+{
+  
+}
+
 void Player::SetupInput(InputHandler::Ptr inputHandler)
 {
   inputHandler->RegisterKey(GLFW_KEY_W, std::bind(&Player::MoveForward, this));
@@ -32,6 +37,8 @@ void Player::SetupInput(InputHandler::Ptr inputHandler)
 void Player::SetWeapon(Weapon::Ptr weapon)
 {
   _weapon = weapon;
+  _weapon->SetCollisionSystem(GetCollisionSystemPtr());
+  _weapon->Init();
 }
 
 void Player::Update(float dt)

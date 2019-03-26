@@ -46,7 +46,7 @@ public:
     _setFn(value);
   }
 
-  T& Get() const {
+  T Get() const {
     return _getFn();
   }
 

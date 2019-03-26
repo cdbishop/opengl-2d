@@ -7,7 +7,9 @@ Weapon::Weapon(EntityManager::Ptr entityManager, SpriteManager::Ptr spriteManage
   _parent(parent),
   _fireDelay(0.5f),
   _curDelay(0.0),
-  _canFire(true)
+  _canFire(true),
+  _bulletSpeed(5.0f),
+  _bulletLife(50.0f)
 {
   for (unsigned int i = 0; i < MAX_BULLETS; ++i) {
     _bullets[i] = std::make_shared<Bullet>(_entityManager);
@@ -16,6 +18,14 @@ Weapon::Weapon(EntityManager::Ptr entityManager, SpriteManager::Ptr spriteManage
 
 Weapon::~Weapon()
 {
+
+}
+
+void Weapon::Init()
+{
+  for (unsigned int i = 0; i < MAX_BULLETS; ++i) {
+    _bullets[i]->Init();
+  }
 }
 
 void Weapon::Fire(const glm::vec2 & dir)
@@ -30,7 +40,7 @@ void Weapon::Fire(const glm::vec2 & dir)
   }
 
   auto bullet = _bullets[nextIdx];
-  bullet->Revive(dir * 30.0f, 5.0f);
+  bullet->Revive(dir * _bulletSpeed, _bulletLife);
   bullet->SetAnchor(glm::vec2(0.5f, 0.5f));
   bullet->SetPosition(_parent->GetPosition() + 
     glm::vec2((_parent->GetWidth() / 2) - (bullet->GetWidth() / 2),
@@ -57,6 +67,13 @@ void Weapon::Update(float dt)
       _curDelay = 0.0f;
       _canFire = true;
     }
+  }
+}
+
+void Weapon::SetCollisionSystem(std::shared_ptr<CollisionManager> mgr)
+{
+  for (unsigned int i = 0; i < MAX_BULLETS; ++i) {
+    _bullets[i]->SetCollisionManager(mgr);
   }
 }
 

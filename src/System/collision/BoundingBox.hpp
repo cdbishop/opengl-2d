@@ -1,15 +1,20 @@
 #pragma once
-#include <object/Sprite.hpp>
+#include <memory>
+#include <glm/vec2.hpp>
+
+class Sprite;
 
 class BoundingBox {
 public:
   using Ptr = std::shared_ptr<BoundingBox>;
 
-  BoundingBox(Sprite::Ptr owner, glm::vec2 dimensions);
+  BoundingBox(std::shared_ptr<Sprite> owner, glm::vec2 dimensions);
 
-  const glm::vec2& GetPosition() const {
-    return _owner->GetPosition();
+  const std::shared_ptr<Sprite> GetOwner() {
+    return _owner;
   }
+
+  const glm::vec2& GetPosition() const;
 
   const glm::vec2& GetDimensions() const {
     return _dimensions;
@@ -36,5 +41,5 @@ public:
 
 private:
   glm::vec2 _dimensions;
-  Sprite::Ptr _owner;
+  std::shared_ptr<Sprite> _owner;
 };

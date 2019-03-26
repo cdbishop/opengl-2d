@@ -5,7 +5,7 @@
 
 class Application;
 
-class Scene
+class Scene : public std::enable_shared_from_this<Scene>
 {
 public:
 	Scene() {}
@@ -23,7 +23,6 @@ public:
 
 	virtual void Render() { }
 
-protected:
   std::shared_ptr<Application> GetApplication() {
 		return _app;
 	}

@@ -13,10 +13,15 @@ public:
   explicit Player(std::shared_ptr<EntityManager> manager);
   virtual ~Player();
 
+  void Init();
   void SetupInput(InputHandler::Ptr inputHandler);
   void SetWeapon(Weapon::Ptr weapon);
 
   void Update(float dt);
+
+  std::type_index GetId() override {
+    return std::type_index(typeid(*this));
+  }
 
 private:
   enum class RotateDir {

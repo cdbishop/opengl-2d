@@ -6,6 +6,8 @@
 #include <string>
 #include <array>
 
+class CollisionManager;
+
 class Weapon {
 public:
   using Ptr = std::shared_ptr<Weapon>;
@@ -13,8 +15,13 @@ public:
   Weapon(EntityManager::Ptr entityManager, SpriteManager::Ptr spriteManager, Sprite::Ptr parent);
   ~Weapon();
 
+  void Init();
   void Fire(const glm::vec2& dir);
   void Update(float dt);
+
+  void SetCollisionSystem(std::shared_ptr<CollisionManager> mgr);
+
+  void Remove(std::shared_ptr<Bullet>);
 
 private:
   size_t FindNextBulletIndex();
@@ -30,4 +37,6 @@ private:
   float _fireDelay;
   float _curDelay;
   bool _canFire;
+  float _bulletSpeed;
+  float _bulletLife;
 };

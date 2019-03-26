@@ -2,7 +2,6 @@
 #include <object/Sprite.hpp>
 
 #include <string>
-#include <system/InputHandler.hpp>
 
 #include <game/weapon.hpp>
 #include <game/bullet.hpp>
@@ -17,6 +16,10 @@ public:
   void Init();
   
   void Update(float dt);
+
+  std::type_index GetId() override {
+    return std::type_index(typeid(*this));
+  }
 
 private:
   void OnBulletHit(Bullet::Ptr obj);
