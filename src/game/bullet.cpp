@@ -1,7 +1,7 @@
 #include "bullet.hpp"
 
 #include <game/weapon.hpp>
-#include <game/messages/BulletDestroyed.hpp>
+//#include <game/messages/BulletDestroyed.hpp>
 
 #include <system/Scene.hpp>
 
