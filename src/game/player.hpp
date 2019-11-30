@@ -10,7 +10,7 @@ class Player : public Sprite {
 public:
   using Ptr = std::shared_ptr<Player>;
 
-  explicit Player(std::shared_ptr<EntityManager> manager);
+  explicit Player();
   virtual ~Player();
 
   void Init();
@@ -19,9 +19,9 @@ public:
 
   void Update(float dt);
 
-  std::type_index GetId() override {
-    return std::type_index(typeid(*this));
-  }
+  Weapon::Ptr GetWeapon();
+
+  void Damage(unsigned int damage);
 
 private:
   enum class RotateDir {

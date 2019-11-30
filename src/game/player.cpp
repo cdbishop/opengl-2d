@@ -2,19 +2,11 @@
 
 #include <GLFW/glfw3.h>
 
-Player::Player(std::shared_ptr<EntityManager> manager)
-  :Sprite(manager, "./data/textures/alienship.png")
+Player::Player()
+  :Sprite("./data/textures/alienship.png")
 {
   SetPosition(std::move(glm::vec2(100.0f, 100.0f)));
-  SetAnchor(glm::vec2(0.5f, 0.5f));
-
-  
-  std::function<glm::vec2()> g = std::bind(&Player::GetPosition, this);
-  std::function<void(glm::vec2)> s = std::bind((void(Player::*)(const glm::vec2&))&Player::SetPosition, this, std::placeholders::_1);
-    
-  const auto pos = std::make_shared<EntityPropContainer>();
-  pos->Publish("position", g, s);
-  GetEntitySystem().Publish("player", pos);
+  SetAnchor(glm::vec2(0.5f, 0.5f));      
 }
 
 Player::~Player()
@@ -23,7 +15,7 @@ Player::~Player()
 
 void Player::Init()
 {
-  
+  UpdateBounds();
 }
 
 void Player::SetupInput(InputHandler::Ptr inputHandler)
@@ -37,13 +29,22 @@ void Player::SetupInput(InputHandler::Ptr inputHandler)
 void Player::SetWeapon(Weapon::Ptr weapon)
 {
   _weapon = weapon;
-  _weapon->SetCollisionSystem(GetCollisionSystemPtr());
   _weapon->Init();
 }
 
 void Player::Update(float dt)
 {
   _weapon->Update(dt);
+}
+
+Weapon::Ptr Player::GetWeapon()
+{
+  return _weapon;
+}
+
+void Player::Damage(unsigned int damage)
+{
+  //TODO: elf
 }
 
 void Player::MoveForward()

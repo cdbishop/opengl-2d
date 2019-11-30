@@ -6,9 +6,8 @@
 #include <glad/glad.h>
 #include <iostream>
 
-Sprite::Sprite(std::shared_ptr<EntityManager> entity_manager, const std::string& filepath)
-  :Entity(entity_manager),
-  _texture(0),
+Sprite::Sprite(const std::string& filepath)
+  :_texture(0),
   _width(0),
   _height(0),
   _position(0.0f),
@@ -60,5 +59,5 @@ Sprite::~Sprite()
 
 void Sprite::UpdateBounds()
 {
-  _boundingBox = std::make_shared<BoundingBox>(GetPtr<Sprite>(), std::move(glm::vec2(GetWidth(), GetHeight())));
+  _boundingBox = std::make_shared<BoundingBox>(shared_from_this(), std::move(glm::vec2(GetWidth(), GetHeight())));
 }

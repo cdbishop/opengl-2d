@@ -2,6 +2,7 @@
 #include <object/Sprite.hpp>
 
 #include <string>
+#include <functional>
 
 class Weapon;
 
@@ -9,8 +10,8 @@ class Bullet : public Sprite {
 public:
   using Ptr = std::shared_ptr<Bullet>;
 
-  Bullet(std::shared_ptr<EntityManager> manager);
-  Bullet(std::shared_ptr<EntityManager> manager, glm::vec2 velocity, float life);
+  Bullet(std::shared_ptr<Weapon> owner);
+  Bullet(glm::vec2 velocity, float life, std::shared_ptr<Weapon> owner);
   virtual ~Bullet();
 
   void Init();
@@ -25,12 +26,14 @@ public:
 
   void Kill();
 
-  std::type_index GetId() override {
-    return std::type_index(typeid(*this));
-  }
+  void SetKillCallback(std::function<void(Ptr)> callback);
 
+  std::shared_ptr<Weapon> GetWeapon() const;
+  
 private:
+  std::shared_ptr<Weapon> _weapon;
   glm::vec2 _velocity;
   float _maxLife;
   float _curLife;
+  std::function<void(Ptr)> _killCallback;
 };

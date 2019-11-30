@@ -35,8 +35,6 @@ private:
   glm::mat4 _projection;
 
   SpriteManager::Ptr _spriteManager;
-  EntityManager::Ptr _entityManager;
-  CollisionManager::Ptr _collisionManager;
   
   Player::Ptr _player;
   Sprite::Ptr _background;

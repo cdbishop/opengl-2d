@@ -4,14 +4,13 @@
 
 #include <string>
 
-#include <system/Entity.hpp>
 #include <system/collision/BoundingBox.hpp>
 
-class Sprite : public Entity {
+class Sprite : public std::enable_shared_from_this<Sprite> {
 public:
   using Ptr = std::shared_ptr<Sprite>;
 
-  Sprite(std::shared_ptr<EntityManager> manager, const std::string& filepath);
+  Sprite(const std::string& filepath);
 
   virtual ~Sprite();
 
@@ -84,11 +83,7 @@ public:
   void Rotate(float amount) {
     _rotation += amount;
   }
-
-  virtual std::type_index GetId() override {
-    return std::type_index(typeid(*this));
-  }
-
+  
 private:
   unsigned int _texture;
   unsigned int _width;

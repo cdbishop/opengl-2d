@@ -6,32 +6,33 @@
 #include <string>
 #include <array>
 
-class CollisionManager;
-
-class Weapon {
+class Weapon : public std::enable_shared_from_this<Weapon> {
 public:
   using Ptr = std::shared_ptr<Weapon>;
 
-  Weapon(EntityManager::Ptr entityManager, SpriteManager::Ptr spriteManager, Sprite::Ptr parent);
+  Weapon(SpriteManager::Ptr spriteManager, Sprite::Ptr parent, int damage, float bulletSpeed, float fireDelay);
   ~Weapon();
 
   void Init();
   void Fire(const glm::vec2& dir);
   void Update(float dt);
 
-  void SetCollisionSystem(std::shared_ptr<CollisionManager> mgr);
+  Bullet::Ptr BulletHit(Sprite::Ptr target);
 
-  void Remove(std::shared_ptr<Bullet>);
+  unsigned int GetDamange() const;
+
+  void Kill();
 
 private:
   size_t FindNextBulletIndex();
+
+  void BulletKilled(Bullet::Ptr bullet);
 
 private:
   static const unsigned int MAX_BULLETS = 32;
   static const size_t INVALID_BULLET_INDEX = std::numeric_limits<size_t>::max();
 
   std::array<Bullet::Ptr, MAX_BULLETS> _bullets;
-  EntityManager::Ptr _entityManager;
   SpriteManager::Ptr _spriteManager;
   Sprite::Ptr _parent;
   float _fireDelay;
@@ -39,4 +40,5 @@ private:
   bool _canFire;
   float _bulletSpeed;
   float _bulletLife;
+  int _damage;
 };

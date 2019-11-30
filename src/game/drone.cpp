@@ -8,9 +8,11 @@
 #include <system/Scene.hpp>
 #include <system/Application.hpp>
 
-Drone::Drone(std::shared_ptr<EntityManager> entityManager, SpriteManager::Ptr spriteManager)
-  :Sprite(entityManager, "./data/textures/drone.png"),
-  _spriteManager(spriteManager)
+Drone::Drone(SpriteManager::Ptr spriteManager, int maxHealth)
+  :Sprite("./data/textures/drone.png"),
+  _spriteManager(spriteManager),
+  _maxHealth(maxHealth),
+  _currentHealth(maxHealth)
 {
   SetPosition(std::move(glm::vec2(600.0f, 600.0f)));
   SetAnchor(glm::vec2(0.5f, 0.5f));
@@ -23,41 +25,67 @@ Drone::~Drone()
 void Drone::Init()
 {
   UpdateBounds();
-  GetCollisionSystem().Register(GetId(), GetBounds());
 
-  _weapon = std::make_shared<Weapon>(GetEntitySystemPtr(), _spriteManager, GetPtr<Sprite>());
-
-  //CollsionManager.OnHit(Bullet.GetTypeId(), std::bind(Drone::onBulletHit, this, std::placeholders::_1, std::placeholders::_2));
-  //or
-  //CollsionManager.OnHit<Bullet>(std::bind(Drone::onBulletHit, this, std::placeholders::_1, std::placeholders::_2));
-
-  const auto cb = std::bind(&Drone::OnBulletHit, this, std::placeholders::_1);
-  std::function<void(Bullet::Ptr)> cb2 = cb;
-  GetCollisionSystem().OnHit<Bullet>(GetPtr<Bullet>(), cb2);
+  _weapon = std::make_shared<Weapon>(_spriteManager, shared_from_this(), 25, 5.0f, 1.5f);
+  _weapon->Init();
 }
 
 void Drone::Update(float dt)
 {
-  const auto playerPos = GetEntitySystem().Request("player").As<EntityPropContainer>()->Get<glm::vec2>("position");
-  float dist = glm::distance(playerPos, GetPosition());
-  glm::vec2 dir = glm::normalize(playerPos - GetPosition());
-  if (dist < 500) {
-    const auto up = glm::vec2(0.0f, -1.0f);
-    float angle = glm::angle(up, dir);
-    const auto cross = glm::cross(glm::vec3(up, 0.0f), glm::vec3(dir, 0.0f));
-    if (cross.z < 0) {
-      angle *= -1;
+  if (Alive()) {
+    float dist = glm::distance(_playerPos, GetPosition());
+    glm::vec2 dir = glm::normalize(_playerPos - GetPosition());
+    if (dist < 500) {
+      const auto up = glm::vec2(0.0f, -1.0f);
+      float angle = glm::angle(up, dir);
+      const auto cross = glm::cross(glm::vec3(up, 0.0f), glm::vec3(dir, 0.0f));
+      if (cross.z < 0) {
+        angle *= -1;
+      }
+      SetRotation(angle);
+      _weapon->Fire(dir);
     }
-    SetRotation(angle);
-    _weapon->Fire(dir);
-  }
 
-  _weapon->Update(dt);
+    _weapon->Update(dt);
+  }
 }
 
-void Drone::OnBulletHit(Bullet::Ptr obj)
+void Drone::SetPlayerPos(const glm::vec2 & pos)
 {
-  GetScene().GetApplication()->GetLogger()->info("Drone: Bullet hit");
-  obj->Kill();
+	_playerPos = pos;
+}
+
+void Drone::Damange(int amount)
+{
+  if (!Alive()) {
+    return;
+  }
+
+  _currentHealth -= amount;
+  if (_currentHealth <= 0) {
+    Kill();
+  }
+}
+
+void Drone::SetKillCallback(std::function<void(Ptr)> cb)
+{
+  _killedCallback = cb;
+}
+
+bool Drone::Alive() const {
+  return _currentHealth > 0;
+}
+
+std::shared_ptr<Weapon> Drone::GetWeapon() const
+{
+  return _weapon;
+}
+
+void Drone::Kill()
+{
+  _weapon->Kill();
+
+  if (_killedCallback)
+    _killedCallback(std::static_pointer_cast<Drone>(shared_from_this()));
 }
 
