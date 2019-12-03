@@ -3,7 +3,7 @@
 #include <GLFW/glfw3.h>
 
 Player::Player()
-  :Sprite("./data/textures/alienship.png")
+  :Sprite("./data/textures/SpaceShooterRedux/png/playerShip3_red.png")
 {
   SetPosition(std::move(glm::vec2(100.0f, 100.0f)));
   SetAnchor(glm::vec2(0.5f, 0.5f));      

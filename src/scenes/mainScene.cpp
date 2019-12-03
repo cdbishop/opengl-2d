@@ -31,7 +31,9 @@ void MainScene::Init()
     glm::ortho(0.0f, static_cast<float>(this->GetApplication()->GetWidth()),
       static_cast<float>(this->GetApplication()->GetHeight()), 0.0f, -1.0f, 1.0f));
  
-  _background = std::make_shared<Sprite>("./data/textures/starfield_2.jpg");
+  _background = std::make_shared<Sprite>("./data/textures/SpaceShooterRedux/Backgrounds/blue.png");
+  _background->SetWidth(2000);
+  _background->SetHeight(2000);
   _spriteManager->Add(_background, static_cast<unsigned int>(SpriteLayer::Background));
 
   _camera = std::make_shared<Camera2D>(std::move(glm::vec2(_background->GetWidth(), _background->GetHeight())),

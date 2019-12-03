@@ -32,6 +32,14 @@ public:
     return _height;
   }
 
+  unsigned int GetTextureWidth() const noexcept {
+    return _textureWidth;
+  }
+
+  unsigned int GetTextureHeight() const noexcept {
+    return _textureHeight;
+  }
+
   const glm::vec2& GetPosition() const noexcept {
     return _position;
   }
@@ -42,6 +50,14 @@ public:
 
   void SetPosition(glm::vec2&& pos) {
     _position = std::move(pos);
+  }
+
+  void SetWidth(unsigned int value) {
+    _width = value;
+  }
+
+  void SetHeight(unsigned int value) {
+    _height = value;
   }
 
   void Move(const glm::vec2& pos) {
@@ -86,6 +102,8 @@ public:
   
 private:
   unsigned int _texture;
+  unsigned int _textureWidth;
+  unsigned int _textureHeight;
   unsigned int _width;
   unsigned int _height;
 

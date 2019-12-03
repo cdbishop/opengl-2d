@@ -10,6 +10,8 @@ Sprite::Sprite(const std::string& filepath)
   :_texture(0),
   _width(0),
   _height(0),
+  _textureWidth(0),
+  _textureHeight(0),
   _position(0.0f),
   _scale(1.0f),
   _colour(1.0f),
@@ -24,8 +26,11 @@ Sprite::Sprite(const std::string& filepath)
     throw std::runtime_error("Failed to load texture");
   }
 
-  _width = width;
-  _height = height;
+  _textureWidth = width;
+  _textureHeight = height;
+
+  _width = _textureWidth;
+  _height = _textureHeight;
 
   glGenTextures(1, &_texture);
 

@@ -82,7 +82,7 @@ void SpriteManager::Render(Camera2D::Ptr camera)
       glm::mat4 model;
       model = glm::translate(model, glm::vec3(sprite->GetPosition() - camera->GetPosition(), 0.0f));
 
-      const auto offset = glm::vec2(sprite->GetAnchor().x * sprite->GetWidth(), sprite->GetAnchor().y * sprite->GetHeight());
+      const auto offset = glm::vec2(sprite->GetAnchor().x * sprite->GetTextureWidth(), sprite->GetAnchor().y * sprite->GetTextureHeight());
       model = glm::translate(model, glm::vec3(offset, 0.0f));
       model = glm::rotate(model, sprite->GetRotation(), glm::vec3(0.0f, 0.0f, 1.0f));
       model = glm::translate(model, glm::vec3(offset * -1.0f, 0.0f));
@@ -91,6 +91,8 @@ void SpriteManager::Render(Camera2D::Ptr camera)
       _shader->SetUniformValuePtr("model", glm::value_ptr(model));
       _shader->SetUniformValuePtr("projection", glm::value_ptr(_projection));
       _shader->SetUniformValue("spriteColor", sprite->GetColour());
+      _shader->SetUniformValue("repeatFactorU", static_cast<float>(sprite->GetWidth()) / static_cast<float>(sprite->GetTextureWidth()));
+      _shader->SetUniformValue("repeatFactorV", static_cast<float>(sprite->GetHeight()) / static_cast<float>(sprite->GetTextureHeight()));
       glBindVertexArray(_vertex_array);
       glDrawArrays(GL_TRIANGLES, 0, 6);
     }
