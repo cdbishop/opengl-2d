@@ -5,6 +5,7 @@
 #include <string>
 
 #include <system/collision/BoundingBox.hpp>
+#include <system/Shader.hpp>
 
 class Sprite : public std::enable_shared_from_this<Sprite> {
 public:

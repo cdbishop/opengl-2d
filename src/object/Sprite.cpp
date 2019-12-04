@@ -6,6 +6,11 @@
 #include <glad/glad.h>
 #include <iostream>
 
+#include <GLFW/glfw3.h>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/matrix.hpp>
+
 Sprite::Sprite(const std::string& filepath)
   :_texture(0),
   _width(0),

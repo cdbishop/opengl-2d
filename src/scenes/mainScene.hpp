@@ -5,6 +5,7 @@
 #include <system/collision/CollisionManager.hpp>
 #include <game/player.hpp>
 #include <game/drone.hpp>
+#include <game/healthPickup.hpp>
 
 #include <array>
 #include <memory>
@@ -17,6 +18,8 @@ class Sprite;
 class MainScene : public Scene
 {
 public:
+  using Ptr = std::shared_ptr<MainScene>;
+
 	MainScene();
 	~MainScene();
 
@@ -24,21 +27,17 @@ public:
 	void Update();
 	void Render();
 
+  Player::Ptr GetPlayer() const {
+    return _player;
+  }
+
 private:
-  std::array<float, 24> _vertices;
-
-  unsigned int _vertex_buffer;
-  unsigned int _vertex_array;
-
-  std::shared_ptr<Shader> _shader;
-
-  glm::mat4 _projection;
-
   SpriteManager::Ptr _spriteManager;
   
   Player::Ptr _player;
   Sprite::Ptr _background;
   Drone::Ptr _drone;
+  HealthPickup::Ptr _pickup;
 
   Camera2D::Ptr _camera;
 };

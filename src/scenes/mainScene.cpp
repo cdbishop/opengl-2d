@@ -39,24 +39,23 @@ void MainScene::Init()
   _camera = std::make_shared<Camera2D>(std::move(glm::vec2(_background->GetWidth(), _background->GetHeight())),
     std::move(glm::vec2(GetApplication()->GetWidth(), GetApplication()->GetHeight())));
 
-  _player = std::make_shared<Player>();
-  _drone = std::make_shared<Drone>(_spriteManager, 100);
-  
+  _player = std::make_shared<Player>(_spriteManager);
   _player->Init();
-  _drone->Init();
-
-  auto weapon = std::make_shared<Weapon>(_spriteManager, _player, 50, 25.0f, 0.5);
+  auto weapon = std::make_shared<Weapon>(_spriteManager, _player->GetSprite(), 50, 25.0f, 0.5);
   _player->SetWeapon(weapon);
-
   _player->SetupInput(GetInputHandler());
-  _spriteManager->Add(_player, static_cast<unsigned int>(SpriteLayer::Ships));
-  _spriteManager->Add(_drone, static_cast<unsigned int>(SpriteLayer::Ships));
+  _camera->Follow(_player->GetSprite());
 
+  _drone = std::make_shared<Drone>(_spriteManager, 100);
+  _drone->Init();
+  _spriteManager->Add(_drone, static_cast<unsigned int>(SpriteLayer::Ships));
   _drone->SetKillCallback([this](Drone::Ptr drone) {
     _spriteManager->Remove(drone);
   });
+  
 
-  _camera->Follow(_player);
+  _pickup = std::make_shared<HealthPickup>(_spriteManager, glm::vec2(800.0f, 100.0f), shared_from_this());
+  _pickup->Init();
 }
 
 void MainScene::Update()
@@ -66,7 +65,7 @@ void MainScene::Update()
   _camera->Update();
   _player->Update(GetApplication()->GetFrameDelta());
 
-  _drone->SetPlayerPos(_player->GetPosition());
+  _drone->SetPlayerPos(_player->GetSprite()->GetPosition());
   _drone->Update(GetApplication()->GetFrameDelta());
 
   if (auto bullet = _player->GetWeapon()->BulletHit(_drone)) {
@@ -75,9 +74,9 @@ void MainScene::Update()
   }
 
   if (_drone->Alive()) {
-    if (auto bullet = _drone->GetWeapon()->BulletHit(_player)) {
+    if (auto bullet = _drone->GetWeapon()->BulletHit(_player->GetSprite())) {
       bullet->Kill();
-      _player->Damage(bullet->GetWeapon()->GetDamange());
+      _player->Damage();
     }
   }
 }

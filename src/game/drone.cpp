@@ -9,7 +9,7 @@
 #include <system/Application.hpp>
 
 Drone::Drone(SpriteManager::Ptr spriteManager, int maxHealth)
-  :Sprite("./data/textures/drone.png"),
+  :Sprite("./data/textures/SpaceShooterRedux/png/ufoBlue.png"),
   _spriteManager(spriteManager),
   _maxHealth(maxHealth),
   _currentHealth(maxHealth)

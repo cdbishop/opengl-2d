@@ -5,16 +5,12 @@
 #include <system/Scene.hpp>
 
 Bullet::Bullet(std::shared_ptr<Weapon> weapon)
-  :Sprite("./data/textures/bullet.png"),
-  _weapon(weapon),
-  _velocity(glm::vec2(0.0f)),
-  _maxLife(0.0f),
-  _curLife(0.0f)
+  :Bullet(glm::vec2(0.0f), 0.0f, weapon)
 {
 }
 
 Bullet::Bullet(glm::vec2 velocity, float life, std::shared_ptr<Weapon> owner)
-  :Sprite("./data/textures/bullet.png"),
+  :Sprite("./data/textures/SpaceShooterRedux/png/lasers/laserBlue01.png"),
   _weapon(owner),
   _velocity(std::move(velocity)),
   _maxLife(life),

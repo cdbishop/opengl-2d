@@ -94,7 +94,7 @@ void SpriteManager::Render(Camera2D::Ptr camera)
       _shader->SetUniformValue("repeatFactorU", static_cast<float>(sprite->GetWidth()) / static_cast<float>(sprite->GetTextureWidth()));
       _shader->SetUniformValue("repeatFactorV", static_cast<float>(sprite->GetHeight()) / static_cast<float>(sprite->GetTextureHeight()));
       glBindVertexArray(_vertex_array);
-      glDrawArrays(GL_TRIANGLES, 0, 6);
+      glDrawArrays(GL_TRIANGLES, 0, 6);      
     }
   }  
 }

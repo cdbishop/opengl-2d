@@ -1,16 +1,16 @@
 #pragma once
 #include <object/Sprite.hpp>
-
-#include <string>
 #include <system/InputHandler.hpp>
-
 #include <game/weapon.hpp>
 
-class Player : public Sprite {
+#include <string>
+#include <map>
+
+class Player {
 public:
   using Ptr = std::shared_ptr<Player>;
 
-  explicit Player();
+  explicit Player(SpriteManager::Ptr spriteManager);
   virtual ~Player();
 
   void Init();
@@ -21,7 +21,9 @@ public:
 
   Weapon::Ptr GetWeapon();
 
-  void Damage(unsigned int damage);
+  void Damage();
+
+  Sprite::Ptr GetSprite();
 
 private:
   enum class RotateDir {
@@ -29,10 +31,24 @@ private:
     Anticlockwise
   };
 
+  enum class DamageLevel {
+    None,
+    Low,
+    Med,
+    High
+  };
+
   void MoveForward();
   void RotateInput(RotateDir);
   void Fire();
+  void UpdateDamage(DamageLevel newDamage);
+  void Kill();
 
 private:
   Weapon::Ptr _weapon;
+  SpriteManager::Ptr _spriteManager;
+  Sprite::Ptr _spriteShip;
+  DamageLevel _currentDamage;
+  
+  std::map<DamageLevel, Sprite::Ptr> _spriteDamage;
 };
