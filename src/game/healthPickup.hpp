@@ -1,13 +1,14 @@
 #pragma once
 #include <object/Sprite.hpp>
 #include <system/SpriteManager.hpp>
-#include <scenes/mainScene.hpp>
+
+class MainScene;
 
 class HealthPickup {
 public:
   using Ptr = std::shared_ptr<HealthPickup>;
 
-  HealthPickup(SpriteManager::Ptr spriteManager, glm::vec2 position, MainScene::Ptr scene);
+  HealthPickup(SpriteManager::Ptr spriteManager, glm::vec2 position, std::shared_ptr<MainScene> scene);
   virtual ~HealthPickup();
 
   void Init();
@@ -16,7 +17,7 @@ public:
 
 private:
   SpriteManager::Ptr _spriteManager;
-  MainScene::Ptr _scene;
+  std::shared_ptr<MainScene> _scene;
   Sprite::Ptr _sprite;
   glm::vec2 _position;
 };

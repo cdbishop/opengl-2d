@@ -54,7 +54,7 @@ void MainScene::Init()
   });
   
 
-  _pickup = std::make_shared<HealthPickup>(_spriteManager, glm::vec2(800.0f, 100.0f), shared_from_this());
+  _pickup = std::make_shared<HealthPickup>(_spriteManager, glm::vec2(800.0f, 100.0f), std::static_pointer_cast<MainScene>(shared_from_this()));
   _pickup->Init();
 }
 

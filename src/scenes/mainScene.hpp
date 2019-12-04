@@ -18,8 +18,6 @@ class Sprite;
 class MainScene : public Scene
 {
 public:
-  using Ptr = std::shared_ptr<MainScene>;
-
 	MainScene();
 	~MainScene();
 
