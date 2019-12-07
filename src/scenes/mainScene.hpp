@@ -20,7 +20,9 @@ class Sprite;
 class MainScene : public Scene
 {
 public:
-	MainScene();
+  const static inline std::string Name = "MainScene";
+
+  MainScene();
 	~MainScene();
 
   void Init();

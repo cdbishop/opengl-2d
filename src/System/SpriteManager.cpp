@@ -21,7 +21,6 @@ SpriteManager::SpriteManager(Shader::Ptr shader, glm::mat4 projection)
 {
   glGenVertexArrays(1, &_vertex_array);
   glGenBuffers(1, &_vertex_buffer);
-
   glBindVertexArray(_vertex_array);
 
   glBindBuffer(GL_ARRAY_BUFFER, _vertex_buffer);
@@ -74,6 +73,8 @@ void SpriteManager::RemoveFromLayer(Sprite::Ptr sprite, unsigned int layer)
 
 void SpriteManager::Render(Camera2D::Ptr camera)
 {
+  glBindVertexArray(_vertex_array);
+
   for (auto &[id, layer] : _sprites) {
     for (auto&& sprite : layer) {
       glBindTexture(GL_TEXTURE_2D, sprite->GetTexture());
@@ -92,9 +93,11 @@ void SpriteManager::Render(Camera2D::Ptr camera)
       _shader->SetUniformValuePtr("projection", glm::value_ptr(_projection));
       _shader->SetUniformValue("spriteColor", sprite->GetColour());
       _shader->SetUniformValue("repeatFactorU", static_cast<float>(sprite->GetWidth()) / static_cast<float>(sprite->GetTextureWidth()));
-      _shader->SetUniformValue("repeatFactorV", static_cast<float>(sprite->GetHeight()) / static_cast<float>(sprite->GetTextureHeight()));
-      glBindVertexArray(_vertex_array);
+      _shader->SetUniformValue("repeatFactorV", static_cast<float>(sprite->GetHeight()) / static_cast<float>(sprite->GetTextureHeight()));      
       glDrawArrays(GL_TRIANGLES, 0, 6);      
     }
-  }  
+  }
+
+  glBindVertexArray(0);
+  glBindTexture(GL_TEXTURE_2D, 0);
 }

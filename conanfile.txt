@@ -5,6 +5,7 @@ glm/0.9.8.5@bincrafters/stable
 spdlog/1.1.0@bincrafters/stable
 boost_base/2.0.0@bincrafters/testing
 boost_filesystem/1.69.0@bincrafters/stable
+freetype/2.10.0@bincrafters/stable
 
 [options]
 glad:profile=core

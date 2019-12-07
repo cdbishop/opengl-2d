@@ -4,13 +4,15 @@
 #include <System/Application.hpp>
 
 #include <scenes/mainScene.hpp>
+#include <scenes/menuScene.hpp>
 
 int main(int argc, char** argv) {
   std::shared_ptr<Application> app = Application::Create(1280, 720);
-  app->RegisterScene("gameScene", std::move(std::make_shared<MainScene>()));
+  app->RegisterScene(MenuScene::Name, std::make_shared<MenuScene>());
+  app->RegisterScene(MainScene::Name, std::make_shared<MainScene>());
 
 	try {
-		app->SetScene("gameScene");
+		app->SetScene(MenuScene::Name);
 		app->Run();
 	}
 	catch (const std::exception& e) {
