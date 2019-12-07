@@ -8,6 +8,8 @@
 #include <system/Scene.hpp>
 #include <system/Application.hpp>
 
+#include <game/weapons/basic.hpp>
+
 Drone::Drone(SpriteManager::Ptr spriteManager, int maxHealth)
   :Sprite("./data/textures/SpaceShooterRedux/png/ufoBlue.png"),
   _spriteManager(spriteManager),
@@ -26,7 +28,7 @@ void Drone::Init()
 {
   UpdateBounds();
 
-  _weapon = std::make_shared<Weapon>(_spriteManager, shared_from_this(), 25, 5.0f, 1.5f);
+  _weapon = std::make_shared<BasicWeapon>(_spriteManager, shared_from_this());
   _weapon->Init();
 }
 

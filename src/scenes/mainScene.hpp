@@ -6,6 +6,8 @@
 #include <game/player.hpp>
 #include <game/drone.hpp>
 #include <game/healthPickup.hpp>
+#include <game/weaponPickup.hpp>
+#include <game/weaponUpgrader.hpp>
 
 #include <array>
 #include <memory>
@@ -22,7 +24,7 @@ public:
 	~MainScene();
 
   void Init();
-	void Update();
+	void Update();  
 	void Render();
 
   Player::Ptr GetPlayer() const {
@@ -30,12 +32,19 @@ public:
   }
 
 private:
+  void UpdateDroneCollision();
+
+private:
   SpriteManager::Ptr _spriteManager;
   
   Player::Ptr _player;
   Sprite::Ptr _background;
   Drone::Ptr _drone;
-  HealthPickup::Ptr _pickup;
+
+  HealthPickup::Ptr _healthPickup;
+  WeaponPickup::Ptr _weaponPickup;
+
+  WeaponUpgrader::Ptr _weaponUpgrader;
 
   Camera2D::Ptr _camera;
 };

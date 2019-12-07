@@ -21,6 +21,8 @@ public:
   }
 
   bool Intersects(const BoundingBox& other);
+  bool Intersects(const Ptr other);
+
   bool Contains(const glm::vec2& point);
 
   float Top() const {

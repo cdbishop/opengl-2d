@@ -2,6 +2,7 @@
 #include <object/Sprite.hpp>
 #include <game/bullet.hpp>
 #include <system/SpriteManager.hpp>
+#include <game/weaponUpgrader.hpp>
 
 #include <string>
 #include <array>
@@ -14,7 +15,7 @@ public:
   ~Weapon();
 
   void Init();
-  void Fire(const glm::vec2& dir, const glm::vec2& src_offset = glm::vec2(0.0f));
+  virtual void Fire(const glm::vec2& dir) = 0;
   void Update(float dt);
 
   Bullet::Ptr BulletHit(Sprite::Ptr target);
@@ -23,13 +24,22 @@ public:
 
   void Kill();
 
-private:
-  void CreateBullet(const glm::vec2& dir, const glm::vec2& src_offset = glm::vec2(0.0f));
+  virtual WeaponUpgrader::WeaponType GetType() const = 0;
+
+  Sprite::Ptr GetParent() const {
+    return _parent;
+  }
+
+protected:
+  void CreateProjectile(const glm::vec2 & src_offset, const glm::vec2 & dir);
 
 private:
   size_t FindNextBulletIndex();
 
   void BulletKilled(Bullet::Ptr bullet);
+
+protected:
+  bool _canFire;
 
 private:
   static const unsigned int MAX_BULLETS = 32;
@@ -40,7 +50,6 @@ private:
   Sprite::Ptr _parent;
   float _fireDelay;
   float _curDelay;
-  bool _canFire;
   float _bulletSpeed;
   float _bulletLife;
   int _damage;

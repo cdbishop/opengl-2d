@@ -5,7 +5,8 @@
 HealthPickup::HealthPickup(SpriteManager::Ptr spriteManager, glm::vec2 position, std::shared_ptr<MainScene> scene)
   :_spriteManager(spriteManager),
    _scene(scene),
-   _position(position)
+   _position(position),
+  _alive(true)
 {
 }
 
@@ -24,4 +25,15 @@ void HealthPickup::Init()
 
 void HealthPickup::Update(float dt)
 {
+}
+
+bool HealthPickup::Alive()
+{
+  return _alive;
+}
+
+void HealthPickup::Kill()
+{
+  _spriteManager->Remove(_sprite);
+  _alive = false;
 }

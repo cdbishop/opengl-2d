@@ -12,6 +12,9 @@
 #include "object/Sprite.hpp"
 #include "Math/Vector.hpp"
 #include "game/spriteLayer.hpp"
+#include "game/weapons/basic.hpp"
+#include "game/weapons/dual.hpp"
+#include "game/weapons/spray.hpp"
 
 MainScene::MainScene()
   :Scene(),
@@ -41,8 +44,9 @@ void MainScene::Init()
 
   _player = std::make_shared<Player>(_spriteManager);
   _player->Init();
-  auto weapon = std::make_shared<Weapon>(_spriteManager, _player->GetSprite(), 50, 25.0f, 0.5);
+  auto weapon = std::make_shared<BasicWeapon>(_spriteManager, _player->GetSprite());  
   _player->SetWeapon(weapon);
+
   _player->SetupInput(GetInputHandler());
   _camera->Follow(_player->GetSprite());
 
@@ -54,8 +58,13 @@ void MainScene::Init()
   });
   
 
-  _pickup = std::make_shared<HealthPickup>(_spriteManager, glm::vec2(800.0f, 100.0f), std::static_pointer_cast<MainScene>(shared_from_this()));
-  _pickup->Init();
+  _healthPickup = std::make_shared<HealthPickup>(_spriteManager, glm::vec2(800.0f, 100.0f), std::static_pointer_cast<MainScene>(shared_from_this()));
+  _healthPickup->Init();
+
+  _weaponPickup = std::make_shared<WeaponPickup>(_spriteManager, glm::vec2(300.0f, 800.0f), std::static_pointer_cast<MainScene>(shared_from_this()));
+  _weaponPickup->Init();
+
+  _weaponUpgrader = std::make_shared<WeaponUpgrader>(_spriteManager);
 }
 
 void MainScene::Update()
@@ -68,12 +77,36 @@ void MainScene::Update()
   _drone->SetPlayerPos(_player->GetSprite()->GetPosition());
   _drone->Update(GetApplication()->GetFrameDelta());
 
-  if (auto bullet = _player->GetWeapon()->BulletHit(_drone)) {
-    bullet->Kill();
-    _drone->Damange(bullet->GetWeapon()->GetDamange());
+  UpdateDroneCollision();
+
+  if (_healthPickup->Alive()) {
+    if (_player->GetSprite()->GetBounds()->Intersects(_healthPickup->GetSprite()->GetBounds())) {
+      _healthPickup->Kill();
+      _player->Heal();
+    }
   }
 
+  if (_weaponPickup->Alive()) {
+    if (_player->GetSprite()->GetBounds()->Intersects(_weaponPickup->GetSprite()->GetBounds())) {
+      _weaponPickup->Kill();
+      auto curWeapon = _player->GetWeapon();
+      auto newWeapon = _weaponUpgrader->UpgradeWeapon(curWeapon);
+
+      if (newWeapon != curWeapon) {
+        _player->SetWeapon(newWeapon);
+      }
+    }
+  }
+}
+
+void MainScene::UpdateDroneCollision()
+{
   if (_drone->Alive()) {
+    if (auto bullet = _player->GetWeapon()->BulletHit(_drone)) {
+      bullet->Kill();
+      _drone->Damange(bullet->GetWeapon()->GetDamange());
+    }
+
     if (auto bullet = _drone->GetWeapon()->BulletHit(_player->GetSprite())) {
       bullet->Kill();
       _player->Damage();

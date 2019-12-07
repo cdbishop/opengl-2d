@@ -29,6 +29,11 @@ bool BoundingBox::Intersects(const BoundingBox& other)
     Top() < other.Bottom() && Bottom() > other.Top();
 }
 
+bool BoundingBox::Intersects(const Ptr other)
+{
+  return Intersects(*other);
+}
+
 bool BoundingBox::Contains(const glm::vec2& point)
 {
   return point.x >= Left() && point.x <= Right() && point.y >= Top() && point.y <= Bottom();

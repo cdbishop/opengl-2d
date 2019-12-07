@@ -1,0 +1,14 @@
+- support different weapon/weapon upgrades
+- - derived weapon class with different behaviours (firing 2x projectiles + a hold + sprey type machine gun weapon)
+- - - sprey weapon - cycle between 3 offsets (10, 0, -10)
+- - ability to set/change player weapon
+- pickup to upgrade weapon
+
+- main menu + game over screens
+- - ability to loose
+
+- different enemy types and behaviours
+- - enemy that moves towards player
+- - enemy that patrols (e.g back and forth between two points or moves in circle)
+- spawning enemies
+- - define patterns for spawning enemies

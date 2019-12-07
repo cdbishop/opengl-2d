@@ -8,8 +8,7 @@ Player::Player(SpriteManager::Ptr spriteManager)
   :_spriteManager(spriteManager),
   _currentDamage(DamageLevel::None)
 {
-  //SetPosition(std::move(glm::vec2(100.0f, 100.0f)));
-  //SetAnchor(glm::vec2(0.5f, 0.5f));      
+  
 }
 
 Player::~Player()
@@ -82,6 +81,31 @@ void Player::Damage()
     case Player::DamageLevel::High:
       Kill();
       break;
+
+    default:
+      throw std::runtime_error("Unknown damage level!");
+  }
+}
+
+void Player::Heal() {
+  switch (_currentDamage) {
+    case Player::DamageLevel::None:
+      break;
+
+    case Player::DamageLevel::Low:
+      UpdateDamage(Player::DamageLevel::None);
+      break;
+
+    case Player::DamageLevel::Med:
+      UpdateDamage(Player::DamageLevel::Low);
+      break;
+
+    case Player::DamageLevel::High:
+      UpdateDamage(Player::DamageLevel::Med);
+      break;
+
+    default:
+      throw std::runtime_error("Unknown damage level!");
   }
 }
 

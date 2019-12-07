@@ -30,12 +30,8 @@ void Weapon::Init()
   }
 }
 
-void Weapon::Fire(const glm::vec2 & dir, const glm::vec2& src_offset)
+void Weapon::CreateProjectile(const glm::vec2 & src_offset, const glm::vec2 & dir)
 {
-  if (!_canFire) {
-    return;
-  }
-
   size_t nextIdx = FindNextBulletIndex();
   if (nextIdx == INVALID_BULLET_INDEX) {
     return;
@@ -47,6 +43,8 @@ void Weapon::Fire(const glm::vec2 & dir, const glm::vec2& src_offset)
     glm::vec2((_parent->GetWidth() / 2) - (bullet->GetWidth() / 2),
     (_parent->GetHeight() / 2) - (bullet->GetHeight() / 2));
 
+  
+
   src_pos += src_offset;
 
   bullet->Revive(dir * _bulletSpeed, _bulletLife);
@@ -54,9 +52,8 @@ void Weapon::Fire(const glm::vec2 & dir, const glm::vec2& src_offset)
   bullet->SetPosition(src_pos);
   bullet->SetRotation(_parent->GetRotation());
   bullet->SetKillCallback(std::bind(&Weapon::BulletKilled, this, std::placeholders::_1));
-  
+
   _spriteManager->Add(_bullets[nextIdx], static_cast<unsigned int>(SpriteLayer::Projectiles));
-  _canFire = false;
 }
 
 void Weapon::Update(float dt)
@@ -105,10 +102,6 @@ void Weapon::Kill()
     if (bullet->Alive())
       bullet->Kill();
   }
-}
-
-void Weapon::CreateBullet(const glm::vec2& dir, const glm::vec2& src_offset) {
-
 }
 
 size_t Weapon::FindNextBulletIndex()

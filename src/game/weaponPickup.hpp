@@ -4,12 +4,12 @@
 
 class MainScene;
 
-class HealthPickup {
+class WeaponPickup {
 public:
-  using Ptr = std::shared_ptr<HealthPickup>;
+  using Ptr = std::shared_ptr<WeaponPickup>;
 
-  HealthPickup(SpriteManager::Ptr spriteManager, glm::vec2 position, std::shared_ptr<MainScene> scene);
-  virtual ~HealthPickup();
+  WeaponPickup(SpriteManager::Ptr spriteManager, glm::vec2 position, std::shared_ptr<MainScene> scene);
+  virtual ~WeaponPickup();
 
   void Init();
   void Update(float dt);

@@ -22,6 +22,7 @@ public:
   Weapon::Ptr GetWeapon();
 
   void Damage();
+  void Heal();
 
   Sprite::Ptr GetSprite();
 
