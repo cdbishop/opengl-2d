@@ -14,7 +14,7 @@ public:
   ~Weapon();
 
   void Init();
-  void Fire(const glm::vec2& dir);
+  void Fire(const glm::vec2& dir, const glm::vec2& src_offset = glm::vec2(0.0f));
   void Update(float dt);
 
   Bullet::Ptr BulletHit(Sprite::Ptr target);
@@ -22,6 +22,9 @@ public:
   unsigned int GetDamange() const;
 
   void Kill();
+
+private:
+  void CreateBullet(const glm::vec2& dir, const glm::vec2& src_offset = glm::vec2(0.0f));
 
 private:
   size_t FindNextBulletIndex();

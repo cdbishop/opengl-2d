@@ -30,7 +30,7 @@ void Weapon::Init()
   }
 }
 
-void Weapon::Fire(const glm::vec2 & dir)
+void Weapon::Fire(const glm::vec2 & dir, const glm::vec2& src_offset)
 {
   if (!_canFire) {
     return;
@@ -42,11 +42,16 @@ void Weapon::Fire(const glm::vec2 & dir)
   }
 
   auto bullet = _bullets[nextIdx];
+
+  glm::vec2 src_pos = _parent->GetPosition() +
+    glm::vec2((_parent->GetWidth() / 2) - (bullet->GetWidth() / 2),
+    (_parent->GetHeight() / 2) - (bullet->GetHeight() / 2));
+
+  src_pos += src_offset;
+
   bullet->Revive(dir * _bulletSpeed, _bulletLife);
   bullet->SetAnchor(glm::vec2(0.5f, 0.5f));
-  bullet->SetPosition(_parent->GetPosition() + 
-    glm::vec2((_parent->GetWidth() / 2) - (bullet->GetWidth() / 2),
-      (_parent->GetHeight() / 2) - (bullet->GetHeight() / 2)));
+  bullet->SetPosition(src_offset);
   bullet->SetRotation(_parent->GetRotation());
   bullet->SetKillCallback(std::bind(&Weapon::BulletKilled, this, std::placeholders::_1));
   
@@ -100,6 +105,10 @@ void Weapon::Kill()
     if (bullet->Alive())
       bullet->Kill();
   }
+}
+
+void Weapon::CreateBullet(const glm::vec2& dir, const glm::vec2& src_offset) {
+
 }
 
 size_t Weapon::FindNextBulletIndex()
