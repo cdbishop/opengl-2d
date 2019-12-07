@@ -51,7 +51,7 @@ void Weapon::Fire(const glm::vec2 & dir, const glm::vec2& src_offset)
 
   bullet->Revive(dir * _bulletSpeed, _bulletLife);
   bullet->SetAnchor(glm::vec2(0.5f, 0.5f));
-  bullet->SetPosition(src_offset);
+  bullet->SetPosition(src_pos);
   bullet->SetRotation(_parent->GetRotation());
   bullet->SetKillCallback(std::bind(&Weapon::BulletKilled, this, std::placeholders::_1));
   
