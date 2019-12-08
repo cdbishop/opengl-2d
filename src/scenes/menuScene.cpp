@@ -11,9 +11,14 @@
 
 #include "mainScene.hpp"
 
+
+
+//std::shared_ptr<SoundManager> g_soundManager;
+
 MenuScene::MenuScene()
   :Scene()
 {
+  //g_soundManager = std::make_shared<SoundManager>();
 }
 
 MenuScene::~MenuScene()
@@ -43,7 +48,11 @@ void MenuScene::Init()
   _textManager->AddText("SPAY-SSEE", glm::vec2(GetApplication()->GetWidth() / 2.0f, 20.0f));
   _textManager->AddText("press space to start", glm::vec2(GetApplication()->GetWidth() / 2.0f, GetApplication()->GetHeight() - 50.0f), 0.5f);
 
-  GetInputHandler()->RegisterKey(GLFW_KEY_SPACE, std::bind(&MenuScene::SpacePressed, this));
+  GetInputHandler()->RegisterKey(GLFW_KEY_SPACE, std::bind(&MenuScene::StartGame, this));
+  GetInputHandler()->RegisterKey(GLFW_KEY_M, std::bind(&MenuScene::ToggleVolume, this));
+    
+  GetApplication()->GetSoundManager()->LoadClip("./data/music/msc_song.wav");
+  GetApplication()->GetSoundManager()->Play("./data/music/msc_song.wav");
 }
 
 void MenuScene::Update()
@@ -58,7 +67,13 @@ void MenuScene::Render()
   _textManager->Render();
 }
 
-void MenuScene::SpacePressed()
+void MenuScene::StartGame()
 {
   GetApplication()->SetScene(MainScene::Name);
+}
+
+void MenuScene::ToggleVolume()
+{
+  GetApplication()->GetSoundManager()->IsMuted() ? 
+    GetApplication()->GetSoundManager()->UnMute() : GetApplication()->GetSoundManager()->Mute();
 }

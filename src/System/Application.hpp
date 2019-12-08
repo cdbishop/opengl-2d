@@ -4,6 +4,7 @@
 
 #include <System/Scene.hpp>
 #include <System/ShaderManager.hpp>
+#include <system/SoundManager.hpp>
 
 #include <memory>
 
@@ -24,6 +25,7 @@ public:
 	void SetScene(const std::string& sceneName);
 
 	std::shared_ptr<ShaderManager> GetShaderManager();
+  std::shared_ptr<SoundManager> GetSoundManager();
 
 	unsigned int GetWidth() const {
 		return _width;
@@ -108,6 +110,8 @@ private:
 	std::shared_ptr<ShaderManager> _shaderManager;
 
 	std::shared_ptr<spdlog::logger> _logger;
+
+  std::shared_ptr<SoundManager> _soundManager;
 
 	float _frameDelta;
 	float _lastFrameTime;

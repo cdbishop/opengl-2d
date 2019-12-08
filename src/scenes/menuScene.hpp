@@ -21,7 +21,8 @@ public:
 	void Render();
 
 private:
-  void SpacePressed();
+  void StartGame();
+  void ToggleVolume();
 
 private:
   SpriteManager::Ptr _spriteManager;

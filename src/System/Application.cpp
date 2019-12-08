@@ -25,6 +25,7 @@ Application::Application(unsigned int width, unsigned int height)
 	Init();
 
 	_shaderManager = std::make_shared<ShaderManager>("./shaders");
+  _soundManager = std::make_shared<SoundManager>();
 }
 
 Application::~Application()
@@ -103,6 +104,11 @@ void Application::SetScene(const std::string & sceneName)
 std::shared_ptr<ShaderManager> Application::GetShaderManager()
 {
 	return _shaderManager;
+}
+
+std::shared_ptr<SoundManager> Application::GetSoundManager()
+{
+  return _soundManager;
 }
 
 void Application::Update()
