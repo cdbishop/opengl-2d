@@ -3,12 +3,23 @@
 - - - sprey weapon - cycle between 3 offsets (10, 0, -10)
 - - ability to set/change player weapon
 - pickup to upgrade weapon
-
 - main menu + game over screens
 - - ability to loose
+
+- lives
+- - give player initial 3 lives
+- - on player killed - re-spawn (on key press) after timer countdown
+- - - timer event class for this sorta thing
+- - deduct lives
+- - display lives as icons (handle displaying sprites that move with camera/e.g. always on screen)
 
 - different enemy types and behaviours
 - - enemy that moves towards player
 - - enemy that patrols (e.g back and forth between two points or moves in circle)
 - spawning enemies
 - - define patterns for spawning enemies
+
+- score
+- - display on screen
+- - highscores saved to file
+- - show list of scores on game-over

@@ -6,7 +6,10 @@
 
 Player::Player(SpriteManager::Ptr spriteManager)
   :_spriteManager(spriteManager),
-  _currentDamage(DamageLevel::None)
+  _currentDamage(DamageLevel::None),
+  _lives(3),
+  _startPosition(glm::vec2(100.0f, 100.0f)),
+  _alive(true)
 {
   
 }
@@ -21,7 +24,7 @@ void Player::Init()
   _spriteShip->UpdateBounds();
   _spriteManager->Add(_spriteShip, static_cast<unsigned int>(SpriteLayer::Ships));
 
-  _spriteShip->SetPosition(std::move(glm::vec2(100.0f, 100.0f)));
+  _spriteShip->SetPosition(_startPosition);
   _spriteShip->SetAnchor(glm::vec2(0.5f, 0.5f));      
 
   _spriteDamage[Player::DamageLevel::Low] = std::make_shared<Sprite>("./data/textures/SpaceShooterRedux/png/damage/playerShip3_damage1.png");
@@ -50,11 +53,13 @@ void Player::SetWeapon(Weapon::Ptr weapon)
 
 void Player::Update(float dt)
 {
-  _weapon->Update(dt);
+  if (_alive) {
+    _weapon->Update(dt);
 
-  if (_currentDamage != DamageLevel::None) {
-    _spriteDamage[_currentDamage]->SetPosition(_spriteShip->GetPosition());
-    _spriteDamage[_currentDamage]->SetRotation(_spriteShip->GetRotation());
+    if (_currentDamage != DamageLevel::None) {
+      _spriteDamage[_currentDamage]->SetPosition(_spriteShip->GetPosition());
+      _spriteDamage[_currentDamage]->SetRotation(_spriteShip->GetRotation());
+    }
   }
 }
 
@@ -114,21 +119,41 @@ Sprite::Ptr Player::GetSprite()
   return _spriteShip;
 }
 
+void Player::SetKilledCallback(std::function<void()> cb)
+{
+  _killed_callback = cb;
+}
+
+void Player::Respawn()
+{
+  _spriteShip->SetPosition(_startPosition);
+  UpdateDamage(Player::DamageLevel::None);
+  _spriteShip->SetRotation(0.0f);
+  _spriteManager->Add(_spriteShip, static_cast<unsigned int>(SpriteLayer::Ships));
+  _alive = true;
+}
+
 void Player::MoveForward()
 {
-  glm::vec2 facing(sinf(_spriteShip->GetRotation()), -cosf(_spriteShip->GetRotation()));
-  _spriteShip->Move(facing * 5.5f);
+  if (_alive) {
+    glm::vec2 facing(sinf(_spriteShip->GetRotation()), -cosf(_spriteShip->GetRotation()));
+    _spriteShip->Move(facing * 5.5f);
+  }
 }
 
 void Player::RotateInput(RotateDir dir)
 {
-  float angle = (dir == RotateDir::Clockwise ? 0.02f : -0.02f);
-  _spriteShip->Rotate(angle);
+  if (_alive) {
+    float angle = (dir == RotateDir::Clockwise ? 0.02f : -0.02f);
+    _spriteShip->Rotate(angle);
+  }
 }
 
 void Player::Fire()
 {
-  _weapon->Fire(glm::vec2(sinf(_spriteShip->GetRotation()), -cosf(_spriteShip->GetRotation())));
+  if (_alive) {
+    _weapon->Fire(glm::vec2(sinf(_spriteShip->GetRotation()), -cosf(_spriteShip->GetRotation())));
+  }
 }
 
 void Player::UpdateDamage(DamageLevel newDamage)
@@ -146,5 +171,11 @@ void Player::UpdateDamage(DamageLevel newDamage)
 
 void Player::Kill()
 {
+  --_lives;
+  _alive = false;
+  _spriteManager->Remove(_spriteShip);
+
+  if (_killed_callback)
+    _killed_callback();
 }
 

@@ -1,6 +1,7 @@
 #pragma once
 #include <System/Scene.hpp>
 #include <system/SpriteManager.hpp>
+#include <system/UIManager.hpp>
 #include <System/Camera2D.hpp>
 #include <system/collision/CollisionManager.hpp>
 #include <game/player.hpp>
@@ -35,9 +36,12 @@ public:
 
 private:
   void UpdateDroneCollision();
+  void OnPlayerKilled();
+  void CreateLivesUI();
 
 private:
   SpriteManager::Ptr _spriteManager;
+  UIManager::Ptr _uiManager;
   
   Player::Ptr _player;
   Sprite::Ptr _background;
@@ -49,4 +53,6 @@ private:
   WeaponUpgrader::Ptr _weaponUpgrader;
 
   Camera2D::Ptr _camera;
+
+  std::vector<Sprite::Ptr> _lives;
 };

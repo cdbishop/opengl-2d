@@ -7,22 +7,20 @@
 #include <vector>
 #include <array>
 
-class SpriteManager {
+class UIManager {
 public:
-  using Ptr = std::shared_ptr<SpriteManager>;  
+  using Ptr = std::shared_ptr<UIManager>;
   using SpriteVector = std::vector<Sprite::Ptr>;  
-  using SpriteLayerMap = std::map<unsigned int, SpriteVector>;
 
-  SpriteManager(Shader::Ptr shader, glm::mat4 projection);
-  ~SpriteManager();
+  UIManager(Shader::Ptr shader, glm::mat4 projection);
+  ~UIManager();
 
-  void Add(Sprite::Ptr sprite, unsigned int layer = 0);
-  void RemoveFromLayer(Sprite::Ptr sprite, unsigned int layer);
+  void Add(Sprite::Ptr sprite);
   void Remove(Sprite::Ptr sprite);
-  void Render(Camera2D::Ptr camera);
+  void Render();
 
 private:
-  SpriteLayerMap _sprites;
+  SpriteVector _sprites;
 
   std::array<float, 24> _vertices;
 

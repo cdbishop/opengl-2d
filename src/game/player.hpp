@@ -26,6 +26,14 @@ public:
 
   Sprite::Ptr GetSprite();
 
+  void SetKilledCallback(std::function<void()> cb);
+
+  unsigned int GetLives() const { return _lives; }
+
+  void Respawn();
+
+  bool IsAlive() const { return _alive; }
+
 private:
   enum class RotateDir {
     Clockwise,
@@ -50,6 +58,11 @@ private:
   SpriteManager::Ptr _spriteManager;
   Sprite::Ptr _spriteShip;
   DamageLevel _currentDamage;
+  unsigned int _lives;
+  glm::vec2 _startPosition;
+  bool _alive;
   
   std::map<DamageLevel, Sprite::Ptr> _spriteDamage;
+
+  std::function<void()> _killed_callback;
 };

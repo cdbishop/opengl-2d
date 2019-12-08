@@ -16,6 +16,8 @@
 #include "game/weapons/dual.hpp"
 #include "game/weapons/spray.hpp"
 
+#include "gameOverScene.hpp"
+
 MainScene::MainScene()
   :Scene(),
   _spriteManager(),
@@ -29,11 +31,15 @@ MainScene::~MainScene()
 
 void MainScene::Init()
 {
+  const auto projection = glm::ortho(0.0f, static_cast<float>(this->GetApplication()->GetWidth()),
+    static_cast<float>(this->GetApplication()->GetHeight()), 0.0f, -1.0f, 1.0f);
+
   _spriteManager = std::make_shared<SpriteManager>(
-    GetApplication()->GetShaderManager()->CreateProgram("textured", "textured"),
-    glm::ortho(0.0f, static_cast<float>(this->GetApplication()->GetWidth()),
-      static_cast<float>(this->GetApplication()->GetHeight()), 0.0f, -1.0f, 1.0f));
- 
+    GetApplication()->GetShaderManager()->CreateProgram("textured", "textured"), projection);
+
+  _uiManager = std::make_shared<UIManager>(
+    GetApplication()->GetShaderManager()->CreateProgram("textured", "textured"), projection);
+   
   _background = std::make_shared<Sprite>("./data/textures/SpaceShooterRedux/Backgrounds/blue.png");
   _background->SetWidth(2000);
   _background->SetHeight(2000);
@@ -46,6 +52,9 @@ void MainScene::Init()
   _player->Init();
   auto weapon = std::make_shared<BasicWeapon>(_spriteManager, _player->GetSprite());  
   _player->SetWeapon(weapon);
+  _player->SetKilledCallback(std::bind(&MainScene::OnPlayerKilled, this));
+
+  CreateLivesUI();
 
   _player->SetupInput(GetInputHandler());
   _camera->Follow(_player->GetSprite());
@@ -74,8 +83,11 @@ void MainScene::Update()
   _camera->Update();
   _player->Update(GetApplication()->GetFrameDelta());
 
-  _drone->SetPlayerPos(_player->GetSprite()->GetPosition());
-  _drone->Update(GetApplication()->GetFrameDelta());
+  // TODO: might wanna update enemies when player is dead (e.g. movement)
+  if (_player->IsAlive()) {
+    _drone->SetPlayerPos(_player->GetSprite()->GetPosition());
+    _drone->Update(GetApplication()->GetFrameDelta());
+  }
 
   UpdateDroneCollision();
 
@@ -114,7 +126,37 @@ void MainScene::UpdateDroneCollision()
   }
 }
 
+void MainScene::OnPlayerKilled()
+{
+  
+  if (_lives.size() > 0) {
+    auto life = _lives[_lives.size() - 1];
+    _uiManager->Remove(life);
+    _lives.erase(_lives.end() - 1);
+    _player->Respawn();
+  } else {
+    GetApplication()->SetScene(GameOverScene::Name);
+  }
+}
+
+void MainScene::CreateLivesUI()
+{
+  auto num_lives = _player->GetLives();
+  const auto spacing = 10.0f;
+
+  auto x = 10.0f;
+  for (auto i = 0u; i < num_lives; ++i) {
+    auto life = std::make_shared<Sprite>("./data/textures/SpaceShooterRedux/PNG/UI/playerLife3_Red.png");        
+    life->SetPosition(std::move(glm::vec2(x, 10.0f)));
+    _lives.push_back(life);
+    _uiManager->Add(life);
+
+    x += (life->GetWidth() + spacing);
+  }
+}
+
 void MainScene::Render()
 {	
   _spriteManager->Render(_camera);
+  _uiManager->Render();
 }
