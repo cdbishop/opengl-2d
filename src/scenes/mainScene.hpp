@@ -9,6 +9,8 @@
 #include <game/healthPickup.hpp>
 #include <game/weaponPickup.hpp>
 #include <game/weaponUpgrader.hpp>
+#include <system/EventManager.hpp>
+#include <game/onScreenCountdown.hpp>
 
 #include <array>
 #include <memory>
@@ -42,6 +44,8 @@ private:
 private:
   SpriteManager::Ptr _spriteManager;
   UIManager::Ptr _uiManager;
+  EventManager::Ptr _eventManager;
+  TextManager::Ptr _textManager;
   
   Player::Ptr _player;
   Sprite::Ptr _background;
@@ -55,4 +59,6 @@ private:
   Camera2D::Ptr _camera;
 
   std::vector<Sprite::Ptr> _lives;
+
+  std::shared_ptr<OnScreenCountdown> _respawnCountdown;
 };

@@ -37,6 +37,8 @@ void MainScene::Init()
   _spriteManager = std::make_shared<SpriteManager>(
     GetApplication()->GetShaderManager()->CreateProgram("textured", "textured"), projection);
 
+  _eventManager = std::make_shared<EventManager>();
+
   _uiManager = std::make_shared<UIManager>(
     GetApplication()->GetShaderManager()->CreateProgram("textured", "textured"), projection);
    
@@ -74,11 +76,19 @@ void MainScene::Init()
   _weaponPickup->Init();
 
   _weaponUpgrader = std::make_shared<WeaponUpgrader>(_spriteManager);
+
+  _textManager = std::make_shared<TextManager>(GetApplication()->GetShaderManager(),
+    glm::ortho(0.0f, static_cast<float>(this->GetApplication()->GetWidth()),
+      static_cast<float>(this->GetApplication()->GetHeight()), 0.0f, -1.0f, 1.0f));
+
+  _respawnCountdown = std::make_shared<OnScreenCountdown>(_textManager, glm::vec2(GetApplication()->GetWidth() / 2.0f, GetApplication()->GetHeight() / 2.0f));
 }
 
 void MainScene::Update()
 {
+  _eventManager->Update();
   GetInputHandler()->Update();
+  _respawnCountdown->Update();
 
   _camera->Update();
   _player->Update(GetApplication()->GetFrameDelta());
@@ -128,14 +138,20 @@ void MainScene::UpdateDroneCollision()
 
 void MainScene::OnPlayerKilled()
 {
-  
   if (_lives.size() > 0) {
     auto life = _lives[_lives.size() - 1];
     _uiManager->Remove(life);
     _lives.erase(_lives.end() - 1);
-    _player->Respawn();
-  } else {
-    GetApplication()->SetScene(GameOverScene::Name);
+
+    _respawnCountdown->StartCountdown(5, [&]() {
+      _player->Respawn();
+    });
+    
+  } else {    
+    _textManager->AddText("Loose - space to continue", glm::vec2(GetApplication()->GetWidth() / 2.0f, GetApplication()->GetHeight() / 2.0f));
+    GetInputHandler()->RegisterKey(GLFW_KEY_SPACE, [&]() {
+      GetApplication()->SetScene(GameOverScene::Name);    
+    });   
   }
 }
 
@@ -159,4 +175,5 @@ void MainScene::Render()
 {	
   _spriteManager->Render(_camera);
   _uiManager->Render();
+  _textManager->Render();
 }

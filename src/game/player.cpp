@@ -164,6 +164,9 @@ void Player::UpdateDamage(DamageLevel newDamage)
 
   if (newDamage != DamageLevel::None) {
     _spriteManager->Add(_spriteDamage[newDamage], static_cast<unsigned int>(SpriteLayer::Ships));
+
+    _spriteDamage[newDamage]->SetPosition(_spriteShip->GetPosition());
+    _spriteDamage[newDamage]->SetRotation(_spriteShip->GetRotation());
   }
 
   _currentDamage = newDamage;
@@ -174,6 +177,7 @@ void Player::Kill()
   --_lives;
   _alive = false;
   _spriteManager->Remove(_spriteShip);
+  UpdateDamage(DamageLevel::None);
 
   if (_killed_callback)
     _killed_callback();

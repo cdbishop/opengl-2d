@@ -114,9 +114,15 @@ TextManager::~TextManager()
 {
 }
 
-void TextManager::AddText(std::string text, glm::vec2 position, float scale, glm::vec3 colour)
+TextManager::Id TextManager::AddText(std::string text, glm::vec2 position, float scale, glm::vec3 colour)
 {
   _texts.push_back({std::move(text), std::move(position), std::move(colour), scale});
+  return _texts.size() - 1;
+}
+
+void TextManager::RemoveText(Id id)
+{
+  _texts.erase(_texts.begin() + id);
 }
 
 void TextManager::Render()

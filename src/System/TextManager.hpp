@@ -10,11 +10,13 @@ class FTManager;
 class TextManager {
 public:
   using Ptr = std::shared_ptr<TextManager>;
+  using Id = size_t;
 
   TextManager(std::shared_ptr<ShaderManager> shaderManager, glm::mat4 projection);
   ~TextManager();
 
-  void AddText(std::string text, glm::vec2 position, float scale = 1.0f, glm::vec3 colour = glm::vec3(1.0f));
+  Id AddText(std::string text, glm::vec2 position, float scale = 1.0f, glm::vec3 colour = glm::vec3(1.0f));
+  void RemoveText(Id id);
 
   void Render();
 
