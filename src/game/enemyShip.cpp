@@ -65,7 +65,7 @@ void EnemyShip::Update(float dt)
     //float x = glm::cos(angle) * (center.x) - glm::sin(angle) * (center.y) + center.x;
     //float y = glm::sin(angle) * (center.x) + glm::cos(angle) * (center.y) + center.y;
 
-    SetPosition(std::move(glm::vec2(x, y)));
+    //SetPosition(std::move(glm::vec2(x, y)));
 
     _weapon->Update(dt);
   }
