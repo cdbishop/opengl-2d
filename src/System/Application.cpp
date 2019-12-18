@@ -118,7 +118,7 @@ void Application::Update()
 	_lastFrameTime = currentFrameTime;
 
 
-	_scenes[_currentScene]->Update();
+	_scenes[_currentScene]->Update(_frameDelta);
 
 	_mouseDeltaX = 0;
 	_mouseDeltaY = 0;

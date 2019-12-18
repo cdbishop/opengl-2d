@@ -19,7 +19,7 @@ public:
 
 	virtual void Init() { }
 
-	virtual void Update() { }
+	virtual void Update(float dt) { }
 
 	virtual void Render() { }
 

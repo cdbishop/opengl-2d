@@ -46,7 +46,7 @@ void GameOverScene::Init()
   GetInputHandler()->RegisterKey(GLFW_KEY_SPACE, std::bind(&GameOverScene::RestartGame, this));
 }
 
-void GameOverScene::Update()
+void GameOverScene::Update(float dt)
 {
   GetInputHandler()->Update();
   _camera->Update();

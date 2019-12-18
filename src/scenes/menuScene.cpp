@@ -55,7 +55,7 @@ void MenuScene::Init()
   GetApplication()->GetSoundManager()->Play("./data/music/msc_song.wav");
 }
 
-void MenuScene::Update()
+void MenuScene::Update(float dt)
 {
   GetInputHandler()->Update();
   _camera->Update();

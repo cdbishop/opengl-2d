@@ -17,7 +17,7 @@ public:
 	~MenuScene();
 
   void Init();
-	void Update();  
+	void Update(float dt) override;  
 	void Render();
 
 private:
