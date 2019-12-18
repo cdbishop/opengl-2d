@@ -5,7 +5,6 @@
 - pickup to upgrade weapon
 - main menu + game over screens
 - - ability to loose
-
 - lives
 - - give player initial 3 lives
 - - on player killed - re-spawn (on key press) after timer countdown
@@ -13,13 +12,18 @@
 - - deduct lives
 - - display lives as icons (handle displaying sprites that move with camera/e.g. always on screen)
 
+
 - different enemy types and behaviours
 - - enemy that moves towards player
 - - enemy that patrols (e.g back and forth between two points or moves in circle)
+
 - spawning enemies
 - - define patterns for spawning enemies
 
 - score
+- - player gain score on kills (diff based on diff enemy)
 - - display on screen
 - - highscores saved to file
 - - show list of scores on game-over
+
+- extra life after certain score thresholds
