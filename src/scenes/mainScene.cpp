@@ -64,10 +64,16 @@ void MainScene::Init()
   _drone = std::make_shared<Drone>(_spriteManager, 100);
   _drone->Init();
   _spriteManager->Add(_drone, static_cast<unsigned int>(SpriteLayer::Ships));
-  _drone->SetKillCallback([this](Drone::Ptr drone) {
+  _drone->SetKillCallback([this](BaseEnemy::Ptr drone) {
     _spriteManager->Remove(drone);
   });
-  
+
+  _enemyShip = std::make_shared<EnemyShip>(_spriteManager, 200);
+  _enemyShip->Init();
+  _spriteManager->Add(_enemyShip, static_cast<unsigned int>(SpriteLayer::Ships));
+  _enemyShip->SetKillCallback([this](BaseEnemy::Ptr enemy) {
+    _spriteManager->Remove(enemy);
+  });
 
   _healthPickup = std::make_shared<HealthPickup>(_spriteManager, glm::vec2(800.0f, 100.0f), std::static_pointer_cast<MainScene>(shared_from_this()));
   _healthPickup->Init();
@@ -84,20 +90,23 @@ void MainScene::Init()
   _respawnCountdown = std::make_shared<OnScreenCountdown>(_textManager, glm::vec2(GetApplication()->GetWidth() / 2.0f, GetApplication()->GetHeight() / 2.0f));
 }
 
-void MainScene::Update()
+void MainScene::Update(float dt)
 {
   _eventManager->Update();
   GetInputHandler()->Update();
   _respawnCountdown->Update();
 
   _camera->Update();
-  _player->Update(GetApplication()->GetFrameDelta());
+  _player->Update(dt);
 
   // TODO: might wanna update enemies when player is dead (e.g. movement)
   if (_player->IsAlive()) {
     _drone->SetPlayerPos(_player->GetSprite()->GetPosition());
-    _drone->Update(GetApplication()->GetFrameDelta());
+    _drone->Update(dt);
   }
+
+  _enemyShip->SetPlayerPos(_player->GetSprite()->GetPosition());
+  _enemyShip->Update(dt);
 
   UpdateDroneCollision();
 
@@ -129,7 +138,17 @@ void MainScene::UpdateDroneCollision()
       _drone->Damange(bullet->GetWeapon()->GetDamange());
     }
 
+    if (auto bullet = _player->GetWeapon()->BulletHit(_enemyShip)) {
+      bullet->Kill();
+      _enemyShip->Damange(bullet->GetWeapon()->GetDamange());
+    }
+
     if (auto bullet = _drone->GetWeapon()->BulletHit(_player->GetSprite())) {
+      bullet->Kill();
+      _player->Damage();
+    }
+
+    if (auto bullet = _enemyShip->GetWeapon()->BulletHit(_player->GetSprite())) {
       bullet->Kill();
       _player->Damage();
     }

@@ -6,14 +6,14 @@
 #include <game/weapon.hpp>
 #include <game/bullet.hpp>
 
-class Drone : public BaseEnemy {
+class EnemyShip : public BaseEnemy {
 public:
-  using Ptr = std::shared_ptr<Drone>;
+  using Ptr = std::shared_ptr<EnemyShip>;
 
-  Drone(SpriteManager::Ptr spriteManager, int maxHealth);
-  virtual ~Drone();
+  EnemyShip(SpriteManager::Ptr spriteManager, int maxHealth);
+  virtual ~EnemyShip();
 
-  void Init();  
+  void Init();
   void Update(float dt);
 
   std::shared_ptr<Weapon> GetWeapon() const;
@@ -23,4 +23,5 @@ private:
 
 private:
   Weapon::Ptr _weapon;
+  glm::vec2  _patrolCenter;
 };

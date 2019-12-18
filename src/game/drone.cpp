@@ -11,10 +11,7 @@
 #include <game/weapons/basic.hpp>
 
 Drone::Drone(SpriteManager::Ptr spriteManager, int maxHealth)
-  :Sprite("./data/textures/SpaceShooterRedux/png/ufoBlue.png"),
-  _spriteManager(spriteManager),
-  _maxHealth(maxHealth),
-  _currentHealth(maxHealth)
+  :BaseEnemy(spriteManager, maxHealth, "./data/textures/SpaceShooterRedux/png/ufoBlue.png")
 {
   SetPosition(std::move(glm::vec2(600.0f, 600.0f)));
   SetAnchor(glm::vec2(0.5f, 0.5f));
@@ -26,7 +23,7 @@ Drone::~Drone()
 
 void Drone::Init()
 {
-  UpdateBounds();
+  BaseEnemy::Init();
 
   _weapon = std::make_shared<BasicWeapon>(_spriteManager, shared_from_this());
   _weapon->Init();
@@ -52,32 +49,6 @@ void Drone::Update(float dt)
   }
 }
 
-void Drone::SetPlayerPos(const glm::vec2 & pos)
-{
-	_playerPos = pos;
-}
-
-void Drone::Damange(int amount)
-{
-  if (!Alive()) {
-    return;
-  }
-
-  _currentHealth -= amount;
-  if (_currentHealth <= 0) {
-    Kill();
-  }
-}
-
-void Drone::SetKillCallback(std::function<void(Ptr)> cb)
-{
-  _killedCallback = cb;
-}
-
-bool Drone::Alive() const {
-  return _currentHealth > 0;
-}
-
 std::shared_ptr<Weapon> Drone::GetWeapon() const
 {
   return _weapon;
@@ -87,7 +58,6 @@ void Drone::Kill()
 {
   _weapon->Kill();
 
-  if (_killedCallback)
-    _killedCallback(std::static_pointer_cast<Drone>(shared_from_this()));
+  BaseEnemy::Kill();
 }
 

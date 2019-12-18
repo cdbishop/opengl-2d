@@ -6,6 +6,7 @@
 #include <system/collision/CollisionManager.hpp>
 #include <game/player.hpp>
 #include <game/drone.hpp>
+#include <game/enemyShip.hpp>
 #include <game/healthPickup.hpp>
 #include <game/weaponPickup.hpp>
 #include <game/weaponUpgrader.hpp>
@@ -29,7 +30,7 @@ public:
 	~MainScene();
 
   void Init();
-	void Update();  
+	void Update(float dt);
 	void Render();
 
   Player::Ptr GetPlayer() const {
@@ -50,6 +51,7 @@ private:
   Player::Ptr _player;
   Sprite::Ptr _background;
   Drone::Ptr _drone;
+  EnemyShip::Ptr _enemyShip;
 
   HealthPickup::Ptr _healthPickup;
   WeaponPickup::Ptr _weaponPickup;
