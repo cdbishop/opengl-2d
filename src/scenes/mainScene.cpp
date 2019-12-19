@@ -63,6 +63,7 @@ void MainScene::Init()
 
   _drone = std::make_shared<Drone>(_spriteManager, 100);
   _drone->Init();
+  _drone->SetPlayer(_player);
   _spriteManager->Add(_drone, static_cast<unsigned int>(SpriteLayer::Ships));
   _drone->SetKillCallback([this](BaseEnemy::Ptr drone) {
     _spriteManager->Remove(drone);
@@ -70,6 +71,7 @@ void MainScene::Init()
 
   _enemyShip = std::make_shared<EnemyShip>(_spriteManager, 200);
   _enemyShip->Init();
+  _enemyShip->SetPlayer(_player);
   _spriteManager->Add(_enemyShip, static_cast<unsigned int>(SpriteLayer::Ships));
   _enemyShip->SetKillCallback([this](BaseEnemy::Ptr enemy) {
     _spriteManager->Remove(enemy);
@@ -101,11 +103,9 @@ void MainScene::Update(float dt)
 
   // TODO: might wanna update enemies when player is dead (e.g. movement)
   if (_player->IsAlive()) {
-    _drone->SetPlayerPos(_player->GetSprite()->GetPosition());
     _drone->Update(dt);
   }
 
-  _enemyShip->SetPlayerPos(_player->GetSprite()->GetPosition());
   _enemyShip->Update(dt);
 
   UpdateDroneCollision();

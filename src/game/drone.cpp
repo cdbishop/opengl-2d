@@ -32,8 +32,9 @@ void Drone::Init()
 void Drone::Update(float dt)
 {
   if (Alive()) {
-    float dist = glm::distance(_playerPos, GetPosition());
-    glm::vec2 dir = glm::normalize(_playerPos - GetPosition());
+    auto playerPos = _player->GetSprite()->GetPosition();
+    float dist = glm::distance(playerPos, GetPosition());
+    glm::vec2 dir = glm::normalize(playerPos - GetPosition());
     if (dist < 500) {
       const auto up = glm::vec2(0.0f, -1.0f);
       float angle = glm::angle(up, dir);

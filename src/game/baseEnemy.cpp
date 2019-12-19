@@ -33,11 +33,6 @@ void BaseEnemy::Update(float dt)
   
 }
 
-void BaseEnemy::SetPlayerPos(const glm::vec2 & pos)
-{
-  _playerPos = pos;
-}
-
 void BaseEnemy::Damange(int amount)
 {
   if (!Alive()) {
@@ -48,6 +43,11 @@ void BaseEnemy::Damange(int amount)
   if (_currentHealth <= 0) {
     Kill();
   }
+}
+
+void BaseEnemy::SetPlayer(Player::Ptr player)
+{
+  _player = player;
 }
 
 void BaseEnemy::SetKillCallback(std::function<void(Ptr)> cb)

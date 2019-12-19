@@ -5,6 +5,7 @@
 
 #include <game/weapon.hpp>
 #include <game/bullet.hpp>
+#include <game/player.hpp>
 
 class BaseEnemy : public Sprite {
 public:
@@ -17,7 +18,7 @@ public:
   virtual void Update(float dt);
   virtual void Damange(int amount);
 
-  void SetPlayerPos(const glm::vec2& pos);  
+  void SetPlayer(Player::Ptr player);
   void SetKillCallback(std::function<void(Ptr)> cb);
 
   bool Alive() const;
@@ -27,7 +28,7 @@ protected:
 
 protected:
   SpriteManager::Ptr _spriteManager;
-  glm::vec2 _playerPos;
+  Player::Ptr _player;
   int _maxHealth;
   int _currentHealth;
   std::function<void(Ptr)> _killedCallback;
