@@ -16,6 +16,8 @@ public:
   void Init();
   void Update(float dt);
 
+  void UpdatePatrol(float dt);
+
   std::shared_ptr<Weapon> GetWeapon() const;
 
 private:
@@ -25,4 +27,5 @@ private:
   Weapon::Ptr _weapon;
   glm::vec2  _patrolCenter;
   float _heading;
+  float _range;
 };
