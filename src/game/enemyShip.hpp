@@ -24,4 +24,5 @@ private:
 private:
   Weapon::Ptr _weapon;
   glm::vec2  _patrolCenter;
+  float _heading;
 };
