@@ -48,7 +48,7 @@ void GameOverScene::Init()
 
 void GameOverScene::Update(float dt)
 {
-  GetInputHandler()->Update();
+  GetInputHandler()->Update(dt);
   _camera->Update();
 }
 

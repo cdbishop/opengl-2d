@@ -47,8 +47,8 @@ private:
     High
   };
 
-  void MoveForward();
-  void RotateInput(RotateDir);
+  void MoveForward(float dt);
+  void RotateInput(RotateDir dir, float dt);
   void Fire();
   void UpdateDamage(DamageLevel newDamage);
   void Kill();
@@ -61,6 +61,8 @@ private:
   unsigned int _lives;
   glm::vec2 _startPosition;
   bool _alive;
+  float _movementSpeed;
+  float _rotationSpeed;
   
   std::map<DamageLevel, Sprite::Ptr> _spriteDamage;
 

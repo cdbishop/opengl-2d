@@ -93,7 +93,7 @@ void MainScene::Init()
 void MainScene::Update(float dt)
 {
   _eventManager->Update();
-  GetInputHandler()->Update();
+  GetInputHandler()->Update(dt);
   _respawnCountdown->Update();
 
   _camera->Update();
@@ -168,7 +168,7 @@ void MainScene::OnPlayerKilled()
     
   } else {    
     _textManager->AddText("Loose - space to continue", glm::vec2(GetApplication()->GetWidth() / 2.0f, GetApplication()->GetHeight() / 2.0f));
-    GetInputHandler()->RegisterKey(GLFW_KEY_SPACE, [&]() {
+    GetInputHandler()->RegisterKey(GLFW_KEY_SPACE, [&](float) {
       GetApplication()->SetScene(GameOverScene::Name);    
     });   
   }

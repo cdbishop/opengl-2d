@@ -10,14 +10,14 @@ class Application;
 class InputHandler {
 public:
   using Ptr = std::shared_ptr<InputHandler>;  
-  using Callback = std::function<void()>;
+  using Callback = std::function<void(float)>;
 
   InputHandler(std::shared_ptr<Application> app);
   ~InputHandler();
 
   void RegisterKey(int key, Callback cb);
 
-  void Update();
+  void Update(float dt);
   
 private:
   std::unordered_map<int, std::vector<Callback>> _callbacks;

@@ -9,7 +9,9 @@ Player::Player(SpriteManager::Ptr spriteManager)
   _currentDamage(DamageLevel::None),
   _lives(3),
   _startPosition(glm::vec2(100.0f, 100.0f)),
-  _alive(true)
+  _alive(true),
+  _movementSpeed(250.0f),
+  _rotationSpeed(2.0f)
 {
   
 }
@@ -39,9 +41,9 @@ void Player::Init()
 
 void Player::SetupInput(InputHandler::Ptr inputHandler)
 {
-  inputHandler->RegisterKey(GLFW_KEY_W, std::bind(&Player::MoveForward, this));
-  inputHandler->RegisterKey(GLFW_KEY_A, std::bind(&Player::RotateInput, this, RotateDir::Anticlockwise));
-  inputHandler->RegisterKey(GLFW_KEY_D, std::bind(&Player::RotateInput, this, RotateDir::Clockwise));
+  inputHandler->RegisterKey(GLFW_KEY_W, std::bind(&Player::MoveForward, this, std::placeholders::_1));
+  inputHandler->RegisterKey(GLFW_KEY_A, std::bind(&Player::RotateInput, this, RotateDir::Anticlockwise, std::placeholders::_1));
+  inputHandler->RegisterKey(GLFW_KEY_D, std::bind(&Player::RotateInput, this, RotateDir::Clockwise, std::placeholders::_1));
   inputHandler->RegisterKey(GLFW_KEY_SPACE, std::bind(&Player::Fire, this));
 }
 
@@ -133,18 +135,18 @@ void Player::Respawn()
   _alive = true;
 }
 
-void Player::MoveForward()
+void Player::MoveForward(float dt)
 {
   if (_alive) {
     glm::vec2 facing(sinf(_spriteShip->GetRotation()), -cosf(_spriteShip->GetRotation()));
-    _spriteShip->Move(facing * 5.5f);
+    _spriteShip->Move(facing * _movementSpeed * dt);
   }
 }
 
-void Player::RotateInput(RotateDir dir)
+void Player::RotateInput(RotateDir dir, float dt)
 {
   if (_alive) {
-    float angle = (dir == RotateDir::Clockwise ? 0.02f : -0.02f);
+    float angle = (dir == RotateDir::Clockwise ? _rotationSpeed * dt : -_rotationSpeed * dt);
     _spriteShip->Rotate(angle);
   }
 }

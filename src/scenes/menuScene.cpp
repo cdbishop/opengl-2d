@@ -57,7 +57,7 @@ void MenuScene::Init()
 
 void MenuScene::Update(float dt)
 {
-  GetInputHandler()->Update();
+  GetInputHandler()->Update(dt);
   _camera->Update();
 }
 

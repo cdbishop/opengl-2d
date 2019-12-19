@@ -16,12 +16,12 @@ void InputHandler::RegisterKey(int key, Callback cb)
   _callbacks[key].push_back(cb);
 }
 
-void InputHandler::Update()
+void InputHandler::Update(float dt)
 {
   for (auto& handler : _callbacks) {
     if (glfwGetKey(_application->GetWindow(), handler.first) == GLFW_PRESS) {
       for (auto& cb : handler.second) {
-        cb();
+        cb(dt);
       }
     }
   }
