@@ -13,7 +13,6 @@
 Drone::Drone(SpriteManager::Ptr spriteManager, int maxHealth)
   :BaseEnemy(spriteManager, maxHealth, "./data/textures/SpaceShooterRedux/png/ufoBlue.png")
 {
-  SetPosition(std::move(glm::vec2(600.0f, 600.0f)));
   SetAnchor(glm::vec2(0.5f, 0.5f));
 }
 

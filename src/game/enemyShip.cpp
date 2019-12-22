@@ -10,15 +10,14 @@
 
 #include <game/weapons/basic.hpp>
 
-EnemyShip::EnemyShip(SpriteManager::Ptr spriteManager, int maxHealth)
+EnemyShip::EnemyShip(SpriteManager::Ptr spriteManager, int maxHealth, const glm::vec2& initialPos)
   :BaseEnemy(spriteManager, maxHealth, "./data/textures/SpaceShooterRedux/png/Enemies/enemyBlack3.png"),
   _heading(0.0f),
   _range(350.0f)
 {
-  SetPosition(std::move(glm::vec2(1200.0f,300.0f)));
   SetAnchor(glm::vec2(0.5f, 0.5f));
-
-  _patrolCenter = GetPosition();
+  _patrolCenter = initialPos;
+  SetPosition(initialPos);
 }
 
 EnemyShip::~EnemyShip()

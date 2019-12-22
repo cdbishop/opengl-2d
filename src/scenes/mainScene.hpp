@@ -5,13 +5,12 @@
 #include <System/Camera2D.hpp>
 #include <system/collision/CollisionManager.hpp>
 #include <game/player.hpp>
-#include <game/drone.hpp>
-#include <game/enemyShip.hpp>
 #include <game/healthPickup.hpp>
 #include <game/weaponPickup.hpp>
 #include <game/weaponUpgrader.hpp>
 #include <system/EventManager.hpp>
 #include <game/onScreenCountdown.hpp>
+#include <game/EnemyManager.hpp>
 
 #include <array>
 #include <memory>
@@ -38,7 +37,6 @@ public:
   }
 
 private:
-  void UpdateDroneCollision();
   void OnPlayerKilled();
   void CreateLivesUI();
 
@@ -47,11 +45,10 @@ private:
   UIManager::Ptr _uiManager;
   EventManager::Ptr _eventManager;
   TextManager::Ptr _textManager;
+  EnemyManager::Ptr _enemyManager;
   
   Player::Ptr _player;
   Sprite::Ptr _background;
-  Drone::Ptr _drone;
-  EnemyShip::Ptr _enemyShip;
 
   HealthPickup::Ptr _healthPickup;
   WeaponPickup::Ptr _weaponPickup;

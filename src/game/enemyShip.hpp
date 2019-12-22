@@ -10,7 +10,7 @@ class EnemyShip : public BaseEnemy {
 public:
   using Ptr = std::shared_ptr<EnemyShip>;
 
-  EnemyShip(SpriteManager::Ptr spriteManager, int maxHealth);
+  EnemyShip(SpriteManager::Ptr spriteManager, int maxHealth, const glm::vec2& initialPos);
   virtual ~EnemyShip();
 
   void Init();
