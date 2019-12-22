@@ -11,14 +11,17 @@
 - - - timer event class for this sorta thing
 - - deduct lives
 - - display lives as icons (handle displaying sprites that move with camera/e.g. always on screen)
-
-
 - different enemy types and behaviours
 - - enemy that moves towards player
 - - enemy that patrols (e.g back and forth between two points or moves in circle)
 
 - spawning enemies
 - - define patterns for spawning enemies
+- - spawn/enemyManager - Enemies are created after previous group is defeated
+- - - EnemyManager class
+- - - EnemyWave class - manager has list of waves
+- - - define waves as list of positions + enemy types to create
+- - - EnemyManager checks when wave is beat (no alive enemies) + creates next wave (with countdown + ui?)
 
 - score
 - - player gain score on kills (diff based on diff enemy)
