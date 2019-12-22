@@ -33,7 +33,7 @@ void Bullet::Update(float dt)
     return;
   }
 
-  Move(_velocity);
+  Move(_velocity * dt);
   _curLife -= dt;
 
   if (_curLife <= 0.0f) {

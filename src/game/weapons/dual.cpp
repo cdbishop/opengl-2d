@@ -1,7 +1,7 @@
 #include "dual.hpp"
 
 DualWeapon::DualWeapon(SpriteManager::Ptr spriteManager, Sprite::Ptr parent)
-  :Weapon(spriteManager, parent, 50, 25.0f, 0.5)
+  :Weapon(spriteManager, parent, 50, 2.0f, 0.5)
 {
 }
 
