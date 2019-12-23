@@ -14,6 +14,7 @@ public:
 
   using Ptr = std::shared_ptr<EnemyWave>;
   using StartDesc = std::vector<std::pair<EnemyType, glm::vec2>>;
+  using WaveEndCb = std::function<void()>;
 
   EnemyWave(SpriteManager::Ptr spriteManager, StartDesc startDesc);
   ~EnemyWave();
@@ -21,10 +22,17 @@ public:
   void Init(Player::Ptr player);
   void Update(float dt);
 
+  void SetWaveEndCallback(WaveEndCb callback);
+  
+private:
+  void CheckWaveEnd();
+
 private:
   SpriteManager::Ptr _spriteManager;
   const StartDesc _startDesc;
   Player::Ptr _player;
+
+  WaveEndCb _waveEndCallback;
 
   std::vector<Drone::Ptr> _drones;
   std::vector<EnemyShip::Ptr> _enemyShips;

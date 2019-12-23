@@ -29,6 +29,7 @@ void EnemyWave::Init(Player::Ptr player)
         _spriteManager->Add(ship, static_cast<unsigned int>(SpriteLayer::Ships));
         ship->SetKillCallback([this](BaseEnemy::Ptr enemy) {
           _spriteManager->Remove(enemy);
+          CheckWaveEnd();
         });
         _enemyShips.push_back(ship);
       }
@@ -42,6 +43,7 @@ void EnemyWave::Init(Player::Ptr player)
         _spriteManager->Add(ship, static_cast<unsigned int>(SpriteLayer::Ships));
         ship->SetKillCallback([this](BaseEnemy::Ptr enemy) {
           _spriteManager->Remove(enemy);
+          CheckWaveEnd();
         });
         _drones.push_back(ship);
       }
@@ -89,5 +91,21 @@ void EnemyWave::Update(float dt)
       bullet->Kill();
       _player->Damage();
     }
+  }
+}
+
+void EnemyWave::SetWaveEndCallback(WaveEndCb callback)
+{
+  _waveEndCallback = callback;
+}
+
+void EnemyWave::CheckWaveEnd()
+{
+  bool waveEnded = !std::any_of(_drones.begin(), _drones.end(), [](Drone::Ptr drone) {
+    return drone->Alive();
+  });
+
+  if (waveEnded && _waveEndCallback) {
+    _waveEndCallback();
   }
 }
