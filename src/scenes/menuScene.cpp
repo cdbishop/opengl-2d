@@ -11,14 +11,9 @@
 
 #include "mainScene.hpp"
 
-
-
-//std::shared_ptr<SoundManager> g_soundManager;
-
 MenuScene::MenuScene()
   :Scene()
 {
-  //g_soundManager = std::make_shared<SoundManager>();
 }
 
 MenuScene::~MenuScene()
@@ -53,6 +48,8 @@ void MenuScene::Init()
     
   GetApplication()->GetSoundManager()->LoadClip("./data/music/msc_song.wav");
   GetApplication()->GetSoundManager()->Play("./data/music/msc_song.wav");
+
+  GetApplication()->GetSoundManager()->Mute();
 }
 
 void MenuScene::Update(float dt)
