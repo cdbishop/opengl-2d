@@ -39,6 +39,7 @@ public:
 private:
   void OnPlayerKilled();
   void CreateLivesUI();
+  void OnAllEnemyWavesComplete();
 
 private:
   SpriteManager::Ptr _spriteManager;

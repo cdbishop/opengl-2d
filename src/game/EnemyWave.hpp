@@ -19,7 +19,7 @@ public:
   EnemyWave(SpriteManager::Ptr spriteManager, StartDesc startDesc);
   ~EnemyWave();
 
-  void Init(Player::Ptr player);
+  void Spawn(Player::Ptr player);
   void Update(float dt);
 
   void SetWaveEndCallback(WaveEndCb callback);

@@ -52,7 +52,7 @@ void MainScene::Init()
 
   _player = std::make_shared<Player>(_spriteManager);
   _player->Init();
-  auto weapon = std::make_shared<BasicWeapon>(_spriteManager, _player->GetSprite());  
+  auto weapon = std::make_shared<BasicWeapon>(_spriteManager, _player->GetSprite(), 650.0f, 1.0f);  
   _player->SetWeapon(weapon);
   _player->SetKilledCallback(std::bind(&MainScene::OnPlayerKilled, this));
 
@@ -61,8 +61,9 @@ void MainScene::Init()
   _player->SetupInput(GetInputHandler());
   _camera->Follow(_player->GetSprite());
 
-  _enemyManager = std::make_shared<EnemyManager>(_spriteManager);
-  _enemyManager->Init(_player);
+  _enemyManager = std::make_shared<EnemyManager>(_spriteManager, _player);
+  _enemyManager->Init();
+  _enemyManager->SetAllWavesCompletedCallback(std::bind(&MainScene::OnAllEnemyWavesComplete, this));
 
   _healthPickup = std::make_shared<HealthPickup>(_spriteManager, glm::vec2(800.0f, 100.0f), std::static_pointer_cast<MainScene>(shared_from_this()));
   _healthPickup->Init();
@@ -144,6 +145,14 @@ void MainScene::CreateLivesUI()
 
     x += (life->GetWidth() + spacing);
   }
+}
+
+void MainScene::OnAllEnemyWavesComplete()
+{
+  _textManager->AddText("Win", glm::vec2(GetApplication()->GetWidth() / 2.0f, GetApplication()->GetHeight() / 2.0f));
+  GetInputHandler()->RegisterKey(GLFW_KEY_SPACE, [&](float) {
+    GetApplication()->SetScene(GameOverScene::Name);
+  });
 }
 
 void MainScene::Render()

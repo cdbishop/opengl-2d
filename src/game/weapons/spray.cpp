@@ -1,7 +1,7 @@
 #include "spray.hpp"
 
 SprayWeapon::SprayWeapon(SpriteManager::Ptr spriteManager, Sprite::Ptr parent)
-  :Weapon(spriteManager, parent, 50, 2.0f, 0.1f),
+  :Weapon(spriteManager, parent, 50, 650.0f, 0.1f),
   _offsets({0.0f, 20.0f, 0.0f, -20.0f}),
   _current_offset(0)
 {

@@ -15,7 +15,7 @@ EnemyWave::~EnemyWave()
 {
 }
 
-void EnemyWave::Init(Player::Ptr player)
+void EnemyWave::Spawn(Player::Ptr player)
 {
   _player = player;
 
@@ -101,9 +101,15 @@ void EnemyWave::SetWaveEndCallback(WaveEndCb callback)
 
 void EnemyWave::CheckWaveEnd()
 {
-  bool waveEnded = !std::any_of(_drones.begin(), _drones.end(), [](Drone::Ptr drone) {
+  bool anyDronesAlive = std::any_of(_drones.begin(), _drones.end(), [](Drone::Ptr drone) {
     return drone->Alive();
   });
+
+  bool anyEnemyShipsAlive = std::any_of(_enemyShips.begin(), _enemyShips.end(), [](EnemyShip::Ptr drone) {
+    return drone->Alive();
+  });
+
+  bool waveEnded = !anyEnemyShipsAlive && !anyDronesAlive;
 
   if (waveEnded && _waveEndCallback) {
     _waveEndCallback();
