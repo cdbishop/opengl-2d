@@ -83,7 +83,7 @@ void EnemyShip::Kill()
 
   _weapon->Kill();
 
-  if (_killedCallback)
-    _killedCallback(std::static_pointer_cast<EnemyShip>(shared_from_this()));
+  //if (_killedCallback)
+  //  _killedCallback(std::static_pointer_cast<EnemyShip>(shared_from_this()));
 }
 

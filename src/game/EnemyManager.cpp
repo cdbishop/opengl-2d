@@ -1,19 +1,20 @@
 #include "EnemyManager.hpp"
 
-EnemyManager::EnemyManager(SpriteManager::Ptr spriteManager, Player::Ptr player)
-  :_player(player) {
+EnemyManager::EnemyManager(SpriteManager::Ptr spriteManager, OnScreenCountdown::Ptr countdown, Player::Ptr player)
+  :_player(player),
+   _nextWaveCountdown(countdown) {
   
   AddWave(spriteManager, player, std::move(EnemyWave::StartDesc({
     std::make_pair(EnemyWave::EnemyType::Drone, glm::vec2(600.0f, 600.0f)),
     std::make_pair(EnemyWave::EnemyType::Ship, glm::vec2(1200.0f, 300.0f))
     })));
 
-  /*AddWave(spriteManager, player, std::move(EnemyWave::StartDesc({
+  AddWave(spriteManager, player, std::move(EnemyWave::StartDesc({
     std::make_pair(EnemyWave::EnemyType::Drone, glm::vec2(600.0f, 600.0f)),
     std::make_pair(EnemyWave::EnemyType::Drone, glm::vec2(1200.0f, 600.0f)),
     std::make_pair(EnemyWave::EnemyType::Ship, glm::vec2(1200.0f, 300.0f)),
     std::make_pair(EnemyWave::EnemyType::Ship, glm::vec2(1200.0f, 700.0f))
-    })));*/
+    })));
 }
 
 EnemyManager::~EnemyManager()
@@ -29,6 +30,8 @@ void EnemyManager::Init()
 
 void EnemyManager::Update(float dt)
 {
+  _nextWaveCountdown->Update();
+
   for (auto&& wave : _waves) {
     wave->Update(dt);
   }
@@ -52,7 +55,11 @@ void EnemyManager::NextWave(EnemyWave::Ptr current, Player::Ptr player, size_t i
 {
   if (_waves.size() > index + 1) {
     _current_wave = _waves[index + 1];
-    _current_wave->Spawn(player);
+
+    _nextWaveCountdown->StartCountdown(3, [player, this]() {
+      _current_wave->Spawn(player);
+    });
+    
   }
   else {
     //all waves beaten

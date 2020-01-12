@@ -61,7 +61,12 @@ void MainScene::Init()
   _player->SetupInput(GetInputHandler());
   _camera->Follow(_player->GetSprite());
 
-  _enemyManager = std::make_shared<EnemyManager>(_spriteManager, _player);
+  _textManager = std::make_shared<TextManager>(GetApplication()->GetShaderManager(),
+    glm::ortho(0.0f, static_cast<float>(this->GetApplication()->GetWidth()),
+      static_cast<float>(this->GetApplication()->GetHeight()), 0.0f, -1.0f, 1.0f));
+
+  auto nextWaveCountdown = std::make_shared<OnScreenCountdown>(_textManager, glm::vec2(GetApplication()->GetWidth() / 2, 20.0f), "Next Wave: ");
+  _enemyManager = std::make_shared<EnemyManager>(_spriteManager, nextWaveCountdown, _player);
   _enemyManager->Init();
   _enemyManager->SetAllWavesCompletedCallback(std::bind(&MainScene::OnAllEnemyWavesComplete, this));
 
@@ -72,10 +77,6 @@ void MainScene::Init()
   _weaponPickup->Init();
 
   _weaponUpgrader = std::make_shared<WeaponUpgrader>(_spriteManager);
-
-  _textManager = std::make_shared<TextManager>(GetApplication()->GetShaderManager(),
-    glm::ortho(0.0f, static_cast<float>(this->GetApplication()->GetWidth()),
-      static_cast<float>(this->GetApplication()->GetHeight()), 0.0f, -1.0f, 1.0f));
 
   _respawnCountdown = std::make_shared<OnScreenCountdown>(_textManager, glm::vec2(GetApplication()->GetWidth() / 2.0f, GetApplication()->GetHeight() / 2.0f));
 }

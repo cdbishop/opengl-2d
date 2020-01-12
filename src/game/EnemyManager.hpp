@@ -2,6 +2,8 @@
 #include <System/SpriteManager.hpp>
 #include <game/EnemyWave.hpp>
 #include <game/player.hpp>
+#include <system/TextManager.hpp>
+#include <game/onScreenCountdown.hpp>
 
 #include <vector>
 
@@ -10,7 +12,7 @@ public:
   using Ptr = std::shared_ptr<EnemyManager>;
   using AllWavesCompletedCB = std::function<void()>;
 
-  EnemyManager(SpriteManager::Ptr spriteManager, Player::Ptr player);
+  EnemyManager(SpriteManager::Ptr spriteManager, OnScreenCountdown::Ptr countdown, Player::Ptr player);
   ~EnemyManager();
 
   void Init();
@@ -28,4 +30,5 @@ private:
   const Player::Ptr _player;
   EnemyWave::Ptr _current_wave;
   AllWavesCompletedCB _waves_completed_cb;
+  std::shared_ptr<OnScreenCountdown> _nextWaveCountdown;
 };
