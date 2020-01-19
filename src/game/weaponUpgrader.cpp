@@ -6,16 +6,12 @@
 #include "weapons/spray.hpp"
 
 WeaponUpgrader::WeaponUpgrader(SpriteManager::Ptr spriteManager)
-  :_spriteManager(spriteManager)
-{
-}
+    : _spriteManager(spriteManager) {}
 
-WeaponUpgrader::~WeaponUpgrader()
-{
-}
+WeaponUpgrader::~WeaponUpgrader() {}
 
-std::shared_ptr<Weapon> WeaponUpgrader::UpgradeWeapon(std::shared_ptr<Weapon> weapon)
-{
+std::shared_ptr<Weapon> WeaponUpgrader::UpgradeWeapon(
+    std::shared_ptr<Weapon> weapon) {
   switch (weapon->GetType()) {
     case WeaponType::Basic:
       return std::make_shared<DualWeapon>(_spriteManager, weapon->GetParent());

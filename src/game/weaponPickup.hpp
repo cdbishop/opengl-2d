@@ -5,24 +5,22 @@
 class MainScene;
 
 class WeaponPickup {
-public:
+ public:
   using Ptr = std::shared_ptr<WeaponPickup>;
 
-  WeaponPickup(SpriteManager::Ptr spriteManager, glm::vec2 position, std::shared_ptr<MainScene> scene);
+  WeaponPickup(SpriteManager::Ptr spriteManager, glm::vec2 position,
+               std::shared_ptr<MainScene> scene);
   virtual ~WeaponPickup();
 
   void Init();
   void Update(float dt);
- 
-  Sprite::Ptr GetSprite() const 
-  {
-    return _sprite;
-  }
+
+  Sprite::Ptr GetSprite() const { return _sprite; }
 
   bool Alive();
   void Kill();
 
-private:
+ private:
   SpriteManager::Ptr _spriteManager;
   std::shared_ptr<MainScene> _scene;
   Sprite::Ptr _sprite;

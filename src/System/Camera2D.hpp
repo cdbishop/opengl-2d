@@ -6,22 +6,16 @@
 #include <object/Sprite.hpp>
 
 class Camera2D {
-public:
+ public:
   using Ptr = std::shared_ptr<Camera2D>;
 
   Camera2D(glm::vec2 worldExtends, glm::vec2 viewSize);
 
-  const glm::vec2& GetPosition() {
-    return _position;
-  }
+  const glm::vec2& GetPosition() { return _position; }
 
-  void SetPosition(const glm::vec2& pos) {
-    _position = pos;
-  }
+  void SetPosition(const glm::vec2& pos) { _position = pos; }
 
-  void SetPosition(glm::vec2&& pos) {
-    _position = std::move(pos);
-  }
+  void SetPosition(glm::vec2&& pos) { _position = std::move(pos); }
 
   void Move(const glm::vec2& pos) {
     _position += pos;
@@ -39,7 +33,7 @@ public:
 
   void Update();
 
-private:
+ private:
   glm::vec2 _position;
   glm::vec2 _worldExtends;
   glm::vec2 _viewSize;

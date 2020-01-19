@@ -5,33 +5,32 @@
 #include <game/spriteLayer.hpp>
 
 Player::Player(SpriteManager::Ptr spriteManager)
-  :_spriteManager(spriteManager),
-  _currentDamage(DamageLevel::None),
-  _lives(3),
-  _startPosition(glm::vec2(100.0f, 100.0f)),
-  _alive(true),
-  _movementSpeed(250.0f),
-  _rotationSpeed(2.0f)
-{
-  
-}
+    : _spriteManager(spriteManager),
+      _currentDamage(DamageLevel::None),
+      _lives(3),
+      _startPosition(glm::vec2(100.0f, 100.0f)),
+      _alive(true),
+      _movementSpeed(250.0f),
+      _rotationSpeed(2.0f) {}
 
-Player::~Player()
-{
-}
+Player::~Player() {}
 
-void Player::Init()
-{
-  _spriteShip = std::make_shared<Sprite>("./data/textures/SpaceShooterRedux/png/playerShip3_red.png");
+void Player::Init() {
+  _spriteShip = std::make_shared<Sprite>(
+      "./data/textures/SpaceShooterRedux/png/playerShip3_red.png");
   _spriteShip->UpdateBounds();
-  _spriteManager->Add(_spriteShip, static_cast<unsigned int>(SpriteLayer::Ships));
+  _spriteManager->Add(_spriteShip,
+                      static_cast<unsigned int>(SpriteLayer::Ships));
 
   _spriteShip->SetPosition(_startPosition);
-  _spriteShip->SetAnchor(glm::vec2(0.5f, 0.5f));      
+  _spriteShip->SetAnchor(glm::vec2(0.5f, 0.5f));
 
-  _spriteDamage[Player::DamageLevel::Low] = std::make_shared<Sprite>("./data/textures/SpaceShooterRedux/png/damage/playerShip3_damage1.png");
-  _spriteDamage[Player::DamageLevel::Med] = std::make_shared<Sprite>("./data/textures/SpaceShooterRedux/png/damage/playerShip3_damage2.png");
-  _spriteDamage[Player::DamageLevel::High] = std::make_shared<Sprite>("./data/textures/SpaceShooterRedux/png/damage/playerShip3_damage3.png");
+  _spriteDamage[Player::DamageLevel::Low] = std::make_shared<Sprite>(
+      "./data/textures/SpaceShooterRedux/png/damage/playerShip3_damage1.png");
+  _spriteDamage[Player::DamageLevel::Med] = std::make_shared<Sprite>(
+      "./data/textures/SpaceShooterRedux/png/damage/playerShip3_damage2.png");
+  _spriteDamage[Player::DamageLevel::High] = std::make_shared<Sprite>(
+      "./data/textures/SpaceShooterRedux/png/damage/playerShip3_damage3.png");
 
   for (auto&& dmgSpr : _spriteDamage) {
     dmgSpr.second->UpdateBounds();
@@ -39,22 +38,24 @@ void Player::Init()
   }
 }
 
-void Player::SetupInput(InputHandler::Ptr inputHandler)
-{
-  inputHandler->RegisterKey(GLFW_KEY_W, std::bind(&Player::MoveForward, this, std::placeholders::_1));
-  inputHandler->RegisterKey(GLFW_KEY_A, std::bind(&Player::RotateInput, this, RotateDir::Anticlockwise, std::placeholders::_1));
-  inputHandler->RegisterKey(GLFW_KEY_D, std::bind(&Player::RotateInput, this, RotateDir::Clockwise, std::placeholders::_1));
+void Player::SetupInput(InputHandler::Ptr inputHandler) {
+  inputHandler->RegisterKey(
+      GLFW_KEY_W, std::bind(&Player::MoveForward, this, std::placeholders::_1));
+  inputHandler->RegisterKey(
+      GLFW_KEY_A, std::bind(&Player::RotateInput, this,
+                            RotateDir::Anticlockwise, std::placeholders::_1));
+  inputHandler->RegisterKey(
+      GLFW_KEY_D, std::bind(&Player::RotateInput, this, RotateDir::Clockwise,
+                            std::placeholders::_1));
   inputHandler->RegisterKey(GLFW_KEY_SPACE, std::bind(&Player::Fire, this));
 }
 
-void Player::SetWeapon(Weapon::Ptr weapon)
-{
+void Player::SetWeapon(Weapon::Ptr weapon) {
   _weapon = weapon;
   _weapon->Init();
 }
 
-void Player::Update(float dt)
-{
+void Player::Update(float dt) {
   if (_alive) {
     _weapon->Update(dt);
 
@@ -65,13 +66,9 @@ void Player::Update(float dt)
   }
 }
 
-Weapon::Ptr Player::GetWeapon()
-{
-  return _weapon;
-}
+Weapon::Ptr Player::GetWeapon() { return _weapon; }
 
-void Player::Damage()
-{
+void Player::Damage() {
   switch (_currentDamage) {
     case Player::DamageLevel::None:
       UpdateDamage(Player::DamageLevel::Low);
@@ -116,56 +113,52 @@ void Player::Heal() {
   }
 }
 
-Sprite::Ptr Player::GetSprite()
-{
-  return _spriteShip;
-}
+Sprite::Ptr Player::GetSprite() { return _spriteShip; }
 
-void Player::SetKilledCallback(std::function<void()> cb)
-{
+void Player::SetKilledCallback(std::function<void()> cb) {
   _killed_callback = cb;
 }
 
-void Player::Respawn()
-{
+void Player::Respawn() {
   _spriteShip->SetPosition(_startPosition);
   UpdateDamage(Player::DamageLevel::None);
   _spriteShip->SetRotation(0.0f);
-  _spriteManager->Add(_spriteShip, static_cast<unsigned int>(SpriteLayer::Ships));
+  _spriteManager->Add(_spriteShip,
+                      static_cast<unsigned int>(SpriteLayer::Ships));
   _alive = true;
 }
 
-void Player::MoveForward(float dt)
-{
+void Player::MoveForward(float dt) {
   if (_alive) {
-    glm::vec2 facing(sinf(_spriteShip->GetRotation()), -cosf(_spriteShip->GetRotation()));
+    glm::vec2 facing(sinf(_spriteShip->GetRotation()),
+                     -cosf(_spriteShip->GetRotation()));
     _spriteShip->Move(facing * _movementSpeed * dt);
   }
 }
 
-void Player::RotateInput(RotateDir dir, float dt)
-{
+void Player::RotateInput(RotateDir dir, float dt) {
   if (_alive) {
-    float angle = (dir == RotateDir::Clockwise ? _rotationSpeed * dt : -_rotationSpeed * dt);
+    float angle = (dir == RotateDir::Clockwise ? _rotationSpeed * dt
+                                               : -_rotationSpeed * dt);
     _spriteShip->Rotate(angle);
   }
 }
 
-void Player::Fire()
-{
+void Player::Fire() {
   if (_alive) {
-    _weapon->Fire(glm::vec2(sinf(_spriteShip->GetRotation()), -cosf(_spriteShip->GetRotation())));
+    _weapon->Fire(glm::vec2(sinf(_spriteShip->GetRotation()),
+                            -cosf(_spriteShip->GetRotation())));
   }
 }
 
-void Player::UpdateDamage(DamageLevel newDamage)
-{
+void Player::UpdateDamage(DamageLevel newDamage) {
   if (_currentDamage != Player::DamageLevel::None) {
     _spriteManager->Remove(_spriteDamage[_currentDamage]);
   }
 
   if (newDamage != DamageLevel::None) {
-    _spriteManager->Add(_spriteDamage[newDamage], static_cast<unsigned int>(SpriteLayer::Ships));
+    _spriteManager->Add(_spriteDamage[newDamage],
+                        static_cast<unsigned int>(SpriteLayer::Ships));
 
     _spriteDamage[newDamage]->SetPosition(_spriteShip->GetPosition());
     _spriteDamage[newDamage]->SetRotation(_spriteShip->GetRotation());
@@ -174,14 +167,11 @@ void Player::UpdateDamage(DamageLevel newDamage)
   _currentDamage = newDamage;
 }
 
-void Player::Kill()
-{
+void Player::Kill() {
   --_lives;
   _alive = false;
   _spriteManager->Remove(_spriteShip);
   UpdateDamage(DamageLevel::None);
 
-  if (_killed_callback)
-    _killed_callback();
+  if (_killed_callback) _killed_callback();
 }
-

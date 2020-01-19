@@ -1,16 +1,16 @@
 #pragma once
 #include "object/Sprite.hpp"
 
-#include "system/Shader.hpp"
 #include "System/Camera2D.hpp"
+#include "system/Shader.hpp"
 
-#include <vector>
 #include <array>
+#include <vector>
 
 class SpriteManager {
-public:
-  using Ptr = std::shared_ptr<SpriteManager>;  
-  using SpriteVector = std::vector<Sprite::Ptr>;  
+ public:
+  using Ptr = std::shared_ptr<SpriteManager>;
+  using SpriteVector = std::vector<Sprite::Ptr>;
   using SpriteLayerMap = std::map<unsigned int, SpriteVector>;
 
   SpriteManager(Shader::Ptr shader, glm::mat4 projection);
@@ -21,7 +21,7 @@ public:
   void Remove(Sprite::Ptr sprite);
   void Render(Camera2D::Ptr camera);
 
-private:
+ private:
   SpriteLayerMap _sprites;
 
   std::array<float, 24> _vertices;

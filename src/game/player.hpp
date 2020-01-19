@@ -1,13 +1,13 @@
 #pragma once
+#include <game/weapon.hpp>
 #include <object/Sprite.hpp>
 #include <system/InputHandler.hpp>
-#include <game/weapon.hpp>
 
-#include <string>
 #include <map>
+#include <string>
 
 class Player {
-public:
+ public:
   using Ptr = std::shared_ptr<Player>;
 
   explicit Player(SpriteManager::Ptr spriteManager);
@@ -34,18 +34,10 @@ public:
 
   bool IsAlive() const { return _alive; }
 
-private:
-  enum class RotateDir {
-    Clockwise,
-    Anticlockwise
-  };
+ private:
+  enum class RotateDir { Clockwise, Anticlockwise };
 
-  enum class DamageLevel {
-    None,
-    Low,
-    Med,
-    High
-  };
+  enum class DamageLevel { None, Low, Med, High };
 
   void MoveForward(float dt);
   void RotateInput(RotateDir dir, float dt);
@@ -53,7 +45,7 @@ private:
   void UpdateDamage(DamageLevel newDamage);
   void Kill();
 
-private:
+ private:
   Weapon::Ptr _weapon;
   SpriteManager::Ptr _spriteManager;
   Sprite::Ptr _spriteShip;
@@ -63,7 +55,7 @@ private:
   bool _alive;
   float _movementSpeed;
   float _rotationSpeed;
-  
+
   std::map<DamageLevel, Sprite::Ptr> _spriteDamage;
 
   std::function<void()> _killed_callback;

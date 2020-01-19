@@ -5,37 +5,36 @@
 
 #include <iostream>
 
-#include <system/Scene.hpp>
 #include <system/Application.hpp>
+#include <system/Scene.hpp>
 
 #include <game/weapons/basic.hpp>
 
-EnemyShip::EnemyShip(SpriteManager::Ptr spriteManager, int maxHealth, const glm::vec2& initialPos)
-  :BaseEnemy(spriteManager, maxHealth, "./data/textures/SpaceShooterRedux/png/Enemies/enemyBlack3.png"),
-  _heading(0.0f),
-  _range(350.0f)
-{
+EnemyShip::EnemyShip(SpriteManager::Ptr spriteManager, int maxHealth,
+                     const glm::vec2& initialPos)
+    : BaseEnemy(
+          spriteManager, maxHealth,
+          "./data/textures/SpaceShooterRedux/png/Enemies/enemyBlack3.png"),
+      _heading(0.0f),
+      _range(350.0f) {
   SetAnchor(glm::vec2(0.5f, 0.5f));
   _patrolCenter = initialPos;
   SetPosition(initialPos);
 }
 
-EnemyShip::~EnemyShip()
-{
-}
+EnemyShip::~EnemyShip() {}
 
-void EnemyShip::Init()
-{
+void EnemyShip::Init() {
   BaseEnemy::Init();
 
   _weapon = std::make_shared<BasicWeapon>(_spriteManager, shared_from_this());
   _weapon->Init();
 }
 
-void EnemyShip::Update(float dt)
-{
+void EnemyShip::Update(float dt) {
   if (Alive()) {
-    auto distToPlayer = glm::distance(GetPosition(), _player->GetSprite()->GetPosition());
+    auto distToPlayer =
+        glm::distance(GetPosition(), _player->GetSprite()->GetPosition());
     if (distToPlayer > _range) {
       UpdatePatrol(dt);
     } else if (_player->IsAlive()) {
@@ -55,8 +54,7 @@ void EnemyShip::Update(float dt)
   }
 }
 
-void EnemyShip::UpdatePatrol(float dt)
-{
+void EnemyShip::UpdatePatrol(float dt) {
   _heading += (1.0f * dt);
 
   auto pos = GetPosition();
@@ -72,18 +70,13 @@ void EnemyShip::UpdatePatrol(float dt)
   SetRotation(glm::half_pi<float>() - rot);
 }
 
-std::shared_ptr<Weapon> EnemyShip::GetWeapon() const
-{
-  return _weapon;
-}
+std::shared_ptr<Weapon> EnemyShip::GetWeapon() const { return _weapon; }
 
-void EnemyShip::Kill()
-{
+void EnemyShip::Kill() {
   BaseEnemy::Kill();
 
   _weapon->Kill();
 
-  //if (_killedCallback)
+  // if (_killedCallback)
   //  _killedCallback(std::static_pointer_cast<EnemyShip>(shared_from_this()));
 }
-

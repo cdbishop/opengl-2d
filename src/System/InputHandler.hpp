@@ -1,16 +1,16 @@
 #pragma once
-#include <memory>
-#include <functional>
-#include <unordered_map>
-#include <map>
-#include <vector>
 #include <glad/glad.h>
+#include <functional>
+#include <map>
+#include <memory>
+#include <unordered_map>
+#include <vector>
 
 class Application;
 
 class InputHandler {
-public:
-  using Ptr = std::shared_ptr<InputHandler>;  
+ public:
+  using Ptr = std::shared_ptr<InputHandler>;
   using Callback = std::function<void(float)>;
   using CallbackList = std::map<unsigned int, Callback>;
   using Id = CallbackList::size_type;
@@ -23,8 +23,8 @@ public:
   void UnregisterKey(int key);
 
   void Update(float dt);
-  
-private:
+
+ private:
   std::unordered_map<int, CallbackList> _callbacks;
   std::shared_ptr<Application> _application;
 };

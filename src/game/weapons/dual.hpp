@@ -2,7 +2,7 @@
 #include <game/weapon.hpp>
 
 class DualWeapon : public Weapon {
-public:
+ public:
   using Ptr = std::shared_ptr<DualWeapon>;
 
   DualWeapon(SpriteManager::Ptr spriteManager, Sprite::Ptr parent);
@@ -10,8 +10,7 @@ public:
 
   void Fire(const glm::vec2& dir) override;
 
-  WeaponUpgrader::WeaponType GetType() const
-  {
+  WeaponUpgrader::WeaponType GetType() const {
     return WeaponUpgrader::WeaponType::Dual;
   }
 };

@@ -1,49 +1,43 @@
 #pragma once
-#include <vector>
+#include <functional>
 #include <map>
 #include <memory>
-#include <functional>
 #include <typeindex>
+#include <vector>
 
 class Sprite;
 
 class CollisionFunctorBase {
-public:
-  CollisionFunctorBase() { }
+ public:
+  CollisionFunctorBase() {}
 
-  void SetContext(std::shared_ptr<Sprite> target) {
-    _context = target;
-  }
+  void SetContext(std::shared_ptr<Sprite> target) { _context = target; }
 
-  std::shared_ptr<Sprite> GetContext() {
-    return _context;
-  }
+  std::shared_ptr<Sprite> GetContext() { return _context; }
 
   virtual void operator()(std::shared_ptr<Sprite> other) = 0;
 
-protected:
+ protected:
   std::shared_ptr<Sprite> _context;
 };
 
-template<typename T>
+template <typename T>
 class CollisionFunctor : public CollisionFunctorBase {
-public:
-  CollisionFunctor(std::function<void(std::shared_ptr<T>)> fn)
-    :_fn(fn) { }
+ public:
+  CollisionFunctor(std::function<void(std::shared_ptr<T>)> fn) : _fn(fn) {}
 
   void operator()(std::shared_ptr<Sprite> other) {
     _fn(std::static_pointer_cast<T>(other));
   }
 
-private:
+ private:
   std::function<void(std::shared_ptr<T>)> _fn;
 };
-
 
 class BoundingBox;
 
 class CollisionManager final {
-public:
+ public:
   using Ptr = std::shared_ptr<CollisionManager>;
 
   CollisionManager();
@@ -51,9 +45,10 @@ public:
 
   void Update();
 
-  template<typename T>
-  void OnHit(std::shared_ptr<Sprite> context, std::function<void(std::shared_ptr<T>)> cb) {
-    auto fn = std::make_shared<CollisionFunctor<T>>(cb);    
+  template <typename T>
+  void OnHit(std::shared_ptr<Sprite> context,
+             std::function<void(std::shared_ptr<T>)> cb) {
+    auto fn = std::make_shared<CollisionFunctor<T>>(cb);
     fn->SetContext(context);
     _callbacks.push_back(std::tie(fn, typeid(T)));
   }
@@ -62,8 +57,11 @@ public:
     _collidables[id].push_back(collidable);
   }
 
-private:
-  std::map<std::type_index, std::vector<std::shared_ptr<BoundingBox>>> _collidables;
+ private:
+  std::map<std::type_index, std::vector<std::shared_ptr<BoundingBox>>>
+      _collidables;
 
-  std::vector<std::tuple<std::shared_ptr<CollisionFunctorBase>, std::type_index>> _callbacks;
+  std::vector<
+      std::tuple<std::shared_ptr<CollisionFunctorBase>, std::type_index>>
+      _callbacks;
 };

@@ -1,13 +1,13 @@
 #pragma once
 #include <object/Sprite.hpp>
 
-#include <string>
 #include <functional>
+#include <string>
 
 class Weapon;
 
 class Bullet : public Sprite {
-public:
+ public:
   using Ptr = std::shared_ptr<Bullet>;
 
   Bullet(std::shared_ptr<Weapon> owner);
@@ -18,9 +18,7 @@ public:
 
   void Update(float dt);
 
-  bool Alive() {
-    return _curLife > 0;
-  }
+  bool Alive() { return _curLife > 0; }
 
   void Revive(glm::vec2 velocity, float life);
 
@@ -29,8 +27,8 @@ public:
   void SetKillCallback(std::function<void(Ptr)> callback);
 
   std::shared_ptr<Weapon> GetWeapon() const;
-  
-private:
+
+ private:
   std::shared_ptr<Weapon> _weapon;
   glm::vec2 _velocity;
   float _maxLife;

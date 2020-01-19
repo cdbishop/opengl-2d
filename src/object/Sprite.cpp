@@ -12,20 +12,20 @@
 #include <glm/matrix.hpp>
 
 Sprite::Sprite(const std::string& filepath)
-  :_texture(0),
-  _width(0),
-  _height(0),
-  _textureWidth(0),
-  _textureHeight(0),
-  _position(0.0f),
-  _scale(1.0f),
-  _colour(1.0f),
-  _rotation(0.0f),
-  _anchor(0.0f)
-{
-  //texture
+    : _texture(0),
+      _width(0),
+      _height(0),
+      _textureWidth(0),
+      _textureHeight(0),
+      _position(0.0f),
+      _scale(1.0f),
+      _colour(1.0f),
+      _rotation(0.0f),
+      _anchor(0.0f) {
+  // texture
   int nChannels, width, height;
-  unsigned char* data = stbi_load(filepath.c_str(), &width, &height, &nChannels, 0);
+  unsigned char* data =
+      stbi_load(filepath.c_str(), &width, &height, &nChannels, 0);
   if (!data) {
     std::cerr << "Failed to load texture" << std::endl;
     throw std::runtime_error("Failed to load texture");
@@ -45,7 +45,7 @@ Sprite::Sprite(const std::string& filepath)
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-  
+
   unsigned int format = GL_RGB;
   switch (nChannels) {
     case 3:
@@ -57,17 +57,16 @@ Sprite::Sprite(const std::string& filepath)
     default:
       throw std::runtime_error("Unrecognised format");
   }
-  glTexImage2D(GL_TEXTURE_2D, 0, format, _width, _height, 0, format, GL_UNSIGNED_BYTE, data);
+  glTexImage2D(GL_TEXTURE_2D, 0, format, _width, _height, 0, format,
+               GL_UNSIGNED_BYTE, data);
   glGenerateMipmap(GL_TEXTURE_2D);
 
   stbi_image_free(data);
 }
 
-Sprite::~Sprite()
-{
-}
+Sprite::~Sprite() {}
 
-void Sprite::UpdateBounds()
-{
-  _boundingBox = std::make_shared<BoundingBox>(shared_from_this(), std::move(glm::vec2(GetWidth(), GetHeight())));
+void Sprite::UpdateBounds() {
+  _boundingBox = std::make_shared<BoundingBox>(
+      shared_from_this(), std::move(glm::vec2(GetWidth(), GetHeight())));
 }

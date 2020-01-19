@@ -3,14 +3,15 @@
 
 #include <string>
 
-#include <game/weapon.hpp>
 #include <game/bullet.hpp>
+#include <game/weapon.hpp>
 
 class EnemyShip : public BaseEnemy {
-public:
+ public:
   using Ptr = std::shared_ptr<EnemyShip>;
 
-  EnemyShip(SpriteManager::Ptr spriteManager, int maxHealth, const glm::vec2& initialPos);
+  EnemyShip(SpriteManager::Ptr spriteManager, int maxHealth,
+            const glm::vec2& initialPos);
   virtual ~EnemyShip();
 
   void Init();
@@ -20,12 +21,12 @@ public:
 
   std::shared_ptr<Weapon> GetWeapon() const;
 
-private:
+ private:
   void Kill();
 
-private:
+ private:
   Weapon::Ptr _weapon;
-  glm::vec2  _patrolCenter;
+  glm::vec2 _patrolCenter;
   float _heading;
   float _range;
 };

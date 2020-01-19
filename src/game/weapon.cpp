@@ -1,26 +1,20 @@
 #include "weapon.hpp"
 #include "game/spriteLayer.hpp"
 
-Weapon::Weapon(SpriteManager::Ptr spriteManager, Sprite::Ptr parent, int damage, float bulletSpeed, float fireDelay)
-  :_spriteManager(spriteManager),
-  _parent(parent),
-  _fireDelay(fireDelay),
-  _curDelay(0.0),
-  _canFire(true),
-  _bulletSpeed(bulletSpeed),
-  _bulletLife(50.0f),
-  _damage(damage)
-{
-  
-}
+Weapon::Weapon(SpriteManager::Ptr spriteManager, Sprite::Ptr parent, int damage,
+               float bulletSpeed, float fireDelay)
+    : _spriteManager(spriteManager),
+      _parent(parent),
+      _fireDelay(fireDelay),
+      _curDelay(0.0),
+      _canFire(true),
+      _bulletSpeed(bulletSpeed),
+      _bulletLife(50.0f),
+      _damage(damage) {}
 
-Weapon::~Weapon()
-{
+Weapon::~Weapon() {}
 
-}
-
-void Weapon::Init()
-{
+void Weapon::Init() {
   for (unsigned int i = 0; i < MAX_BULLETS; ++i) {
     _bullets[i] = std::make_shared<Bullet>(shared_from_this());
   }
@@ -30,8 +24,8 @@ void Weapon::Init()
   }
 }
 
-void Weapon::CreateProjectile(const glm::vec2 & src_offset, const glm::vec2 & dir)
-{
+void Weapon::CreateProjectile(const glm::vec2& src_offset,
+                              const glm::vec2& dir) {
   size_t nextIdx = FindNextBulletIndex();
   if (nextIdx == INVALID_BULLET_INDEX) {
     return;
@@ -39,11 +33,10 @@ void Weapon::CreateProjectile(const glm::vec2 & src_offset, const glm::vec2 & di
 
   auto bullet = _bullets[nextIdx];
 
-  glm::vec2 src_pos = _parent->GetPosition() +
-    glm::vec2((_parent->GetWidth() / 2) - (bullet->GetWidth() / 2),
-    (_parent->GetHeight() / 2) - (bullet->GetHeight() / 2));
-
-  
+  glm::vec2 src_pos =
+      _parent->GetPosition() +
+      glm::vec2((_parent->GetWidth() / 2) - (bullet->GetWidth() / 2),
+                (_parent->GetHeight() / 2) - (bullet->GetHeight() / 2));
 
   src_pos += src_offset;
 
@@ -51,13 +44,14 @@ void Weapon::CreateProjectile(const glm::vec2 & src_offset, const glm::vec2 & di
   bullet->SetAnchor(glm::vec2(0.5f, 0.5f));
   bullet->SetPosition(src_pos);
   bullet->SetRotation(_parent->GetRotation());
-  bullet->SetKillCallback(std::bind(&Weapon::BulletKilled, this, std::placeholders::_1));
+  bullet->SetKillCallback(
+      std::bind(&Weapon::BulletKilled, this, std::placeholders::_1));
 
-  _spriteManager->Add(_bullets[nextIdx], static_cast<unsigned int>(SpriteLayer::Projectiles));
+  _spriteManager->Add(_bullets[nextIdx],
+                      static_cast<unsigned int>(SpriteLayer::Projectiles));
 }
 
-void Weapon::Update(float dt)
-{
+void Weapon::Update(float dt) {
   for (auto&& bullet : _bullets) {
     bool wasAlive = bullet->Alive();
     bullet->Update(dt);
@@ -75,14 +69,13 @@ void Weapon::Update(float dt)
   }
 }
 
-Bullet::Ptr Weapon::BulletHit(Sprite::Ptr target)
-{
-  auto it = std::find_if(_bullets.begin(), _bullets.end(), [&target](Bullet::Ptr bullet) {
-    if (!bullet->Alive())
-      return false;
+Bullet::Ptr Weapon::BulletHit(Sprite::Ptr target) {
+  auto it = std::find_if(
+      _bullets.begin(), _bullets.end(), [&target](Bullet::Ptr bullet) {
+        if (!bullet->Alive()) return false;
 
-    return bullet->GetBounds()->Intersects(*target->GetBounds());
-  });
+        return bullet->GetBounds()->Intersects(*target->GetBounds());
+      });
 
   if (it != _bullets.end()) {
     return *it;
@@ -91,30 +84,24 @@ Bullet::Ptr Weapon::BulletHit(Sprite::Ptr target)
   return nullptr;
 }
 
-unsigned int Weapon::GetDamange() const
-{
-  return _damage;
-}
+unsigned int Weapon::GetDamange() const { return _damage; }
 
-void Weapon::Kill()
-{
+void Weapon::Kill() {
   for (auto&& bullet : _bullets) {
-    if (bullet->Alive())
-      bullet->Kill();
+    if (bullet->Alive()) bullet->Kill();
   }
 }
 
-size_t Weapon::FindNextBulletIndex()
-{
+size_t Weapon::FindNextBulletIndex() {
   auto notAlivePred = [](const Bullet::Ptr bullet) { return !bullet->Alive(); };
-  auto it = std::find_if(std::begin(_bullets), std::end(_bullets), notAlivePred);
+  auto it =
+      std::find_if(std::begin(_bullets), std::end(_bullets), notAlivePred);
   if (it == std::end(_bullets)) {
     return INVALID_BULLET_INDEX;
   }
   return std::distance(std::begin(_bullets), it);
 }
 
-void Weapon::BulletKilled(Bullet::Ptr bullet)
-{
+void Weapon::BulletKilled(Bullet::Ptr bullet) {
   _spriteManager->Remove(bullet);
 }

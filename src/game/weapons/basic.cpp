@@ -1,16 +1,12 @@
 #include "basic.hpp"
 
-BasicWeapon::BasicWeapon(SpriteManager::Ptr spriteManager, Sprite::Ptr parent, float bulletSpeed, float fireDelay)
-  :Weapon(spriteManager, parent, 50, bulletSpeed, fireDelay)
-{
-}
+BasicWeapon::BasicWeapon(SpriteManager::Ptr spriteManager, Sprite::Ptr parent,
+                         float bulletSpeed, float fireDelay)
+    : Weapon(spriteManager, parent, 50, bulletSpeed, fireDelay) {}
 
-BasicWeapon::~BasicWeapon()
-{
-}
+BasicWeapon::~BasicWeapon() {}
 
-void BasicWeapon::Fire(const glm::vec2 & dir)
-{
+void BasicWeapon::Fire(const glm::vec2& dir) {
   if (!_canFire) {
     return;
   }

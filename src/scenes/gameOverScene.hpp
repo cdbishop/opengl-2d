@@ -8,24 +8,23 @@
 
 #include <glm/gtc/type_ptr.hpp>
 
-class GameOverScene : public Scene
-{
-public:
+class GameOverScene : public Scene {
+ public:
   const static inline std::string Name = "GameOverScene";
 
   GameOverScene();
-	~GameOverScene();
+  ~GameOverScene();
 
   void SetArgs(unsigned int score);
 
   void Init() override;
   void Update(float dt) override;
-	void Render();
+  void Render();
 
-private:
+ private:
   void RestartGame();
 
-private:
+ private:
   SpriteManager::Ptr _spriteManager;
   TextManager::Ptr _textManager;
   Sprite::Ptr _background;

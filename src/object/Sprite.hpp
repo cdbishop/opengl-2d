@@ -4,11 +4,11 @@
 
 #include <string>
 
-#include <system/collision/BoundingBox.hpp>
 #include <system/Shader.hpp>
+#include <system/collision/BoundingBox.hpp>
 
 class Sprite : public std::enable_shared_from_this<Sprite> {
-public:
+ public:
   using Ptr = std::shared_ptr<Sprite>;
 
   Sprite(const std::string& filepath);
@@ -17,91 +17,49 @@ public:
 
   void UpdateBounds();
 
-  BoundingBox::Ptr GetBounds() const noexcept {
-    return _boundingBox;
-  }
+  BoundingBox::Ptr GetBounds() const noexcept { return _boundingBox; }
 
-  unsigned int GetTexture() const noexcept {
-    return _texture;
-  }
+  unsigned int GetTexture() const noexcept { return _texture; }
 
-  unsigned int GetWidth() const noexcept {
-    return _width;
-  }
+  unsigned int GetWidth() const noexcept { return _width; }
 
-  unsigned int GetHeight() const noexcept {
-    return _height;
-  }
+  unsigned int GetHeight() const noexcept { return _height; }
 
-  unsigned int GetTextureWidth() const noexcept {
-    return _textureWidth;
-  }
+  unsigned int GetTextureWidth() const noexcept { return _textureWidth; }
 
-  unsigned int GetTextureHeight() const noexcept {
-    return _textureHeight;
-  }
+  unsigned int GetTextureHeight() const noexcept { return _textureHeight; }
 
-  const glm::vec2& GetPosition() const noexcept {
-    return _position;
-  }
+  const glm::vec2& GetPosition() const noexcept { return _position; }
 
-  void SetPosition(const glm::vec2& pos) {
-    _position = pos;
-  }
+  void SetPosition(const glm::vec2& pos) { _position = pos; }
 
-  void SetPosition(glm::vec2&& pos) {
-    _position = std::move(pos);
-  }
+  void SetPosition(glm::vec2&& pos) { _position = std::move(pos); }
 
-  void SetWidth(unsigned int value) {
-    _width = value;
-  }
+  void SetWidth(unsigned int value) { _width = value; }
 
-  void SetHeight(unsigned int value) {
-    _height = value;
-  }
+  void SetHeight(unsigned int value) { _height = value; }
 
-  void Move(const glm::vec2& pos) {
-    _position += pos;
-  }
+  void Move(const glm::vec2& pos) { _position += pos; }
 
-  void Move(glm::vec2&& pos) {
-    _position += pos;
-  }
+  void Move(glm::vec2&& pos) { _position += pos; }
 
-  const glm::vec2& GetScale() const noexcept {
-    return _scale;
-  }
+  const glm::vec2& GetScale() const noexcept { return _scale; }
 
-  const glm::vec3& GetColour() const noexcept {
-    return _colour;
-  }
+  const glm::vec3& GetColour() const noexcept { return _colour; }
 
-  const glm::vec2& GetAnchor() const noexcept {
-    return _anchor;
-  }
+  const glm::vec2& GetAnchor() const noexcept { return _anchor; }
 
-  void SetAnchor(const glm::vec2& anchor) {
-    _anchor = anchor;
-  }
+  void SetAnchor(const glm::vec2& anchor) { _anchor = anchor; }
 
-  void SetAnchor(glm::vec2&& anchor) {
-    _anchor = std::move(anchor);
-  }
+  void SetAnchor(glm::vec2&& anchor) { _anchor = std::move(anchor); }
 
-  void SetRotation(float radians) {
-    _rotation = radians;
-  }
+  void SetRotation(float radians) { _rotation = radians; }
 
-  float GetRotation() const noexcept {
-    return _rotation;
-  }
+  float GetRotation() const noexcept { return _rotation; }
 
-  void Rotate(float amount) {
-    _rotation += amount;
-  }
-  
-private:
+  void Rotate(float amount) { _rotation += amount; }
+
+ private:
   unsigned int _texture;
   unsigned int _textureWidth;
   unsigned int _textureHeight;

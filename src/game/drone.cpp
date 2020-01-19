@@ -5,31 +5,27 @@
 
 #include <iostream>
 
-#include <system/Scene.hpp>
 #include <system/Application.hpp>
+#include <system/Scene.hpp>
 
 #include <game/weapons/basic.hpp>
 
 Drone::Drone(SpriteManager::Ptr spriteManager, int maxHealth)
-  :BaseEnemy(spriteManager, maxHealth, "./data/textures/SpaceShooterRedux/png/ufoBlue.png")
-{
+    : BaseEnemy(spriteManager, maxHealth,
+                "./data/textures/SpaceShooterRedux/png/ufoBlue.png") {
   SetAnchor(glm::vec2(0.5f, 0.5f));
 }
 
-Drone::~Drone()
-{
-}
+Drone::~Drone() {}
 
-void Drone::Init()
-{
+void Drone::Init() {
   BaseEnemy::Init();
 
   _weapon = std::make_shared<BasicWeapon>(_spriteManager, shared_from_this());
   _weapon->Init();
 }
 
-void Drone::Update(float dt)
-{
+void Drone::Update(float dt) {
   if (Alive()) {
     auto playerPos = _player->GetSprite()->GetPosition();
     float dist = glm::distance(playerPos, GetPosition());
@@ -49,15 +45,10 @@ void Drone::Update(float dt)
   }
 }
 
-std::shared_ptr<Weapon> Drone::GetWeapon() const
-{
-  return _weapon;
-}
+std::shared_ptr<Weapon> Drone::GetWeapon() const { return _weapon; }
 
-void Drone::Kill()
-{
+void Drone::Kill() {
   _weapon->Kill();
 
   BaseEnemy::Kill();
 }
-

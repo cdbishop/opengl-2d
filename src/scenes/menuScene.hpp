@@ -8,23 +8,22 @@
 
 #include <glm/gtc/type_ptr.hpp>
 
-class MenuScene : public Scene
-{
-public:
+class MenuScene : public Scene {
+ public:
   const static inline std::string Name = "MenuScene";
 
-	MenuScene();
-	~MenuScene();
+  MenuScene();
+  ~MenuScene();
 
   void Init();
-	void Update(float dt) override;  
-	void Render();
+  void Update(float dt) override;
+  void Render();
 
-private:
+ private:
   void StartGame();
   void ToggleVolume();
 
-private:
+ private:
   SpriteManager::Ptr _spriteManager;
   TextManager::Ptr _textManager;
   Sprite::Ptr _background;

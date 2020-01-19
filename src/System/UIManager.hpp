@@ -1,16 +1,16 @@
 #pragma once
 #include "object/Sprite.hpp"
 
-#include "system/Shader.hpp"
 #include "System/Camera2D.hpp"
+#include "system/Shader.hpp"
 
-#include <vector>
 #include <array>
+#include <vector>
 
 class UIManager {
-public:
+ public:
   using Ptr = std::shared_ptr<UIManager>;
-  using SpriteVector = std::vector<Sprite::Ptr>;  
+  using SpriteVector = std::vector<Sprite::Ptr>;
 
   UIManager(Shader::Ptr shader, glm::mat4 projection);
   ~UIManager();
@@ -19,7 +19,7 @@ public:
   void Remove(Sprite::Ptr sprite);
   void Render();
 
-private:
+ private:
   SpriteVector _sprites;
 
   std::array<float, 24> _vertices;

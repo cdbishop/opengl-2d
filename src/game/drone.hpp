@@ -3,24 +3,24 @@
 
 #include <string>
 
-#include <game/weapon.hpp>
 #include <game/bullet.hpp>
+#include <game/weapon.hpp>
 
 class Drone : public BaseEnemy {
-public:
+ public:
   using Ptr = std::shared_ptr<Drone>;
 
   Drone(SpriteManager::Ptr spriteManager, int maxHealth);
   virtual ~Drone();
 
-  void Init();  
+  void Init();
   void Update(float dt);
 
   std::shared_ptr<Weapon> GetWeapon() const;
 
-private:
+ private:
   void Kill();
 
-private:
+ private:
   Weapon::Ptr _weapon;
 };

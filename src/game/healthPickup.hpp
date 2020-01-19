@@ -5,24 +5,22 @@
 class MainScene;
 
 class HealthPickup {
-public:
+ public:
   using Ptr = std::shared_ptr<HealthPickup>;
 
-  HealthPickup(SpriteManager::Ptr spriteManager, glm::vec2 position, std::shared_ptr<MainScene> scene);
+  HealthPickup(SpriteManager::Ptr spriteManager, glm::vec2 position,
+               std::shared_ptr<MainScene> scene);
   virtual ~HealthPickup();
 
   void Init();
   void Update(float dt);
- 
-  Sprite::Ptr GetSprite() const 
-  {
-    return _sprite;
-  }
+
+  Sprite::Ptr GetSprite() const { return _sprite; }
 
   bool Alive();
   void Kill();
 
-private:
+ private:
   SpriteManager::Ptr _spriteManager;
   std::shared_ptr<MainScene> _scene;
   Sprite::Ptr _sprite;
