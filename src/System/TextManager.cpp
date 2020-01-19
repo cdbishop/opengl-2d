@@ -15,7 +15,7 @@ struct Character {
 };
 
 class FTManager {
- public:
+public:
   FTManager() {
     if (FT_Init_FreeType(&_ft) != 0) {
       throw std::runtime_error("Failed to init FreeType Library");
@@ -46,8 +46,8 @@ class FTManager {
       glGenTextures(1, &texture);
       glBindTexture(GL_TEXTURE_2D, texture);
       glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, face->glyph->bitmap.width,
-                   face->glyph->bitmap.rows, 0, GL_RED, GL_UNSIGNED_BYTE,
-                   face->glyph->bitmap.buffer);
+        face->glyph->bitmap.rows, 0, GL_RED, GL_UNSIGNED_BYTE,
+        face->glyph->bitmap.buffer);
       // Set texture options
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -58,7 +58,7 @@ class FTManager {
           texture,
           glm::ivec2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
           glm::ivec2(face->glyph->bitmap_left, face->glyph->bitmap_top),
-          face->glyph->advance.x};
+          face->glyph->advance.x };
 
       _characters[c] = character;
     }
@@ -82,19 +82,19 @@ class FTManager {
 
   const Character& GetChar(GLchar character) { return _characters[character]; }
 
- private:
+private:
   FT_Library _ft;
   std::map<std::string, FT_Face> _font_map;
   std::map<GLchar, Character> _characters;
 };
 
 TextManager::TextManager(std::shared_ptr<ShaderManager> shaderManager,
-                         glm::mat4 projection)
-    : _shader(shaderManager->CreateProgram("text", "text")),
-      _projection(projection),
-      _ft_manager(std::make_shared<FTManager>()) {
+  glm::mat4 projection)
+  : _shader(shaderManager->CreateProgram("text", "text")),
+  _projection(projection),
+  _ft_manager(std::make_shared<FTManager>()) {
   _ft_manager->LoadFont(
-      "data/textures/SpaceShooterRedux/Bonus/kenvector_future.ttf", 48);
+    "data/textures/SpaceShooterRedux/Bonus/kenvector_future.ttf", 48);
 
   glGenVertexArrays(1, &_vertex_array);
   glGenBuffers(1, &_vertex_buffer);
@@ -110,9 +110,9 @@ TextManager::TextManager(std::shared_ptr<ShaderManager> shaderManager,
 TextManager::~TextManager() {}
 
 TextManager::Id TextManager::AddText(std::string text, glm::vec2 position,
-                                     float scale, glm::vec3 colour) {
+  float scale, glm::vec3 colour) {
   _texts.push_back(
-      {std::move(text), std::move(position), std::move(colour), scale});
+    { std::move(text), std::move(position), std::move(colour), scale });
   return _texts.size() - 1;
 }
 
@@ -146,7 +146,7 @@ void TextManager::Render() {
       Character ch = _ft_manager->GetChar(*c);
 
       GLfloat xpos =
-          text.position.x + cursor_x + ch.Bearing.x * text.scale - half_length;
+        text.position.x + cursor_x + ch.Bearing.x * text.scale - half_length;
       GLfloat ypos = text.position.y - (ch.Size.y - ch.Bearing.y) * text.scale;
 
       GLfloat width = ch.Size.x * text.scale;

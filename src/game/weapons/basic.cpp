@@ -1,8 +1,8 @@
 #include "basic.hpp"
 
 BasicWeapon::BasicWeapon(SpriteManager::Ptr spriteManager, Sprite::Ptr parent,
-                         float bulletSpeed, float fireDelay)
-    : Weapon(spriteManager, parent, 50, bulletSpeed, fireDelay) {}
+  float bulletSpeed, float fireDelay)
+  : Weapon(spriteManager, parent, 50, bulletSpeed, fireDelay) {}
 
 BasicWeapon::~BasicWeapon() {}
 

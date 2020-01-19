@@ -1,6 +1,7 @@
 #pragma once
-#include <GLFW/glfw3.h>
+// clang-format off
 #include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 #include <System/Scene.hpp>
 #include <System/ShaderManager.hpp>
@@ -10,25 +11,25 @@
 
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/spdlog.h>
+// clang-format on
 
 class Application : public std::enable_shared_from_this<Application> {
- public:
+public:
   virtual ~Application();
 
   Application(const Application&) = delete;
   Application& operator=(Application const&) = delete;
 
   void Run();
-
-  void RegisterScene(const std::string& sceneName,
-                     std::shared_ptr<Scene> scene);
-  void SetScene(const std::string& sceneName);
-
+  
   template <typename T, typename... Args>
   void SetScene(Args... args) {
-    std::static_pointer_cast<T>(_scenes[T::Name])
-        ->SetArgs(std::forward<Args>(args)...);
-    SetScene(T::Name);
+    _nextScene = std::make_shared<T>(std::forward<Args>(args)...);
+    _nextScene->SetApp(shared_from_this());
+
+    if (!_currentScene) {
+      ChangeScene();
+    }
   }
 
   std::shared_ptr<ShaderManager> GetShaderManager();
@@ -58,24 +59,24 @@ class Application : public std::enable_shared_from_this<Application> {
   template <typename... Args>
   static std::shared_ptr<Application> Create(Args&&... args) {
     return std::shared_ptr<Application>(
-        new Application(std::forward<Args>(args)...));
+      new Application(std::forward<Args>(args)...));
   }
 
- private:
+private:
   Application(unsigned int width, unsigned int height);
 
   void Init();
 
   static void framebuffer_size_callback(GLFWwindow* window, int width,
-                                        int height) {
+    int height) {
     Application* pApp =
-        static_cast<Application*>(glfwGetWindowUserPointer(window));
+      static_cast<Application*>(glfwGetWindowUserPointer(window));
     pApp->OnFrameBufferResize(width, height);
   }
 
   static void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
     Application* pApp =
-        static_cast<Application*>(glfwGetWindowUserPointer(window));
+      static_cast<Application*>(glfwGetWindowUserPointer(window));
     pApp->MouseMove(static_cast<float>(xpos), static_cast<float>(ypos));
   }
 
@@ -85,11 +86,13 @@ class Application : public std::enable_shared_from_this<Application> {
 
   void Update();
 
+  void ChangeScene();
+
   void PreRender();
   void Render();
   void PostRender();
 
- private:
+private:
   unsigned int _width;
   unsigned int _height;
 
@@ -103,8 +106,9 @@ class Application : public std::enable_shared_from_this<Application> {
   GLFWwindow* _window;
   bool _depthTestEnabled;
 
-  std::string _currentScene;
-  std::map<std::string, std::shared_ptr<Scene>> _scenes;
+
+  std::shared_ptr<Scene> _currentScene;
+  std::shared_ptr<Scene> _nextScene;
 
   std::shared_ptr<ShaderManager> _shaderManager;
 

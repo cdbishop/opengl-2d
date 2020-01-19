@@ -3,16 +3,16 @@
 #include <system/SpriteManager.hpp>
 
 class World {
- public:
+public:
   using Ptr = std::shared_ptr<World>;
 
   World(SpriteManager::Ptr spriteManager, unsigned int width,
-        unsigned int height);
+    unsigned int height);
   virtual ~World();
 
   void Init();
   void Update(float dt);
 
- private:
+private:
   SpriteManager::Ptr _spriteManager;
 };

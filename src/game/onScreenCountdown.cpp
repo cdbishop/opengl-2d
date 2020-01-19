@@ -2,11 +2,11 @@
 #include <game/onScreenCountdown.hpp>
 
 OnScreenCountdown::OnScreenCountdown(TextManager::Ptr textManager,
-                                     glm::vec2 position, std::string prefix)
-    : _textManager(textManager),
-      _position(position),
-      _prefix(std::move(prefix)),
-      _countDown(nullptr) {
+  glm::vec2 position, std::string prefix)
+  : _textManager(textManager),
+  _position(position),
+  _prefix(std::move(prefix)),
+  _countDown(nullptr) {
   _eventManager = std::make_shared<EventManager>();
 }
 
@@ -32,19 +32,19 @@ void OnScreenCountdown::StartCountdown(unsigned int seconds, Callback cb) {
   auto updateCallack = [this](unsigned int second, unsigned int index) {
     _textManager->RemoveText(_countDown->_secondSprites[index - 1]);
     _countDown->_secondSprites[index] =
-        _textManager->AddText(_prefix + std::to_string(second), _position);
+      _textManager->AddText(_prefix + std::to_string(second), _position);
   };
 
   for (unsigned int i = 1; i < seconds; ++i) {
     _eventManager->After(std::chrono::seconds(i),
-                         std::bind(updateCallack, seconds - i, i));
+      std::bind(updateCallack, seconds - i, i));
   }
 
   _countDown->_secondSprites[0] =
-      _textManager->AddText(_prefix + std::to_string(seconds), _position);
+    _textManager->AddText(_prefix + std::to_string(seconds), _position);
   _eventManager->After(std::chrono::seconds(seconds), [this]() {
     _textManager->RemoveText(
-        _countDown->_secondSprites[_countDown->_secondSprites.size() - 1]);
+      _countDown->_secondSprites[_countDown->_secondSprites.size() - 1]);
     _countDown->_callback();
     _countDown = nullptr;
   });

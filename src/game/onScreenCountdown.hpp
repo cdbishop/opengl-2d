@@ -6,19 +6,19 @@
 #include <system/TextManager.hpp>
 
 class OnScreenCountdown {
- public:
+public:
   using Ptr = std::shared_ptr<OnScreenCountdown>;
   using Callback = std::function<void()>;
 
   OnScreenCountdown(TextManager::Ptr textManager, glm::vec2 position,
-                    std::string prefix = "");
+    std::string prefix = "");
   ~OnScreenCountdown();
 
   void Update();
 
   void StartCountdown(unsigned int seconds, Callback cb);
 
- private:
+private:
   struct CountDown {
     std::vector<TextManager::Id> _secondSprites;
     Callback _callback;

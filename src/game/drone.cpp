@@ -11,8 +11,8 @@
 #include <game/weapons/basic.hpp>
 
 Drone::Drone(SpriteManager::Ptr spriteManager, int maxHealth)
-    : BaseEnemy(spriteManager, maxHealth,
-                "./data/textures/SpaceShooterRedux/png/ufoBlue.png") {
+  : BaseEnemy(spriteManager, maxHealth,
+    "./data/textures/SpaceShooterRedux/png/ufoBlue.png") {
   SetAnchor(glm::vec2(0.5f, 0.5f));
 }
 

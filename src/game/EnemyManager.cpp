@@ -1,25 +1,25 @@
 #include "EnemyManager.hpp"
 
 EnemyManager::EnemyManager(SpriteManager::Ptr spriteManager,
-                           OnScreenCountdown::Ptr countdown, Player::Ptr player)
-    : _player(player), _nextWaveCountdown(countdown) {
+  OnScreenCountdown::Ptr countdown, Player::Ptr player)
+  : _player(player), _nextWaveCountdown(countdown) {
   AddWave(spriteManager, player,
-          std::move(EnemyWave::StartDesc(
-              {std::make_pair(EnemyWave::EnemyType::Drone,
-                              glm::vec2(600.0f, 600.0f)),
-               std::make_pair(EnemyWave::EnemyType::Ship,
-                              glm::vec2(1200.0f, 300.0f))})));
+    std::move(EnemyWave::StartDesc(
+      { std::make_pair(EnemyWave::EnemyType::Drone,
+                      glm::vec2(600.0f, 600.0f)),
+       std::make_pair(EnemyWave::EnemyType::Ship,
+                      glm::vec2(1200.0f, 300.0f)) })));
 
   AddWave(spriteManager, player,
-          std::move(EnemyWave::StartDesc(
-              {std::make_pair(EnemyWave::EnemyType::Drone,
-                              glm::vec2(600.0f, 600.0f)),
-               std::make_pair(EnemyWave::EnemyType::Drone,
-                              glm::vec2(1200.0f, 600.0f)),
-               std::make_pair(EnemyWave::EnemyType::Ship,
-                              glm::vec2(1200.0f, 300.0f)),
-               std::make_pair(EnemyWave::EnemyType::Ship,
-                              glm::vec2(1200.0f, 700.0f))})));
+    std::move(EnemyWave::StartDesc(
+      { std::make_pair(EnemyWave::EnemyType::Drone,
+                      glm::vec2(600.0f, 600.0f)),
+       std::make_pair(EnemyWave::EnemyType::Drone,
+                      glm::vec2(1200.0f, 600.0f)),
+       std::make_pair(EnemyWave::EnemyType::Ship,
+                      glm::vec2(1200.0f, 300.0f)),
+       std::make_pair(EnemyWave::EnemyType::Ship,
+                      glm::vec2(1200.0f, 700.0f)) })));
 }
 
 EnemyManager::~EnemyManager() {}
@@ -49,22 +49,22 @@ void EnemyManager::SetEnemyKilledCallback(EnemyWave::EnemyKilledFn callback) {
 }
 
 void EnemyManager::AddWave(SpriteManager::Ptr spriteManager, Player::Ptr player,
-                           EnemyWave::StartDesc&& waveDesc) {
+  EnemyWave::StartDesc&& waveDesc) {
   auto wave = std::make_shared<EnemyWave>(spriteManager, waveDesc);
 
   wave->SetWaveEndCallback(
-      std::bind(&EnemyManager::NextWave, this, wave, _player, _waves.size()));
+    std::bind(&EnemyManager::NextWave, this, wave, _player, _waves.size()));
 
   _waves.push_back(wave);
 }
 
 void EnemyManager::NextWave(EnemyWave::Ptr current, Player::Ptr player,
-                            size_t index) {
+  size_t index) {
   if (_waves.size() > index + 1) {
     _current_wave = _waves[index + 1];
 
     _nextWaveCountdown->StartCountdown(
-        3, [player, this]() { _current_wave->Spawn(player); });
+      3, [player, this]() { _current_wave->Spawn(player); });
 
   } else {
     // all waves beaten

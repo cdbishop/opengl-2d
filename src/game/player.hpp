@@ -7,7 +7,7 @@
 #include <string>
 
 class Player {
- public:
+public:
   using Ptr = std::shared_ptr<Player>;
 
   explicit Player(SpriteManager::Ptr spriteManager);
@@ -34,7 +34,7 @@ class Player {
 
   bool IsAlive() const { return _alive; }
 
- private:
+private:
   enum class RotateDir { Clockwise, Anticlockwise };
 
   enum class DamageLevel { None, Low, Med, High };
@@ -45,7 +45,7 @@ class Player {
   void UpdateDamage(DamageLevel newDamage);
   void Kill();
 
- private:
+private:
   Weapon::Ptr _weapon;
   SpriteManager::Ptr _spriteManager;
   Sprite::Ptr _spriteShip;
@@ -59,4 +59,6 @@ class Player {
   std::map<DamageLevel, Sprite::Ptr> _spriteDamage;
 
   std::function<void()> _killed_callback;
+
+  std::vector<InputBinding::Ptr> _inputBindings;
 };

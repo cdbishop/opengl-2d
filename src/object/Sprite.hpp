@@ -8,7 +8,7 @@
 #include <system/collision/BoundingBox.hpp>
 
 class Sprite : public std::enable_shared_from_this<Sprite> {
- public:
+public:
   using Ptr = std::shared_ptr<Sprite>;
 
   Sprite(const std::string& filepath);
@@ -59,7 +59,7 @@ class Sprite : public std::enable_shared_from_this<Sprite> {
 
   void Rotate(float amount) { _rotation += amount; }
 
- private:
+private:
   unsigned int _texture;
   unsigned int _textureWidth;
   unsigned int _textureHeight;

@@ -1,9 +1,9 @@
 #include "Camera2D.hpp"
 
 Camera2D::Camera2D(glm::vec2 worldExtends, glm::vec2 viewSize)
-    : _position(0.0f),
-      _worldExtends(std::move(worldExtends)),
-      _viewSize(viewSize) {}
+  : _position(0.0f),
+  _worldExtends(std::move(worldExtends)),
+  _viewSize(viewSize) {}
 
 void Camera2D::ClampToWorld() {
   if (_position.x < 0.0f) {

@@ -2,7 +2,7 @@
 #include <game/weapon.hpp>
 
 class DualWeapon : public Weapon {
- public:
+public:
   using Ptr = std::shared_ptr<DualWeapon>;
 
   DualWeapon(SpriteManager::Ptr spriteManager, Sprite::Ptr parent);

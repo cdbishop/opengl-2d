@@ -1,9 +1,9 @@
 #include "SoundManager.hpp"
 
 SoundManager::SoundManager()
-    : _context(lab::Sound::MakeRealtimeAudioContext(lab::Channels::Stereo)),
-      _previousVolume(1.0f),
-      _muted(false) {
+  : _context(lab::Sound::MakeRealtimeAudioContext(lab::Channels::Stereo)),
+  _previousVolume(1.0f),
+  _muted(false) {
   _gain = std::make_shared<lab::GainNode>();
   _gain->gain()->setValue(1.0f);
 }

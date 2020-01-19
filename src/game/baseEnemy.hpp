@@ -8,11 +8,11 @@
 #include <game/weapon.hpp>
 
 class BaseEnemy : public Sprite {
- public:
+public:
   using Ptr = std::shared_ptr<BaseEnemy>;
 
   BaseEnemy(SpriteManager::Ptr spriteManager, int maxHealth,
-            const std::string& asset);
+    const std::string& asset);
   virtual ~BaseEnemy();
 
   virtual void Init();
@@ -24,10 +24,10 @@ class BaseEnemy : public Sprite {
 
   bool Alive() const;
 
- protected:
+protected:
   virtual void Kill();
 
- protected:
+protected:
   SpriteManager::Ptr _spriteManager;
   Player::Ptr _player;
   int _maxHealth;

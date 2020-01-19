@@ -8,7 +8,7 @@ CollisionManager::CollisionManager() {}
 CollisionManager::~CollisionManager() {}
 
 void CollisionManager::Update() {
-  for (auto& [cb, type] : _callbacks) {
+  for (auto&[cb, type] : _callbacks) {
     const auto& targets = _collidables[type];
 
     for (const auto& target : targets) {

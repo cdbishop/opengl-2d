@@ -1,7 +1,7 @@
 #include "./world.hpp"
 
 World::World(SpriteManager::Ptr spriteManager, unsigned int width,
-             unsigned int height) {}
+  unsigned int height) {}
 
 World::~World() {}
 

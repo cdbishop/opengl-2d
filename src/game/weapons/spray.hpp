@@ -2,7 +2,7 @@
 #include <game/weapon.hpp>
 
 class SprayWeapon : public Weapon {
- public:
+public:
   using Ptr = std::shared_ptr<SprayWeapon>;
 
   SprayWeapon(SpriteManager::Ptr spriteManager, Sprite::Ptr parent);
@@ -14,7 +14,7 @@ class SprayWeapon : public Weapon {
     return WeaponUpgrader::WeaponType::Spray;
   }
 
- private:
+private:
   std::array<float, 4> _offsets;
   unsigned int _current_offset;
 };

@@ -6,7 +6,7 @@
 #include <System/SpriteManager.hpp>
 
 class EnemyWave {
- public:
+public:
   enum class EnemyType { Drone, Ship };
 
   using EnemyKilledFn = std::function<void(EnemyType)>;
@@ -24,10 +24,10 @@ class EnemyWave {
   void SetWaveEndCallback(WaveEndCb callback);
   void SetEnemyKilledCallback(EnemyKilledFn callback);
 
- private:
+private:
   void CheckWaveEnd();
 
- private:
+private:
   SpriteManager::Ptr _spriteManager;
   const StartDesc _startDesc;
   Player::Ptr _player;

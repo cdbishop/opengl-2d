@@ -11,12 +11,12 @@
 #include <game/weapons/basic.hpp>
 
 EnemyShip::EnemyShip(SpriteManager::Ptr spriteManager, int maxHealth,
-                     const glm::vec2& initialPos)
-    : BaseEnemy(
-          spriteManager, maxHealth,
-          "./data/textures/SpaceShooterRedux/png/Enemies/enemyBlack3.png"),
-      _heading(0.0f),
-      _range(350.0f) {
+  const glm::vec2& initialPos)
+  : BaseEnemy(
+    spriteManager, maxHealth,
+    "./data/textures/SpaceShooterRedux/png/Enemies/enemyBlack3.png"),
+  _heading(0.0f),
+  _range(350.0f) {
   SetAnchor(glm::vec2(0.5f, 0.5f));
   _patrolCenter = initialPos;
   SetPosition(initialPos);
@@ -34,7 +34,7 @@ void EnemyShip::Init() {
 void EnemyShip::Update(float dt) {
   if (Alive()) {
     auto distToPlayer =
-        glm::distance(GetPosition(), _player->GetSprite()->GetPosition());
+      glm::distance(GetPosition(), _player->GetSprite()->GetPosition());
     if (distToPlayer > _range) {
       UpdatePatrol(dt);
     } else if (_player->IsAlive()) {

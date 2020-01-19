@@ -8,11 +8,11 @@
 #include <string>
 
 class Weapon : public std::enable_shared_from_this<Weapon> {
- public:
+public:
   using Ptr = std::shared_ptr<Weapon>;
 
   Weapon(SpriteManager::Ptr spriteManager, Sprite::Ptr parent, int damage,
-         float bulletSpeed, float fireDelay);
+    float bulletSpeed, float fireDelay);
   ~Weapon();
 
   void Init();
@@ -29,18 +29,18 @@ class Weapon : public std::enable_shared_from_this<Weapon> {
 
   Sprite::Ptr GetParent() const { return _parent; }
 
- protected:
+protected:
   void CreateProjectile(const glm::vec2& src_offset, const glm::vec2& dir);
 
- private:
+private:
   size_t FindNextBulletIndex();
 
   void BulletKilled(Bullet::Ptr bullet);
 
- protected:
+protected:
   bool _canFire;
 
- private:
+private:
   static const unsigned int MAX_BULLETS = 32;
   static const size_t INVALID_BULLET_INDEX = std::numeric_limits<size_t>::max();
 

@@ -5,7 +5,7 @@
 class Sprite;
 
 class BoundingBox {
- public:
+public:
   using Ptr = std::shared_ptr<BoundingBox>;
 
   BoundingBox(std::shared_ptr<Sprite> owner, glm::vec2 dimensions);
@@ -29,7 +29,7 @@ class BoundingBox {
 
   float Right() const { return GetPosition().x + GetDimensions().x; }
 
- private:
+private:
   glm::vec2 _dimensions;
   std::shared_ptr<Sprite> _owner;
 };

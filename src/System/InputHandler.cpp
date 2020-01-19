@@ -5,18 +5,22 @@
 static unsigned int NextId = 0;
 
 InputHandler::InputHandler(std::shared_ptr<Application> app)
-    : _application(app) {}
+  : _application(app) {}
 
 InputHandler::~InputHandler() {}
 
-InputHandler::Id InputHandler::RegisterKey(int key, Callback cb) {
+InputBinding::Ptr InputHandler::RegisterKey(int key, Callback cb) {
   _callbacks[key].insert(std::make_pair(NextId, cb));
-  return NextId++;
+  return InputBinding::Ptr(new InputBinding(key, NextId++, *this));
 }
 
-void InputHandler::UnregisterKey(int key) { _callbacks[key].clear(); }
+void InputHandler::UnregisterKey(int key) {
+  _callbacks[key].clear();
+}
 
-void InputHandler::UnregisterKey(int key, Id id) { _callbacks[key].erase(id); }
+void InputHandler::UnregisterKey(const InputBinding& binding) { 
+  _callbacks[binding.GetKey()].erase(binding.GetId()); 
+}
 
 void InputHandler::Update(float dt) {
   for (auto& handler : _callbacks) {
@@ -26,4 +30,13 @@ void InputHandler::Update(float dt) {
       }
     }
   }
+}
+
+InputBinding::InputBinding(int key, Id id, InputHandler& inputHandler)
+  :_inputHandler(inputHandler),
+  _key(key),
+  _id(id) {}
+
+inline InputBinding::~InputBinding() {
+  _inputHandler.UnregisterKey(*this);
 }

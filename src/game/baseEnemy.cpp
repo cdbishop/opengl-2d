@@ -11,11 +11,11 @@
 #include <game/weapons/basic.hpp>
 
 BaseEnemy::BaseEnemy(SpriteManager::Ptr spriteManager, int maxHealth,
-                     const std::string& asset)
-    : Sprite(asset),
-      _spriteManager(spriteManager),
-      _maxHealth(maxHealth),
-      _currentHealth(maxHealth) {}
+  const std::string& asset)
+  : Sprite(asset),
+  _spriteManager(spriteManager),
+  _maxHealth(maxHealth),
+  _currentHealth(maxHealth) {}
 
 BaseEnemy::~BaseEnemy() {}
 

@@ -5,7 +5,7 @@ Shader::Shader(unsigned int program) : _program(program) {}
 Shader::~Shader() {}
 
 void Shader::SetVariableCb(const std::string& variable,
-                           UniformCallback callback) {
+  UniformCallback callback) {
   _uniform_callbacks[variable] = callback;
 }
 

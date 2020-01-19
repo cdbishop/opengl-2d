@@ -7,7 +7,7 @@
 class Weapon;
 
 class Bullet : public Sprite {
- public:
+public:
   using Ptr = std::shared_ptr<Bullet>;
 
   Bullet(std::shared_ptr<Weapon> owner);
@@ -28,7 +28,7 @@ class Bullet : public Sprite {
 
   std::shared_ptr<Weapon> GetWeapon() const;
 
- private:
+private:
   std::shared_ptr<Weapon> _weapon;
   glm::vec2 _velocity;
   float _maxLife;

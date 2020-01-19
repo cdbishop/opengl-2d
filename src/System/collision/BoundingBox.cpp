@@ -2,7 +2,7 @@
 #include <object/Sprite.hpp>
 
 BoundingBox::BoundingBox(std::shared_ptr<Sprite> owner, glm::vec2 dimensions)
-    : _owner(owner), _dimensions(dimensions) {}
+  : _owner(owner), _dimensions(dimensions) {}
 
 inline const glm::vec2& BoundingBox::GetPosition() const {
   return _owner->GetPosition();
@@ -22,12 +22,12 @@ bool BoundingBox::Intersects(const BoundingBox& other) {
   const auto otherTop = Top();
 
   return Left() < other.Right() && Right() > other.Left() &&
-         Top() < other.Bottom() && Bottom() > other.Top();
+    Top() < other.Bottom() && Bottom() > other.Top();
 }
 
 bool BoundingBox::Intersects(const Ptr other) { return Intersects(*other); }
 
 bool BoundingBox::Contains(const glm::vec2& point) {
   return point.x >= Left() && point.x <= Right() && point.y >= Top() &&
-         point.y <= Bottom();
+    point.y <= Bottom();
 }

@@ -22,14 +22,14 @@ ShaderManager::ShaderManager(std::string directory) {
     if (ext == ".vert") {
       std::ifstream in(file.path().string());
       std::string str(static_cast<std::stringstream const&>(std::stringstream()
-                                                            << in.rdbuf())
-                          .str());
+        << in.rdbuf())
+        .str());
       LoadVertexShader(name, str);
     } else if (ext == ".frag") {
       std::ifstream in(file.path().string());
       std::string str(static_cast<std::stringstream const&>(std::stringstream()
-                                                            << in.rdbuf())
-                          .str());
+        << in.rdbuf())
+        .str());
       LoadFragmentShader(name, str);
     }
   }
@@ -46,7 +46,7 @@ ShaderManager::~ShaderManager() {
 }
 
 std::shared_ptr<Shader> ShaderManager::CreateProgram(
-    const std::string& vertexShader, const std::string& fragmentShader) {
+  const std::string& vertexShader, const std::string& fragmentShader) {
   unsigned int program = glCreateProgram();
   glAttachShader(program, _vertex_shaders.at(vertexShader));
   glAttachShader(program, _fragment_shaders.at(fragmentShader));
@@ -58,7 +58,7 @@ std::shared_ptr<Shader> ShaderManager::CreateProgram(
   if (!success) {
     glGetProgramInfoLog(program, 512, NULL, infoLog);
     std::cerr << "Error Linking: " << vertexShader << " and " << fragmentShader
-              << " Failed: " << infoLog << std::endl;
+      << " Failed: " << infoLog << std::endl;
     throw std::runtime_error("Failed to compile shader");
   }
 
@@ -66,7 +66,7 @@ std::shared_ptr<Shader> ShaderManager::CreateProgram(
 }
 
 void ShaderManager::LoadVertexShader(const std::string& name,
-                                     const std::string& data) {
+  const std::string& data) {
   unsigned int vertexShader;
   vertexShader = glCreateShader(GL_VERTEX_SHADER);
   auto pSrc = static_cast<const GLchar* const>(data.c_str());
@@ -80,14 +80,14 @@ void ShaderManager::LoadVertexShader(const std::string& name,
   if (!success) {
     glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
     std::cerr << "Error Vertex Shader: " << name
-              << " Compilation Failed: " << infoLog << std::endl;
+      << " Compilation Failed: " << infoLog << std::endl;
   }
 
   _vertex_shaders[name] = vertexShader;
 }
 
 void ShaderManager::LoadFragmentShader(const std::string& name,
-                                       const std::string& data) {
+  const std::string& data) {
   unsigned int fragmentShader;
   fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
   auto pSrc = static_cast<const GLchar* const>(data.c_str());
@@ -101,7 +101,7 @@ void ShaderManager::LoadFragmentShader(const std::string& name,
   if (!success) {
     glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
     std::cerr << "Error Fragment Shader: " << name
-              << " Compilation Failed: " << infoLog << std::endl;
+      << " Compilation Failed: " << infoLog << std::endl;
   }
 
   _fragment_shaders[name] = fragmentShader;

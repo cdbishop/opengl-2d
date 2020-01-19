@@ -3,7 +3,7 @@
 #include <functional>
 
 class EventManager {
- public:
+public:
   using Id = size_t;
   using Clock = std::chrono::system_clock;
   using AfterFn = std::function<void()>;
@@ -26,7 +26,7 @@ class EventManager {
 
   void Update();
 
- private:
+private:
   using AfterPair = std::pair<Clock::time_point, AfterFn>;
   std::vector<AfterPair> _after_events;
 };

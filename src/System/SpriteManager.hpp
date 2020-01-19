@@ -8,7 +8,7 @@
 #include <vector>
 
 class SpriteManager {
- public:
+public:
   using Ptr = std::shared_ptr<SpriteManager>;
   using SpriteVector = std::vector<Sprite::Ptr>;
   using SpriteLayerMap = std::map<unsigned int, SpriteVector>;
@@ -21,7 +21,7 @@ class SpriteManager {
   void Remove(Sprite::Ptr sprite);
   void Render(Camera2D::Ptr camera);
 
- private:
+private:
   SpriteLayerMap _sprites;
 
   std::array<float, 24> _vertices;

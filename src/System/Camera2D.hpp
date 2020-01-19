@@ -6,7 +6,7 @@
 #include <object/Sprite.hpp>
 
 class Camera2D {
- public:
+public:
   using Ptr = std::shared_ptr<Camera2D>;
 
   Camera2D(glm::vec2 worldExtends, glm::vec2 viewSize);
@@ -33,7 +33,7 @@ class Camera2D {
 
   void Update();
 
- private:
+private:
   glm::vec2 _position;
   glm::vec2 _worldExtends;
   glm::vec2 _viewSize;

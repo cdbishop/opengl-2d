@@ -6,7 +6,7 @@
 #include <string>
 
 class SoundManager {
- public:
+public:
   explicit SoundManager();
 
   void LoadClip(const std::string& filename);
@@ -21,7 +21,7 @@ class SoundManager {
 
   bool IsMuted() const { return _muted; }
 
- private:
+private:
   std::unique_ptr<lab::AudioContext> _context;
   std::map<std::string, std::shared_ptr<lab::AudioBus>> _files;
   std::map<std::string, std::shared_ptr<lab::SampledAudioNode>> _samples;

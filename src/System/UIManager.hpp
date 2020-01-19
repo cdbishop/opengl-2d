@@ -8,7 +8,7 @@
 #include <vector>
 
 class UIManager {
- public:
+public:
   using Ptr = std::shared_ptr<UIManager>;
   using SpriteVector = std::vector<Sprite::Ptr>;
 
@@ -19,7 +19,7 @@ class UIManager {
   void Remove(Sprite::Ptr sprite);
   void Render();
 
- private:
+private:
   SpriteVector _sprites;
 
   std::array<float, 24> _vertices;

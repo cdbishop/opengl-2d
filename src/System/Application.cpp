@@ -6,16 +6,16 @@
 #include <spdlog/spdlog.h>
 
 Application::Application(unsigned int width, unsigned int height)
-    : _width(width),
-      _height(height),
-      _window(NULL),
-      _lastFrameTime(0.0f),
-      _frameDelta(0.0f),
-      _lastMouseX(width / 2.0f),
-      _lastMouseY(height / 2.0f),
-      _mouseDeltaX(0.0f),
-      _mouseDeltaY(0.0f),
-      _firstMouse(true) {
+  : _width(width),
+  _height(height),
+  _window(NULL),
+  _lastFrameTime(0.0f),
+  _frameDelta(0.0f),
+  _lastMouseX(width / 2.0f),
+  _lastMouseY(height / 2.0f),
+  _mouseDeltaX(0.0f),
+  _mouseDeltaY(0.0f),
+  _firstMouse(true) {
   AllocConsole();
   _logger = spdlog::stdout_color_mt("console");
   _logger->set_level(spdlog::level::info);
@@ -71,7 +71,7 @@ void Application::Init() {
   int maxAttributes;
   glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &maxAttributes);
   std::cout << "Max vertex attributes supported: " << maxAttributes
-            << std::endl;
+    << std::endl;
 }
 
 void Application::Run() {
@@ -81,16 +81,16 @@ void Application::Run() {
   }
 }
 
-void Application::RegisterScene(const std::string& sceneName,
-                                std::shared_ptr<Scene> scene) {
-  _scenes[sceneName] = std::move(scene);
-  _scenes[sceneName]->SetApp(shared_from_this());
-}
+//void Application::RegisterScene(const std::string& sceneName,
+//  std::shared_ptr<Scene> scene) {
+//  _scenes[sceneName] = std::move(scene);
+//  _scenes[sceneName]->SetApp(shared_from_this());
+//}
 
-void Application::SetScene(const std::string& sceneName) {
-  _currentScene = sceneName;
-  _scenes[_currentScene]->Init();
-}
+//void Application::SetScene(const std::string& sceneName) {
+//  _currentScene = sceneName;
+//  _scenes[_currentScene]->Init();
+//}
 
 std::shared_ptr<ShaderManager> Application::GetShaderManager() {
   return _shaderManager;
@@ -105,10 +105,20 @@ void Application::Update() {
   _frameDelta = currentFrameTime - _lastFrameTime;
   _lastFrameTime = currentFrameTime;
 
-  _scenes[_currentScene]->Update(_frameDelta);
+  _currentScene->Update(_frameDelta);
 
   _mouseDeltaX = 0;
   _mouseDeltaY = 0;
+  
+  if (_nextScene) {
+    ChangeScene();
+  }
+}
+
+void Application::ChangeScene() {
+  _currentScene = _nextScene;
+  _nextScene = nullptr;
+  _currentScene->Init();
 }
 
 void Application::MouseMove(float xpos, float ypos) {
@@ -127,11 +137,11 @@ void Application::MouseMove(float xpos, float ypos) {
   //_logger->debug("mouseDelta X: {0}, Y: {1}", _mouseDeltaX, _mouseDeltaY);
 
 #if 0
-	std::wstringstream ss;
-	ss << "xpos: " << xpos << ", ypos: " << ypos << std::endl;
-	ss << "lastMouse X: " << _lastMouseX << ", lastMouseY: " << _lastMouseY << std::endl;
-	ss << "MouseDelta x: " << _mouseDeltaX << ", MouseDeltaY: " << _mouseDeltaY << std::endl;
-	OutputDebugString(ss.str().c_str());
+  std::wstringstream ss;
+  ss << "xpos: " << xpos << ", ypos: " << ypos << std::endl;
+  ss << "lastMouse X: " << _lastMouseX << ", lastMouseY: " << _lastMouseY << std::endl;
+  ss << "MouseDelta x: " << _mouseDeltaX << ", MouseDeltaY: " << _mouseDeltaY << std::endl;
+  OutputDebugString(ss.str().c_str());
 #endif
 
   _lastMouseX = xpos;
@@ -152,7 +162,8 @@ void Application::PreRender() {
 
 void Application::Render() {
   PreRender();
-  _scenes[_currentScene]->Render();
+  //_scenes[_currentScene]->Render();
+  _currentScene->Render();
   PostRender();
 }
 

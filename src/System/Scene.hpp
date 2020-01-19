@@ -6,7 +6,7 @@
 class Application;
 
 class Scene : public std::enable_shared_from_this<Scene> {
- public:
+public:
   Scene() {}
 
   void SetApp(std::shared_ptr<Application> app) {
@@ -28,7 +28,7 @@ class Scene : public std::enable_shared_from_this<Scene> {
 
   std::shared_ptr<InputHandler> GetInputHandler() { return _inputHandler; }
 
- private:
+private:
   std::shared_ptr<Application> _app;
   std::shared_ptr<InputHandler> _inputHandler;
 };

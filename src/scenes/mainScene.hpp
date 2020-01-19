@@ -21,7 +21,7 @@ class Shader;
 class Sprite;
 
 class MainScene : public Scene {
- public:
+public:
   const static inline std::string Name = "MainScene";
 
   MainScene();
@@ -35,13 +35,13 @@ class MainScene : public Scene {
 
   Player::Ptr GetPlayer() const { return _player; }
 
- private:
+private:
   void OnPlayerKilled();
   void CreateLivesUI();
   void OnAllEnemyWavesComplete();
   void OnEnemyKilled(EnemyWave::EnemyType enemyType);
 
- private:
+private:
   SpriteManager::Ptr _spriteManager;
   UIManager::Ptr _uiManager;
   EventManager::Ptr _eventManager;
@@ -64,5 +64,5 @@ class MainScene : public Scene {
 
   unsigned int _score;
   TextManager::Id _scoreTextId;
-  InputHandler::Id _gameOverKeyBinding;
+  InputBinding::Ptr _gameOverKeyBinding;
 };

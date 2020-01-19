@@ -3,17 +3,17 @@
 #include <game/spriteLayer.hpp>
 
 HealthPickup::HealthPickup(SpriteManager::Ptr spriteManager, glm::vec2 position,
-                           std::shared_ptr<MainScene> scene)
-    : _spriteManager(spriteManager),
-      _scene(scene),
-      _position(position),
-      _alive(true) {}
+  std::shared_ptr<MainScene> scene)
+  : _spriteManager(spriteManager),
+  _scene(scene),
+  _position(position),
+  _alive(true) {}
 
 HealthPickup::~HealthPickup() {}
 
 void HealthPickup::Init() {
   _sprite = std::make_shared<Sprite>(
-      "./data/textures/SpaceShooterRedux/png/Power-ups/pill_green.png");
+    "./data/textures/SpaceShooterRedux/png/Power-ups/pill_green.png");
   _sprite->UpdateBounds();
   _spriteManager->Add(_sprite, static_cast<unsigned int>(SpriteLayer::Ships));
 

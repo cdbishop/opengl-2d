@@ -5,7 +5,7 @@
 class Weapon;
 
 class WeaponUpgrader {
- public:
+public:
   using Ptr = std::shared_ptr<WeaponUpgrader>;
 
   enum class WeaponType { Basic, Dual, Spray };
@@ -15,6 +15,6 @@ class WeaponUpgrader {
 
   std::shared_ptr<Weapon> UpgradeWeapon(std::shared_ptr<Weapon> weapon);
 
- private:
+private:
   SpriteManager::Ptr _spriteManager;
 };
