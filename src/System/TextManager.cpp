@@ -125,6 +125,11 @@ void TextManager::RemoveText(Id id)
   _texts.erase(_texts.begin() + id);
 }
 
+void TextManager::UpdateText(Id id, std::string newValue)
+{
+  _texts[id].value = newValue;
+}
+
 void TextManager::Render()
 {
   glEnable(GL_BLEND);

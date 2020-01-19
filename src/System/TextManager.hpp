@@ -17,6 +17,7 @@ public:
 
   Id AddText(std::string text, glm::vec2 position, float scale = 1.0f, glm::vec3 colour = glm::vec3(1.0f));
   void RemoveText(Id id);
+  void UpdateText(Id id, std::string newValue);
 
   void Render();
 

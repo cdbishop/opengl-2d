@@ -20,6 +20,8 @@ public:
 
   void SetAllWavesCompletedCallback(AllWavesCompletedCB callback);
 
+  void SetEnemyKilledCallback(EnemyWave::EnemyKilledFn callback);
+
 private:
   void AddWave(SpriteManager::Ptr spriteManager, Player::Ptr player, EnemyWave::StartDesc&& waveDesc);
 

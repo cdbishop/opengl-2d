@@ -30,6 +30,9 @@ void EnemyWave::Spawn(Player::Ptr player)
         ship->SetKillCallback([this](BaseEnemy::Ptr enemy) {
           _spriteManager->Remove(enemy);
           CheckWaveEnd();
+
+          if (_enemyKilledCallback)
+            _enemyKilledCallback(EnemyType::Ship);
         });
         _enemyShips.push_back(ship);
       }
@@ -44,6 +47,9 @@ void EnemyWave::Spawn(Player::Ptr player)
         ship->SetKillCallback([this](BaseEnemy::Ptr enemy) {
           _spriteManager->Remove(enemy);
           CheckWaveEnd();
+
+          if (_enemyKilledCallback)
+            _enemyKilledCallback(EnemyType::Drone);
         });
         _drones.push_back(ship);
       }
@@ -79,6 +85,9 @@ void EnemyWave::Update(float dt)
 
   for (auto&& enemyShip : _enemyShips) {
 
+    if (!enemyShip->Alive())
+      continue;
+
     // player bullet hit enemy
     if (auto bullet = _player->GetWeapon()->BulletHit(enemyShip)) {
       bullet->Kill();
@@ -97,6 +106,11 @@ void EnemyWave::Update(float dt)
 void EnemyWave::SetWaveEndCallback(WaveEndCb callback)
 {
   _waveEndCallback = callback;
+}
+
+void EnemyWave::SetEnemyKilledCallback(EnemyKilledFn callback) 
+{
+  _enemyKilledCallback = callback;
 }
 
 void EnemyWave::CheckWaveEnd()

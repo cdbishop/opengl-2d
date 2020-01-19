@@ -16,7 +16,9 @@ public:
   GameOverScene();
 	~GameOverScene();
 
-  void Init();
+  void SetArgs(unsigned int score);
+
+  void Init() override;
   void Update(float dt) override;
 	void Render();
 
@@ -28,4 +30,6 @@ private:
   TextManager::Ptr _textManager;
   Sprite::Ptr _background;
   Camera2D::Ptr _camera;
+
+  unsigned int _score;
 };

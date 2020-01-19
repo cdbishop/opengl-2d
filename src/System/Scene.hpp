@@ -23,6 +23,8 @@ public:
 
 	virtual void Render() { }
 
+  virtual void OnLeave() { }
+
   std::shared_ptr<Application> GetApplication() {
 		return _app;
 	}

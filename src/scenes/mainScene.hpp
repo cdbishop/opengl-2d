@@ -28,9 +28,11 @@ public:
   MainScene();
 	~MainScene();
 
-  void Init();
-	void Update(float dt);
-	void Render();
+  void Init() override;
+	void Update(float dt) override;
+	void Render() override;
+
+  void OnLeave() override;
 
   Player::Ptr GetPlayer() const {
     return _player;
@@ -40,6 +42,7 @@ private:
   void OnPlayerKilled();
   void CreateLivesUI();
   void OnAllEnemyWavesComplete();
+  void OnEnemyKilled(EnemyWave::EnemyType enemyType);
 
 private:
   SpriteManager::Ptr _spriteManager;
@@ -61,4 +64,8 @@ private:
   std::vector<Sprite::Ptr> _lives;
 
   std::shared_ptr<OnScreenCountdown> _respawnCountdown;
+
+  unsigned int _score;
+  TextManager::Id _scoreTextId;
+  InputHandler::Id _gameOverKeyBinding;
 };

@@ -12,13 +12,19 @@
 #include "menuScene.hpp"
 
 GameOverScene::GameOverScene()
-  :Scene()
+  :Scene(),
+  _score(0)
 {
   
 }
 
 GameOverScene::~GameOverScene()
 {
+}
+
+void GameOverScene::SetArgs(unsigned int score)
+{
+  _score = score;
 }
 
 void GameOverScene::Init()
@@ -42,6 +48,7 @@ void GameOverScene::Init()
     
   _textManager->AddText("Game Over", glm::vec2(GetApplication()->GetWidth() / 2.0f, 20.0f));
   _textManager->AddText("press space", glm::vec2(GetApplication()->GetWidth() / 2.0f, GetApplication()->GetHeight() - 50.0f), 0.5f);
+  _textManager->AddText("Your Score: " + std::to_string(_score), glm::vec2(GetApplication()->GetWidth() / 2.0f, GetApplication()->GetHeight() / 2.0f));
 
   GetInputHandler()->RegisterKey(GLFW_KEY_SPACE, std::bind(&GameOverScene::RestartGame, this));
 }

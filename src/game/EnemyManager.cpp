@@ -42,6 +42,13 @@ void EnemyManager::SetAllWavesCompletedCallback(AllWavesCompletedCB callback)
   _waves_completed_cb = callback;
 }
 
+void EnemyManager::SetEnemyKilledCallback(EnemyWave::EnemyKilledFn callback)
+{
+  for (auto&& wave : _waves) {
+    wave->SetEnemyKilledCallback(callback);
+  }
+}
+
 void EnemyManager::AddWave(SpriteManager::Ptr spriteManager, Player::Ptr player, EnemyWave::StartDesc&& waveDesc)
 {
   auto wave = std::make_shared<EnemyWave>(spriteManager, waveDesc);

@@ -24,6 +24,12 @@ public:
 	void RegisterScene(const std::string& sceneName, std::shared_ptr<Scene> scene);
 	void SetScene(const std::string& sceneName);
 
+  template<typename T, typename... Args>
+  void SetScene(Args... args) {    
+    std::static_pointer_cast<T>(_scenes[T::Name])->SetArgs(std::forward<Args>(args)...);
+    SetScene(T::Name);
+  }
+
 	std::shared_ptr<ShaderManager> GetShaderManager();
   std::shared_ptr<SoundManager> GetSoundManager();
 
