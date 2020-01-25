@@ -4,7 +4,7 @@
 OnScreenCountdown::OnScreenCountdown(TextManager::Ptr textManager,
   glm::vec2 position, std::string prefix)
   : _textManager(textManager),
-  _position(position),
+  _position(std::move(position)),
   _prefix(std::move(prefix)),
   _countDown(nullptr) {
   _eventManager = std::make_shared<EventManager>();

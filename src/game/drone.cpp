@@ -13,7 +13,7 @@
 Drone::Drone(SpriteManager::Ptr spriteManager, int maxHealth)
   : BaseEnemy(spriteManager, maxHealth,
     "./data/textures/SpaceShooterRedux/png/ufoBlue.png") {
-  SetAnchor(glm::vec2(0.5f, 0.5f));
+  SetAnchor(std::move(glm::vec2(0.5f, 0.5f)));
 }
 
 Drone::~Drone() {}
@@ -27,7 +27,7 @@ void Drone::Init() {
 
 void Drone::Update(float dt) {
   if (Alive()) {
-    auto playerPos = _player->GetSprite()->GetPosition();
+    auto& playerPos = _player->GetSprite()->GetPosition();
     float dist = glm::distance(playerPos, GetPosition());
     glm::vec2 dir = glm::normalize(playerPos - GetPosition());
     if (dist < 500) {

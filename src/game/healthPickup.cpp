@@ -6,7 +6,7 @@ HealthPickup::HealthPickup(SpriteManager::Ptr spriteManager, glm::vec2 position,
   std::shared_ptr<MainScene> scene)
   : _spriteManager(spriteManager),
   _scene(scene),
-  _position(position),
+  _position(std::move(position)),
   _alive(true) {}
 
 HealthPickup::~HealthPickup() {}

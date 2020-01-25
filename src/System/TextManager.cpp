@@ -80,7 +80,7 @@ public:
     return length;
   }
 
-  const Character& GetChar(GLchar character) { return _characters[character]; }
+  const Character& GetChar(GLchar character) const { return _characters.at(character); }
 
 private:
   FT_Library _ft;
@@ -91,7 +91,7 @@ private:
 TextManager::TextManager(std::shared_ptr<ShaderManager> shaderManager,
   glm::mat4 projection)
   : _shader(shaderManager->CreateProgram("text", "text")),
-  _projection(projection),
+  _projection(std::move(projection)),
   _ft_manager(std::make_shared<FTManager>()) {
   _ft_manager->LoadFont(
     "data/textures/SpaceShooterRedux/Bonus/kenvector_future.ttf", 48);

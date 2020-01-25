@@ -5,7 +5,7 @@
 #include <system/Scene.hpp>
 
 Bullet::Bullet(std::shared_ptr<Weapon> weapon)
-  : Bullet(glm::vec2(0.0f), 0.0f, weapon) {}
+  : Bullet(std::move(glm::vec2(0.0f)), 0.0f, weapon) {}
 
 Bullet::Bullet(glm::vec2 velocity, float life, std::shared_ptr<Weapon> owner)
   : Sprite("./data/textures/SpaceShooterRedux/png/lasers/laserBlue01.png"),

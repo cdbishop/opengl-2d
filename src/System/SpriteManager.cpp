@@ -13,7 +13,7 @@ SpriteManager::SpriteManager(Shader::Ptr shader, glm::mat4 projection)
                 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f,
                 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f} }),
   _shader(shader),
-  _projection(projection) {
+  _projection(std::move(projection)) {
   glGenVertexArrays(1, &_vertex_array);
   glGenBuffers(1, &_vertex_buffer);
   glBindVertexArray(_vertex_array);

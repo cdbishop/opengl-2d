@@ -16,18 +16,17 @@ MenuScene::MenuScene() : Scene() {}
 MenuScene::~MenuScene() {}
 
 void MenuScene::Init() {
+
+  const auto projection = glm::ortho(0.0f, static_cast<float>(this->GetApplication()->GetWidth()),
+    static_cast<float>(this->GetApplication()->GetHeight()), 0.0f,
+    -1.0f, 1.0f);
+
   _spriteManager = std::make_shared<SpriteManager>(
     GetApplication()->GetShaderManager()->CreateProgram("textured",
-      "textured"),
-    glm::ortho(0.0f, static_cast<float>(this->GetApplication()->GetWidth()),
-      static_cast<float>(this->GetApplication()->GetHeight()), 0.0f,
-      -1.0f, 1.0f));
+      "textured"), projection);
 
   _textManager = std::make_shared<TextManager>(
-    GetApplication()->GetShaderManager(),
-    glm::ortho(0.0f, static_cast<float>(this->GetApplication()->GetWidth()),
-      static_cast<float>(this->GetApplication()->GetHeight()), 0.0f,
-      -1.0f, 1.0f));
+    GetApplication()->GetShaderManager(), projection);
 
   _background = std::make_shared<Sprite>(
     "./data/textures/SpaceShooterRedux/Backgrounds/blue.png");

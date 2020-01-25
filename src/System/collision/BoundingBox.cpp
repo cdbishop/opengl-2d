@@ -2,7 +2,7 @@
 #include <object/Sprite.hpp>
 
 BoundingBox::BoundingBox(std::shared_ptr<Sprite> owner, glm::vec2 dimensions)
-  : _owner(owner), _dimensions(dimensions) {}
+  : _owner(owner), _dimensions(std::move(dimensions)) {}
 
 inline const glm::vec2& BoundingBox::GetPosition() const {
   return _owner->GetPosition();
