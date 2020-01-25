@@ -13,7 +13,7 @@ public:
 
   Weapon(SpriteManager::Ptr spriteManager, Sprite::Ptr parent, int damage,
     float bulletSpeed, float fireDelay);
-  ~Weapon();
+  virtual ~Weapon();
 
   void Init();
   virtual void Fire(const glm::vec2& dir) = 0;

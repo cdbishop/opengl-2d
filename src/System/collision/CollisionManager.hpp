@@ -10,6 +10,7 @@ class Sprite;
 class CollisionFunctorBase {
 public:
   CollisionFunctorBase() {}
+  virtual ~CollisionFunctorBase() {}
 
   void SetContext(std::shared_ptr<Sprite> target) { _context = target; }
 

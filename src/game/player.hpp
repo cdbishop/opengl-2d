@@ -11,7 +11,7 @@ public:
   using Ptr = std::shared_ptr<Player>;
 
   explicit Player(SpriteManager::Ptr spriteManager);
-  virtual ~Player();
+  ~Player();
 
   void Init();
   void SetupInput(InputHandler::Ptr inputHandler);
