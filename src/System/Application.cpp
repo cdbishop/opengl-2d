@@ -81,17 +81,6 @@ void Application::Run() {
   }
 }
 
-//void Application::RegisterScene(const std::string& sceneName,
-//  std::shared_ptr<Scene> scene) {
-//  _scenes[sceneName] = std::move(scene);
-//  _scenes[sceneName]->SetApp(shared_from_this());
-//}
-
-//void Application::SetScene(const std::string& sceneName) {
-//  _currentScene = sceneName;
-//  _scenes[_currentScene]->Init();
-//}
-
 std::shared_ptr<ShaderManager> Application::GetShaderManager() {
   return _shaderManager;
 }
@@ -132,18 +121,6 @@ void Application::MouseMove(float xpos, float ypos) {
   _mouseDeltaX = (xpos - _lastMouseX);
   _mouseDeltaY = (ypos - _lastMouseY);
 
-  //_logger->debug("xpos: {0}, ypos: {1}", xpos, ypos);
-  //_logger->debug("lastMouse X: {0}, Y: {1}", _lastMouseX, _lastMouseY);
-  //_logger->debug("mouseDelta X: {0}, Y: {1}", _mouseDeltaX, _mouseDeltaY);
-
-#if 0
-  std::wstringstream ss;
-  ss << "xpos: " << xpos << ", ypos: " << ypos << std::endl;
-  ss << "lastMouse X: " << _lastMouseX << ", lastMouseY: " << _lastMouseY << std::endl;
-  ss << "MouseDelta x: " << _mouseDeltaX << ", MouseDeltaY: " << _mouseDeltaY << std::endl;
-  OutputDebugString(ss.str().c_str());
-#endif
-
   _lastMouseX = xpos;
   _lastMouseY = ypos;
 }
@@ -162,7 +139,6 @@ void Application::PreRender() {
 
 void Application::Render() {
   PreRender();
-  //_scenes[_currentScene]->Render();
   _currentScene->Render();
   PostRender();
 }
