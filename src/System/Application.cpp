@@ -39,7 +39,7 @@ void Application::DisableDepthBuffer() {
   _depthTestEnabled = false;
 }
 
-GLFWwindow* Application::GetWindow() { return _window; }
+std::shared_ptr<GLFWwindow> Application::GetWindow() { return _window; }
 
 void Application::Init() {
   glfwInit();
@@ -47,15 +47,15 @@ void Application::Init() {
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-  _window = glfwCreateWindow(_width, _height, "OpenGLTut", NULL, NULL);
+  _window = std::shared_ptr<GLFWwindow>(glfwCreateWindow(_width, _height, "OpenGLTut", NULL, NULL), glfwDestroyWindow);
   if (_window == NULL) {
     glfwTerminate();
     throw std::runtime_error("Failed to create GLFW Window");
   }
 
-  glfwMakeContextCurrent(_window);
+  glfwMakeContextCurrent(_window.get());
 
-  glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+  glfwSetInputMode(_window.get(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
   if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
     throw std::runtime_error("Failed to initialize GLAD");
@@ -63,10 +63,10 @@ void Application::Init() {
 
   glViewport(0, 0, _width, _height);
 
-  glfwSetWindowUserPointer(_window, this);
+  glfwSetWindowUserPointer(_window.get(), this);
 
-  glfwSetFramebufferSizeCallback(_window, framebuffer_size_callback);
-  glfwSetCursorPosCallback(_window, mouse_callback);
+  glfwSetFramebufferSizeCallback(_window.get(), framebuffer_size_callback);
+  glfwSetCursorPosCallback(_window.get(), mouse_callback);
 
   int maxAttributes;
   glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &maxAttributes);
@@ -75,7 +75,7 @@ void Application::Init() {
 }
 
 void Application::Run() {
-  while (!glfwWindowShouldClose(_window)) {
+  while (!glfwWindowShouldClose(_window.get())) {
     Update();
     Render();
   }
@@ -168,6 +168,6 @@ void Application::Render() {
 }
 
 void Application::PostRender() {
-  glfwSwapBuffers(_window);
+  glfwSwapBuffers(_window.get());
   glfwPollEvents();
 }

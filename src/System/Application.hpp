@@ -52,7 +52,7 @@ public:
   void EnableDepthBuffer();
   void DisableDepthBuffer();
 
-  GLFWwindow* GetWindow();
+  std::shared_ptr<GLFWwindow> GetWindow();
 
   std::shared_ptr<spdlog::logger> GetLogger() const { return _logger; }
 
@@ -103,7 +103,7 @@ private:
   float _mouseDeltaX;
   float _mouseDeltaY;
 
-  GLFWwindow* _window;
+  std::shared_ptr<GLFWwindow> _window;
   bool _depthTestEnabled;
 
 

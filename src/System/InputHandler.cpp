@@ -24,7 +24,7 @@ void InputHandler::UnregisterKey(const InputBinding& binding) {
 
 void InputHandler::Update(float dt) {
   for (auto& handler : _callbacks) {
-    if (glfwGetKey(_application->GetWindow(), handler.first) == GLFW_PRESS) {
+    if (glfwGetKey(_application->GetWindow().get(), handler.first) == GLFW_PRESS) {
       for (auto& cb : handler.second) {
         cb.second(dt);
       }
