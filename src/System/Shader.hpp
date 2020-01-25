@@ -15,7 +15,7 @@ public:
     std::function<void(const std::string& variable, Shader*)>;
   using Ptr = std::shared_ptr<Shader>;
 
-  Shader(unsigned int program);
+  explicit Shader(unsigned int program);
   ~Shader();
 
   bool HasUniform(const std::string& variable);

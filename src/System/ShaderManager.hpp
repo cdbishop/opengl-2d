@@ -7,10 +7,12 @@
 
 class ShaderManager {
 public:
-  ShaderManager(std::string directory);
+  using ShaderMap = std::map<std::string, unsigned int>;
+
+  ShaderManager(const std::string& directory);
   ~ShaderManager();
 
-  std::shared_ptr<Shader> CreateProgram(const std::string& vertexShader,
+  Shader::Ptr CreateProgram(const std::string& vertexShader,
     const std::string& fragmentShader);
 
 private:
@@ -18,6 +20,6 @@ private:
   void LoadFragmentShader(const std::string& name, const std::string& data);
 
 private:
-  std::map<std::string, unsigned int> _vertex_shaders;
-  std::map<std::string, unsigned int> _fragment_shaders;
+  ShaderMap _vertex_shaders;
+  ShaderMap _fragment_shaders;
 };

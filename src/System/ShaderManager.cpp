@@ -10,7 +10,7 @@
 
 namespace fs = boost::filesystem;
 
-ShaderManager::ShaderManager(std::string directory) {
+ShaderManager::ShaderManager(const std::string& directory) {
   std::cerr << fs::current_path() << std::endl;
 
   // given a directory - will load all the files ending in .vert and .frag
@@ -45,7 +45,7 @@ ShaderManager::~ShaderManager() {
   }
 }
 
-std::shared_ptr<Shader> ShaderManager::CreateProgram(
+Shader::Ptr ShaderManager::CreateProgram(
   const std::string& vertexShader, const std::string& fragmentShader) {
   unsigned int program = glCreateProgram();
   glAttachShader(program, _vertex_shaders.at(vertexShader));
