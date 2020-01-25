@@ -11,7 +11,7 @@ public:
 
   Camera2D(glm::vec2 worldExtends, glm::vec2 viewSize);
 
-  const glm::vec2& GetPosition() { return _position; }
+  const glm::vec2& GetPosition() const { return _position; }
 
   void SetPosition(const glm::vec2& pos) { _position = pos; }
 

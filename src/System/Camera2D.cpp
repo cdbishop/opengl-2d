@@ -3,7 +3,7 @@
 Camera2D::Camera2D(glm::vec2 worldExtends, glm::vec2 viewSize)
   : _position(0.0f),
   _worldExtends(std::move(worldExtends)),
-  _viewSize(viewSize) {}
+  _viewSize(std::move(viewSize)) {}
 
 void Camera2D::ClampToWorld() {
   if (_position.x < 0.0f) {
@@ -19,7 +19,7 @@ void Camera2D::ClampToWorld() {
   }
 }
 
-void Camera2D::Follow(std::shared_ptr<Sprite> sprite) { _target = sprite; }
+void Camera2D::Follow(Sprite::Ptr sprite) { _target = sprite; }
 
 void Camera2D::Update() {
   if (_target) {
