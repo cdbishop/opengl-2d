@@ -74,9 +74,5 @@ std::shared_ptr<Weapon> EnemyShip::GetWeapon() const { return _weapon; }
 
 void EnemyShip::Kill() {
   BaseEnemy::Kill();
-
   _weapon->Kill();
-
-  // if (_killedCallback)
-  //  _killedCallback(std::static_pointer_cast<EnemyShip>(shared_from_this()));
 }

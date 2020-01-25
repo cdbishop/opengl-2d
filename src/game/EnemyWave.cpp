@@ -14,40 +14,40 @@ void EnemyWave::Spawn(Player::Ptr player) {
 
   for (auto&& desc : _startDesc) {
     switch (desc.first) {
-    case EnemyType::Ship:
-    {
-      auto ship =
-        std::make_shared<EnemyShip>(_spriteManager, 200, desc.second);
-      ship->Init();
-      ship->SetPlayer(player);
-      ship->SetPosition(desc.second);
-      _spriteManager->Add(ship,
-        static_cast<unsigned int>(SpriteLayer::Ships));
-      ship->SetKillCallback([this](BaseEnemy::Ptr enemy) {
-        _spriteManager->Remove(enemy);
-        CheckWaveEnd();
+      case EnemyType::Ship:
+      {
+        auto ship =
+          std::make_shared<EnemyShip>(_spriteManager, 200, desc.second);
+        ship->Init();
+        ship->SetPlayer(player);
+        ship->SetPosition(desc.second);
+        _spriteManager->Add(ship,
+          static_cast<unsigned int>(SpriteLayer::Ships));
+        ship->SetKillCallback([this](BaseEnemy::Ptr enemy) {
+          _spriteManager->Remove(enemy);
+          CheckWaveEnd();
 
-        if (_enemyKilledCallback) _enemyKilledCallback(EnemyType::Ship);
-      });
-      _enemyShips.push_back(ship);
-    } break;
+          if (_enemyKilledCallback) _enemyKilledCallback(EnemyType::Ship);
+        });
+        _enemyShips.push_back(ship);
+      } break;
 
-    case EnemyType::Drone:
-    {
-      auto ship = std::make_shared<Drone>(_spriteManager, 200);
-      ship->Init();
-      ship->SetPlayer(player);
-      ship->SetPosition(desc.second);
-      _spriteManager->Add(ship,
-        static_cast<unsigned int>(SpriteLayer::Ships));
-      ship->SetKillCallback([this](BaseEnemy::Ptr enemy) {
-        _spriteManager->Remove(enemy);
-        CheckWaveEnd();
+      case EnemyType::Drone:
+      {
+        auto ship = std::make_shared<Drone>(_spriteManager, 200);
+        ship->Init();
+        ship->SetPlayer(player);
+        ship->SetPosition(desc.second);
+        _spriteManager->Add(ship,
+          static_cast<unsigned int>(SpriteLayer::Ships));
+        ship->SetKillCallback([this](BaseEnemy::Ptr enemy) {
+          _spriteManager->Remove(enemy);
+          CheckWaveEnd();
 
-        if (_enemyKilledCallback) _enemyKilledCallback(EnemyType::Drone);
-      });
-      _drones.push_back(ship);
-    } break;
+          if (_enemyKilledCallback) _enemyKilledCallback(EnemyType::Drone);
+        });
+        _drones.push_back(ship);
+      } break;
     }
   }
 }

@@ -26,7 +26,6 @@ EnemyManager::~EnemyManager() {}
 
 void EnemyManager::Init() {
   _current_wave = _waves[0];
-
   _current_wave->Spawn(_player);
 }
 

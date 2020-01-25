@@ -29,6 +29,5 @@ private:
   EventManager::Ptr _eventManager;
   glm::vec2 _position;
 
-  // std::vector<CountDown> _countdowns;
   std::shared_ptr<CountDown> _countDown;
 };
