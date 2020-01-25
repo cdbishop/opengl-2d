@@ -6,7 +6,7 @@ WeaponPickup::WeaponPickup(SpriteManager::Ptr spriteManager, glm::vec2 position,
   std::shared_ptr<MainScene> scene)
   : _spriteManager(spriteManager),
   _scene(scene),
-  _position(position),
+  _position(std::move(position)),
   _alive(true) {}
 
 WeaponPickup::~WeaponPickup() {}
@@ -20,9 +20,7 @@ void WeaponPickup::Init() {
   _sprite->SetPosition(_position);
 }
 
-void WeaponPickup::Update(float dt) {}
-
-bool WeaponPickup::Alive() { return _alive; }
+bool WeaponPickup::Alive() const { return _alive; }
 
 void WeaponPickup::Kill() {
   _spriteManager->Remove(_sprite);

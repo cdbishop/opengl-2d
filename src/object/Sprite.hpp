@@ -11,7 +11,7 @@ class Sprite : public std::enable_shared_from_this<Sprite> {
 public:
   using Ptr = std::shared_ptr<Sprite>;
 
-  Sprite(const std::string& filepath);
+  explicit Sprite(const std::string& filepath);
 
   virtual ~Sprite();
 

@@ -13,11 +13,10 @@ public:
   virtual ~WeaponPickup();
 
   void Init();
-  void Update(float dt);
 
   Sprite::Ptr GetSprite() const { return _sprite; }
 
-  bool Alive();
+  bool Alive() const;
   void Kill();
 
 private:
